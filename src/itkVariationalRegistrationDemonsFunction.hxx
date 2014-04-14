@@ -172,14 +172,12 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
     const double denominator = sqr_speedValue / m_Normalizer + gradientSquaredMagnitude;
 
     if( denominator < m_DenominatorThreshold )
-      {
       update = m_ZeroUpdateReturn;
-      }
-
-    for( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      update[j] = speedValue * gradient[j] / denominator;
-      }
+    else
+      for( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+        update[j] = speedValue * gradient[j] / denominator;
+        }
     }
 
   // Update the global data (metric etc.)
