@@ -464,9 +464,9 @@ int main( int argc, char *argv[] )
   //
   //////////////////////////////////////////////
   typedef Image<Vector<float, DIMENSION>, DIMENSION> DisplacementFieldType;
-  typedef DisplacementFieldType::Pointer              DisplacementFieldPointerType;
-  typedef ImageFileReader<DisplacementFieldType>      DisplacementFieldReaderType;
-  typedef ImageFileWriter<DisplacementFieldType>      DisplacementFieldWriterType;
+  typedef DisplacementFieldType::Pointer             DisplacementFieldPointerType;
+  typedef ImageFileReader<DisplacementFieldType>     DisplacementFieldReaderType;
+  typedef ImageFileWriter<DisplacementFieldType>     DisplacementFieldWriterType;
 
   typedef Image<short, DIMENSION>                    ImageType;
   typedef ImageType::Pointer                         ImagePointerType;
