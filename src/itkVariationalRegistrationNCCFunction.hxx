@@ -31,8 +31,8 @@ namespace itk
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >::VariationalRegistrationNCCFunction()
 {
-  std::cout << "\n NCCRegistrationFunction::NCCRegistrationFunction()"
-      << std::flush;
+  //std::cout << "\n NCCRegistrationFunction::NCCRegistrationFunction()"
+  //    << std::flush;
 
   RadiusType r;
   // set default radius to : 2
@@ -46,8 +46,6 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
 
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
   m_WarpedImageGradientCalculator = GradientCalculatorType::New();
-
-  // TODO: set appropriate default values
   m_GradientType = GRADIENT_TYPE_FIXED;
 
   // default: normalize time step with image spacing
@@ -83,9 +81,9 @@ typename VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplac
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeGlobalTimeStep( void * gd ) const
 {
-  std::cout << "\n NCCRegistrationFunction::ComputeGlobalTimeStep() = "
-      << this->GetTimeStep() << " Norm: " << this->GetTimeStep() * m_Normalizer
-      << std::flush;
+  //std::cout << "\n NCCRegistrationFunction::ComputeGlobalTimeStep() = "
+  //    << this->GetTimeStep() << " Norm: " << this->GetTimeStep() * m_Normalizer
+  //    << std::flush;
   if( m_ScaleGlobalTimeStep )
   {
 	  return this->GetTimeStep() * m_Normalizer;
@@ -102,8 +100,8 @@ void
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
-  std::cout << "\n NCCRegistrationFunction::InitializeIteration()"
-      << std::flush;
+  //std::cout << "\n NCCRegistrationFunction::InitializeIteration()"
+  //    << std::flush;
 
   Superclass::InitializeIteration();
   if( !this->GetMovingImage() || !this->GetFixedImage() ) //|| !m_MovingImageInterpolator )

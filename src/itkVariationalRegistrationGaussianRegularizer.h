@@ -24,6 +24,8 @@ namespace itk {
 
 /** \class itk::VariationalRegistrationGaussianRegularizer
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationRegularizer
  *
  *  \ingroup VariationalRegistration

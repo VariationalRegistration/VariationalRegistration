@@ -25,7 +25,7 @@ namespace itk {
 
 /** \class itk::VariationalRegistrationFunction
  *
- *  TODO
+ *  TODO class documentation
  *
  *  \sa VariationalRegistrationFilter
  *

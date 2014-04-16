@@ -26,6 +26,8 @@ namespace itk {
 
 /** \class itk::VariationalRegistrationDemonsFunction
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationFunction
  *
  *  \ingroup FiniteDifferenceFunctions

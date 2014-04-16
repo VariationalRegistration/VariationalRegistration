@@ -26,6 +26,8 @@ namespace itk {
 
 /** \class itk::VariationalRegistrationSSDFunction
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationFunction
  *
  *  \ingroup VariationalRegistration
