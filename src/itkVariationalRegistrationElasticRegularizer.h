@@ -44,6 +44,8 @@ namespace itk {
  *
  *  \ingroup VariationalRegistration
  *
+ *  \warning This class is only implemented for image dimension 2 or 3.
+ *
  *  \note This class was developed with funding from:
  *
  *  \author Alexander Schmidt-Richberg
@@ -117,10 +119,10 @@ protected:
   /** Regularize the deformation field. This is called by GenerateData(). */
   virtual void Regularize();
 
-  /** solve the LES after forward FFTs (before backward FFTs */
+  /** solve the LES after forward FFTs (before backward FFTs) */
   virtual void SolveElasticLES();
 
-  /** solve the LES after forward FFTs (before backward FFTs */
+  /** solve the LES after forward FFTs (and before backward FFTs). Multithreaded method. */
   virtual void ThreadedSolveElasticLES( OffsetValueType from, OffsetValueType to );
 
   typename DisplacementFieldType::IndexType CalculateComplexImageIndex(
