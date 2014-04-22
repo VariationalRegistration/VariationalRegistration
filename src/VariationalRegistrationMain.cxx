@@ -48,6 +48,7 @@ extern "C"
 #include "itkVariationalRegistrationFunction.h"
 #include "itkVariationalRegistrationDemonsFunction.h"
 #include "itkVariationalRegistrationSSDFunction.h"
+#include "itkVariationalRegistrationNCCFunction.h"
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkVariationalRegistrationGaussianRegularizer.h"
@@ -56,9 +57,6 @@ extern "C"
 
 #include "itkVariationalRegistrationStopCriterion.h"
 #include "itkVariationalRegistrationLogger.h"
-
-#include "itkVariationalRegistrationNCCFunction.h"
-#include "itkContinuousBorderWarpImageFilter.h"
 
 // ITK library includes
 #include "itkImageFileReader.h"
@@ -193,7 +191,7 @@ int main( int argc, char *argv[] )
   bool useWarpedMask = false;
 
   // Stop criterion parameters
-  int stopCriterionPolicy = 1; // TODO 0?
+  int stopCriterionPolicy = 1; // Simple graduated is default
   float stopCriterionSlope = 0.005;
 
   // Preproc and general parameters
@@ -594,9 +592,6 @@ int main( int argc, char *argv[] )
   //
   // Setup registration function
   //
-  //typedef WarpImageFilter<ImageType,ImageType,DisplacementFieldType> MovingImageWarperType;
-  typedef ContinuousBorderWarpImageFilter<ImageType,ImageType,DisplacementFieldType> MovingImageWarperType;
-  MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
 
   typedef VariationalRegistrationFunction<
       ImageType,ImageType,DisplacementFieldType>   FunctionType;
@@ -943,7 +938,11 @@ int main( int argc, char *argv[] )
 
   if( warpedImageFilename != NULL )
     {
-    warper->SetInput( movingImage );
+
+	  typedef FunctionType::MovingImageWarperType MovingImageWarperType;
+	  MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
+
+	  warper->SetInput( movingImage );
     warper->SetOutputParametersFromImage( fixedImage );
     warper->SetDisplacementField( outputDisplacementField );
     warper->UpdateLargestPossibleRegion();
