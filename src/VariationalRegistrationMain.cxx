@@ -94,7 +94,7 @@ void PrintHelp()
   std::cout << "                           0: Standard (default)." << std::endl;
   std::cout << "                           1: Diffeomorphic." << std::endl;
   std::cout << "                           2: Symmetric diffeomorphic (NYI)." << std::endl;
-  std::cout << "-u 0|1                   Use spacing." << std::endl;
+  std::cout << "-u 0|1                   Use spacing for regularization." << std::endl;
   std::cout << "                           0: false" << std::endl;
   std::cout << "                           1: true (default)" << std::endl;
   std::cout << std::endl;
@@ -187,7 +187,7 @@ int main( int argc, char *argv[] )
 
   // Force parameters
   int forceType = 0;              // Demon
-  int forceDomain = 1;            // Warped moving
+  int forceDomain = 0;            // Warped moving
   bool useWarpedMask = false;
 
   // Stop criterion parameters
