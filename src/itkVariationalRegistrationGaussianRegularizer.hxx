@@ -52,22 +52,10 @@ void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::SetStandardDeviations( double value )
 {
-  unsigned int j;
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    if( value != m_StandardDeviations[j] )
-      {
-      break;
-      }
-    }
-  if( j < ImageDimension )
-    {
-    this->Modified();
-    for( j = 0; j < ImageDimension; j++ )
-      {
-      m_StandardDeviations[j] = value;
-      }
-    }
+	StandardDeviationsType sigma;
+	sigma.Fill(value);
+
+	SetStandardDeviations(sigma);
 }
 
 /**
@@ -105,16 +93,13 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
         vnl_math_sqr( this->GetStandardDeviations()[j] );
     if( this->GetUseImageSpacing() == true )
       {
-      if( this->GetInput()->GetSpacing()[j] == 0.0 )
-        {
-        itkExceptionMacro(<< "Pixel spacing cannot be zero");
-        }
-      else
-        {
+  	  if( this->GetInput()->GetSpacing()[j] == 0.0 )
+  	  {
+  		  itkExceptionMacro(<< "Pixel spacing cannot be zero");
+  	  }
         // convert the variance from physical units to pixels
-        double s = this->GetInput()->GetSpacing()[j];
+        const double s = this->GetInput()->GetSpacing()[j];
         opers[j].SetVariance( variance / vnl_math_sqr(s) );
-        }
       }
     else
       {
