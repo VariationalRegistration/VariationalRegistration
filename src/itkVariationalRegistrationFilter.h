@@ -80,6 +80,10 @@ namespace itk {
  *
  *  \ingroup VariationalRegistration
  *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
+ *
  * For details see: <i>Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt: 
  * "Estimation of lung motion fields in 4D CT data by variational non-linear intensity-based registration: 
  *  A comparison and evaluation study", Phys. Med. Biol., 2014</i>
