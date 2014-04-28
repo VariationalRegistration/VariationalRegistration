@@ -180,7 +180,7 @@ int main( int argc, char *argv[] )
   bool useImageSpacing = true;
 
   // Regularizer parameters
-  int regularizerType = 0;            // Gaussian
+  int regularizerType = 1;       // Diffusive
   float regulAlpha = 0.5;
   float regulVar = 0.5;
   float regulMu = 0.5;
