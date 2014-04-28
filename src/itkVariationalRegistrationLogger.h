@@ -31,6 +31,8 @@ namespace itk {
 
 /** \class itk::VariationalRegistrationLogger
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationFilter
  *
  *  \ingroup VariationalRegistration
@@ -53,15 +55,19 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Write to log file. */
-  itkSetMacro( WriteToLogFile, bool );
-  itkGetMacro( WriteToLogFile, bool );
-  itkBooleanMacro( WriteToLogFile );
-
-  /** Write to standard output. */
-  itkSetMacro( WriteToStdOut, bool );
-  itkGetMacro( WriteToStdOut, bool );
-  itkBooleanMacro( WriteToStdOut );
+// TODO implement platform independent time measurement
+//  /** Write to log file. */
+//  itkSetMacro( WriteToLogFile, bool );
+//  itkGetMacro( WriteToLogFile, bool );
+//  itkBooleanMacro( WriteToLogFile );
+//
+//  /** Write to standard output. */
+//  itkSetMacro( WriteToStdOut, bool );
+//  itkGetMacro( WriteToStdOut, bool );
+//  itkBooleanMacro( WriteToStdOut );
+//
+//  /** \brief Method to start time measurement. */
+//  void InitializeTimeMeasurement();
 
   void Execute( itk::Object *caller, const itk::EventObject & event )
     {
@@ -69,9 +75,6 @@ public:
     }
 
   void Execute( const itk::Object *caller, const itk::EventObject & event );
-
-  /** \brief Method to start time measurement. */
-  void InitializeTimeMeasurement();
 
 protected:
   VariationalRegistrationLogger();
@@ -88,22 +91,19 @@ private:
   VariationalRegistrationLogger(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool   m_WriteToLogFile;
-  bool   m_WriteToStdOut;
-
-  bool   m_TimeIsInitialized;
-
-  /** \brief The starting time of the program. */
-  timespec m_MonotonicStartTime;
-
-  /** \brief The current time of the program. */
-  timespec m_MonotonicCurrentTime;
-
-  /** \brief The starting process time of the program. */
-  timespec m_ProzessStartTime;
-
-  /** \brief The current process time of the program. */
-  timespec m_ProcessCurrentTime;
+//  bool   m_TimeIsInitialized;
+//
+//  /** \brief The starting time of the program. */
+//  timespec m_MonotonicStartTime;
+//
+//  /** \brief The current time of the program. */
+//  timespec m_MonotonicCurrentTime;
+//
+//  /** \brief The starting process time of the program. */
+//  timespec m_ProzessStartTime;
+//
+//  /** \brief The current process time of the program. */
+//  timespec m_ProcessCurrentTime;
 };
 
 } // end namespace itk

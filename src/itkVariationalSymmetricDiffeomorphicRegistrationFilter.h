@@ -24,6 +24,8 @@ namespace itk {
 
 /** \class itk::VariationalSymmetricDiffeomorphicRegistrationFilter
  *
+ * TODO class documentation
+ *
  *  \sa VariationalDiffeomorphicRegistrationFilter
  *
  *  \ingroup VariationalRegistration
@@ -88,13 +90,15 @@ protected:
   /** This method is called before iterating the solution. */
   virtual void Initialize();
 
-  /** TODO */
+  /** Initialize the backward update after forward update was completed */
   virtual void InitializeBackwardIteration();
 
-  /** TODO */
+  /** Apply update function that additionally computes the inverse displacement
+   *  field for the next iteration. */
   virtual void ApplyUpdate( const TimeStepType& dt );
 
-  /** TODO */
+  /** Calculate the update for each iteration by first performing the forward
+   * and then the backward update step. */
   virtual TimeStepType CalculateChange();
 
   /** Calculates the inverse deformation field by calculating the exponential
@@ -109,7 +113,7 @@ protected:
   /** The type of region used for multithreading */
   typedef typename UpdateBufferType::RegionType ThreadRegionType;
 
-  /**  TODO */
+  /** Threaded version of ApplyUpdate that adds forward and backward fields  */
   virtual void ThreadedApplyUpdate( const TimeStepType &dt,
                                     const ThreadRegionType &regionToProcess,
                                     unsigned int threadId );

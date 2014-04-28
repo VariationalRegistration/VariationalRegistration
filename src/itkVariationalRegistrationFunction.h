@@ -19,18 +19,32 @@
 #define __itkVariationalRegistrationFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
-#include "itkWarpImageFilter.h"
+//#include "itkWarpImageFilter.h"
+#include "itkContinuousBorderWarpImageFilter.h"
 
 namespace itk {
 
 /** \class itk::VariationalRegistrationFunction
  *
- *  TODO
+ * \brief Base class for force calculation in the variational registration framework.
+ *
+ * This class is templated over fixed image type, moving image type and deformation field type.
+ * This function has the fixed image, the moving image and the current displacement field as input
+ * and computes an update value in \c ComputeUpdate().
+ *
+ * Implement a concrete force type in a subclass; overwrite the methods
+ * \c InitializeIteration() and \c ComputeUpdate().
  *
  *  \sa VariationalRegistrationFilter
  *
  *  \ingroup FiniteDifferenceFunctions
  *  \ingroup VariationalRegistration
+ *
+ *  \note This class was developed with funding from:
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationFunction :
@@ -72,8 +86,10 @@ public:
   typedef Image< MaskImagePixelType, ImageDimension >    MaskImageType;
   typedef typename MaskImageType::ConstPointer           MaskImagePointer;
 
+  // uncomment the following line to use the standard ITK warper (not recommended)
+  //typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
   /** Typedef of the warp image filter. */
-  typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
+  typedef itk::ContinuousBorderWarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
                                                          MovingImageWarperType;
   typedef typename MovingImageWarperType::Pointer        MovingImageWarperPointer;
 
@@ -139,9 +155,9 @@ public:
   /** Set the object's state before each iteration. */
   virtual void InitializeIteration();
 
-  //
-  // GlobalData functions for multi-threading.
-  /** This class uses the constant time step m_TimeStep. */
+  /** Computes the time step for an update.
+   * Returns the constant time step.
+   * \sa SetTimeStep() */
   virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
     { return m_TimeStep; }
 

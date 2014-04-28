@@ -33,7 +33,7 @@ extern "C"
 #include "getopt.h"
 }
 
-#define ExceptionMacro(x) std::cout << "ERROR: " x << std::endl;
+#define ExceptionMacro(x) std::cerr << "ERROR: " x << std::endl;
 
 // Project includes:
 #include "itkConfigure.h"
@@ -48,6 +48,7 @@ extern "C"
 #include "itkVariationalRegistrationFunction.h"
 #include "itkVariationalRegistrationDemonsFunction.h"
 #include "itkVariationalRegistrationSSDFunction.h"
+#include "itkVariationalRegistrationNCCFunction.h"
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkVariationalRegistrationGaussianRegularizer.h"
@@ -96,7 +97,7 @@ void PrintHelp()
   std::cout << "                           0: Standard (default)." << std::endl;
   std::cout << "                           1: Diffeomorphic." << std::endl;
   std::cout << "                           2: Symmetric diffeomorphic (NYI)." << std::endl;
-  std::cout << "-u 0|1                   Use spacing." << std::endl;
+  std::cout << "-u 0|1                   Use spacing for regularization." << std::endl;
   std::cout << "                           0: false" << std::endl;
   std::cout << "                           1: true (default)" << std::endl;
   std::cout << std::endl;
@@ -189,11 +190,11 @@ int main( int argc, char *argv[] )
 
   // Force parameters
   int forceType = 0;              // Demon
-  int forceDomain = 1;            // Warped moving
+  int forceDomain = 0;            // Warped moving
   bool useWarpedMask = false;
 
   // Stop criterion parameters
-  int stopCriterionPolicy = 1; // simple graduated as default
+  int stopCriterionPolicy = 1; // Simple graduated is default
   float stopCriterionSlope = 0.005;
 
   // Preproc and general parameters
@@ -464,9 +465,9 @@ int main( int argc, char *argv[] )
   //
   //////////////////////////////////////////////
   typedef Image<Vector<float, DIMENSION>, DIMENSION> DisplacementFieldType;
-  typedef DisplacementFieldType::Pointer              DisplacementFieldPointerType;
-  typedef ImageFileReader<DisplacementFieldType>      DisplacementFieldReaderType;
-  typedef ImageFileWriter<DisplacementFieldType>      DisplacementFieldWriterType;
+  typedef DisplacementFieldType::Pointer             DisplacementFieldPointerType;
+  typedef ImageFileReader<DisplacementFieldType>     DisplacementFieldReaderType;
+  typedef ImageFileWriter<DisplacementFieldType>     DisplacementFieldWriterType;
 
   typedef Image<short, DIMENSION>                    ImageType;
   typedef ImageType::Pointer                         ImagePointerType;
@@ -594,8 +595,6 @@ int main( int argc, char *argv[] )
   //
   // Setup registration function
   //
-  typedef WarpImageFilter<ImageType,ImageType,DisplacementFieldType> MovingImageWarperType;
-  MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
 
   typedef VariationalRegistrationFunction<
       ImageType,ImageType,DisplacementFieldType>   FunctionType;
@@ -942,7 +941,11 @@ int main( int argc, char *argv[] )
 
   if( warpedImageFilename != NULL )
     {
-    warper->SetInput( movingImage );
+
+	  typedef FunctionType::MovingImageWarperType MovingImageWarperType;
+	  MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
+
+	  warper->SetInput( movingImage );
     warper->SetOutputParametersFromImage( fixedImage );
     warper->SetDisplacementField( outputDisplacementField );
     warper->UpdateLargestPossibleRegion();

@@ -98,24 +98,24 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 /**
  *
  */
-template< class TRegistrationFilter, class TMRFilter >
-void
-VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
-::InitializeTimeMeasurement()
-{
+//template< class TRegistrationFilter, class TMRFilter >
+//void
+//VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
+//::InitializeTimeMeasurement()
+//{
 //  clock_gettime( CLOCK_MONOTONIC, & m_MonotonicStartTime );
 //  clock_gettime( CLOCK_PROCESS_CPUTIME_ID, & m_ProzessStartTime );
 //  m_TimeIsInitialized = true;
-}
+//}
 
 /**
  *
  */
-template< class TRegistrationFilter, class TMRFilter >
-char*
-VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
-::GetProcessTime()
-{
+//template< class TRegistrationFilter, class TMRFilter >
+//char*
+//VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
+//::GetProcessTime()
+//{
 //  if( !m_TimeIsInitialized )
 //  {
 //    return "";
@@ -132,17 +132,17 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 //    sprintf( buffer,"[%02i:%02i:%02i] ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec );
 //    return buffer;
 //  }
-  return "";
-}
+//  return "";
+//}
 
 /**
  *
  */
-template< class TRegistrationFilter, class TMRFilter >
-char*
-VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
-::GetMonotonicTime()
-{
+//template< class TRegistrationFilter, class TMRFilter >
+//char*
+//VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
+//::GetMonotonicTime()
+//{
 //  if( !m_TimeIsInitialized )
 //  {
 //    return "";
@@ -159,8 +159,8 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 //    sprintf( buffer,"[%02i:%02i:%02i] ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec );
 //    return buffer;
 //  }
-  return "";
-}
+//  return "";
+//}
 
 /**
  * Standard "PrintSelf" method.
@@ -171,8 +171,6 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
-
-  // TODO print stop criterion members
 }
 
 } // end namespace itk

@@ -62,7 +62,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 }
 
 /**
- * TODO comment
+ * Generate data
  */
 template< class TDisplacementField >
 void
@@ -75,7 +75,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
   // Initialize and allocate data
   this->Initialize();
 
-  // Execute regulatization
+  // Execute regularization
   this->Regularize();
 }
 
@@ -216,7 +216,8 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
         this->GetNumberOfThreads() );
     }
 
-  // TODO: a delete n is missing here - crash?
+  //delete n
+  delete n;
 
   return true;
 }
@@ -260,7 +261,6 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 {
   DisplacementFieldConstPointer inputField = this->GetInput();
 
-  // TODO: necessary to check?
   if( !inputField )
     {
     itkExceptionMacro( << "input displacement field is NULL!" );
@@ -374,7 +374,7 @@ void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::ThreadedSolveElasticLES( OffsetValueType from, OffsetValueType to )
 {
-  // TODO Implementation for d = 1 and d = 2!!
+  // Only implemented for Imagedimension 2 and 3 - throw exception otherwise
   if( ImageDimension == 3 )
     {
     // Get parameters from struct

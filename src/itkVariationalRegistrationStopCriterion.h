@@ -28,6 +28,8 @@ namespace itk {
 
 /** \class itk::VariationalRegistrationStopCriterion
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationFilter
  *
  *  \ingroup VariationalRegistration

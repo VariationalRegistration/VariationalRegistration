@@ -178,6 +178,8 @@ public:
     { this->SetInput( ptr ); }
 
   /** Get output deformation field. */
+  // FIXME returns velocities if registration filter is diffeomorphic
+  // Should be fixed by: return this->GetDisplacementField();
   const DisplacementFieldType * GetDisplacementField(void)
     { return this->GetOutput(); }
 
