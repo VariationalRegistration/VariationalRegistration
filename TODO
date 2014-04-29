@@ -1,0 +1,23 @@
+
+- Add Tests for Diffeomorphic
+- Add Tests for Symmetric Diffeomorphic
+- ADD dependency on ITK_USE_FFTWD
+- Check results for FFTWF
+- Remove warnings for unused variables during compile
+- Remove errors in test VariationalRegistrationInDoxygenGroup
+- Add a test to use with CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}") to remove warnings
+- Check for code coverage
+- Check for unnecessary #includes
+- Check for code style with KWStyle
+- Check conditions in http://www.itk.org/Wiki/ITK/Release_4/Modularization/Code_Reviews/Checklist
+- Add documentation in 
+  include/itkContinuousBorderWarpImageFilter.h              
+  include/itkMultiResolutionVariationalRegistration.h       
+  include/itkVariationalDiffeomorphicRegistrationFilter.h   
+  include/itkVariationalRegistrationStopCriterion.h
+  include/itkVariationalRegistrationLogger.h               
+  include/itkVariationalSymmetricDiffeomorphicRegistrationFilter.h
+- Resolve issue with accuracy in velocity exponentiation
+- Check for issue with GaussianSmoothing and UseImageSpacing
+
+
