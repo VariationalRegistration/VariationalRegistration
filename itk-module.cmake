@@ -4,8 +4,6 @@ variational image registration.")
 itk_module(VariationalRegistration
  DEPENDS
    ITKCommon
-   ITKIOPNG
-   ITKIONIFTI
    ITKIOImageBase
    ITKImageFilterBase
    ITKSmoothing

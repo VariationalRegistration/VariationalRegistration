@@ -19,5 +19,6 @@
   include/itkVariationalSymmetricDiffeomorphicRegistrationFilter.h
 - Resolve issue with accuracy in velocity exponentiation
 - Check for issue with GaussianSmoothing and UseImageSpacing
+- Check for failed tests with GaussianSmoothing in ITK-4.5.2
 
 
