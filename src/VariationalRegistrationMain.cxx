@@ -103,8 +103,8 @@ void PrintHelp()
   std::cout << std::endl;
   std::cout << "Parameters for regularizer:" << std::endl;
   std::cout << "-r 0|1|2                 Select regularizer." << std::endl;
-  std::cout << "                           0: Gaussian smoother (default)." << std::endl;
-  std::cout << "                           1: Diffusive regularizer." << std::endl;
+  std::cout << "                           0: Gaussian smoother." << std::endl;
+  std::cout << "                           1: Diffusive regularizer (default)." << std::endl;
   std::cout << "                           2: Elastic regularizer." << std::endl;
   std::cout << "-a <alpha>               Alpha for the regularization (only diffusive)." << std::endl;
   std::cout << "-v <variance>            Variance for the regularization (only gaussian)." << std::endl;
@@ -122,9 +122,6 @@ void PrintHelp()
   std::cout << "                           0: Warped image forces (default)." << std::endl;
   std::cout << "                           1: Fixed image forces." << std::endl;
   std::cout << "                           2: Symmetric forces." << std::endl;
-  std::cout << "-w 0|1                   Use warped mask, if mask defined." << std::endl;
-  std::cout << "                           0: false (default)" << std::endl;
-  std::cout << "                           1: true" << std::endl;
   std::cout << std::endl;
   std::cout << "Parameters for stop criterion:" << std::endl;
   std::cout << "-p 0|1|2                 Select stop criterion policy for multi-resolution." << std::endl;
@@ -191,7 +188,6 @@ int main( int argc, char *argv[] )
   // Force parameters
   int forceType = 0;              // Demon
   int forceDomain = 0;            // Warped moving
-  bool useWarpedMask = false;
 
   // Stop criterion parameters
   int stopCriterionPolicy = 1; // Simple graduated is default
@@ -370,19 +366,6 @@ int main( int argc, char *argv[] )
       {
         std::cout << "  ERROR: Force domain unknown!" << std::endl;
         return 0;
-      }
-      break;
-    case 'w':
-      intVal = atoi( optarg );
-      if( intVal == 0 )
-      {
-        std::cout << "  Use warped mask:                 false" << std::endl;
-        useWarpedMask = false;
-      }
-      else
-      {
-        std::cout << "  Use warped mask:                 true" << std::endl;
-        useWarpedMask = true;
       }
       break;
     case 'p':
