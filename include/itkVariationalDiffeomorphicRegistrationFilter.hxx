@@ -42,7 +42,7 @@ VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplace
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
 VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::SetInitialDisplacementField( DisplacementFieldType * ptr )
+::SetInitialDisplacementField( DisplacementFieldType * /*ptr*/ )
 {
   // TODO Calculate logarithm from initial deformation field?
 
