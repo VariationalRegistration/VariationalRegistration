@@ -2,18 +2,17 @@
 - Add Tests for Diffeomorphic (jan)
 - Add Tests for Symmetric Diffeomorphic (jan)
 - Check results for FFTWF (jan)
-- Check for code coverage (Alex)
 - Check for unnecessary #includes (??)
-- Check for code style with KWStyle (Alex)
-- Check conditions in http://www.itk.org/Wiki/ITK/Release_4/Modularization/Code_Reviews/Checklist (??)
 - Add documentation in 
   include/itkContinuousBorderWarpImageFilter.h               (Alex)
   include/itkMultiResolutionVariationalRegistration.h        (??)
-  include/itkVariationalRegistrationStopCriterion.h 	(Alex)
-  include/itkVariationalRegistrationLogger.h                (Alex)
-- Resolve issue with accuracy in velocity exponentiation (Rene)
+  include/itkVariationalRegistrationStopCriterion.h 	     (Alex)
+  include/itkVariationalRegistrationLogger.h                 (Alex)
+- Resolve issue with accuracy in velocity exponentiation     (Rene)
 - Check for issue with GaussianSmoothing and UseImageSpacing (Alex)
 - Check for tau and alpha in equations in the documentation  (Rene)
+- Use Get/Set macros consistently (Alex)
+- Use External Data separated from Git (Alex)
 
 =========================================
 DONE:
@@ -24,3 +23,6 @@ DONE:
 - ADD dependency on ITK_USE_FFTWD (jan)
 - Remove errors in test VariationalRegistrationInDoxygenGroup (Alex)
 - Add a test to use with CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}") to remove warnings (jan)
+- Check for code style with KWStyle (Alex)
+- Check for code coverage (Alex)
+- Check conditions in http://www.itk.org/Wiki/ITK/Release_4/Modularization/Code_Reviews/Checklist (Alex): Issues: Use Get/Set macros consistently
