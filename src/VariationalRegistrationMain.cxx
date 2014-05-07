@@ -161,7 +161,7 @@ int main( int argc, char *argv[] )
     }
 
   std::cout << "==========================================" << std::endl;
-  std::cout << "====  itkVariationalRegistration (" << DIMENSION<<"D) ====" << std::endl;
+  std::cout << "====   VariationalRegistration (" << DIMENSION << "D)   ====" << std::endl;
   std::cout << "==========================================" << std::endl;
   std::cout << "READING parameters...\n" << std::endl;
 
@@ -820,15 +820,10 @@ int main( int argc, char *argv[] )
     outputVelocityField = mrRegFilter->GetOutput();
 
     // Run a final exponentiation to obtain deformation field:
-    // Todo Define param for exponentiation accuracy.
-
-#if ITK_VERSION_MAJOR > 3
-    typedef itk::ExponentialDisplacementFieldImageFilter< DisplacementFieldType, DisplacementFieldType> FieldExponentiatorType;
-#else
-    typedef itk::ExponentialDisplacementFieldImageFilter< DisplacementFieldType, DisplacementFieldType> FieldExponentiatorType;
-#endif
-
-    typedef FieldExponentiatorType::Pointer FieldExponentiatorPointer;
+    // TODO Define param for exponentiation accuracy.
+    typedef itk::ExponentialDisplacementFieldImageFilter<
+        DisplacementFieldType, DisplacementFieldType> FieldExponentiatorType;
+    typedef FieldExponentiatorType::Pointer           FieldExponentiatorPointer;
     FieldExponentiatorPointer exponentiator = FieldExponentiatorType::New();
 
     exponentiator->SetInput( outputVelocityField );
@@ -952,7 +947,7 @@ int main( int argc, char *argv[] )
     imageWriter->Update();
     }
 
-  std::cout << "Variational Registration FINISHED!" << std::endl;
+  std::cout << "VariationalRegistration (" << DIMENSION << "D) FINISHED!" << std::endl;
   std::cout << "==========================================\n\n" << std::endl;
 
   return 0;
