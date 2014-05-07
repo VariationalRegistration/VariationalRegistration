@@ -1,10 +1,7 @@
 
 - Add Tests for Diffeomorphic (jan)
 - Add Tests for Symmetric Diffeomorphic (jan)
-- ADD dependency on ITK_USE_FFTWD (jan)
 - Check results for FFTWF (jan)
-- Remove errors in test VariationalRegistrationInDoxygenGroup (??)
-- Add a test to use with CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}") to remove warnings (jan)
 - Check for code coverage (Alex)
 - Check for unnecessary #includes (??)
 - Check for code style with KWStyle (Alex)
@@ -24,4 +21,6 @@ DONE:
 - Check for failed tests with GaussianSmoothing in ITK-4.5.2
 - Doku in  include/itkVariationalDiffeomorphicRegistrationFilter.h    
 - Doku in  include/itkVariationalSymmetricDiffeomorphicRegistrationFilter.h
-
+- ADD dependency on ITK_USE_FFTWD (jan)
+- Remove errors in test VariationalRegistrationInDoxygenGroup (Alex)
+- Add a test to use with CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}") to remove warnings (jan)
