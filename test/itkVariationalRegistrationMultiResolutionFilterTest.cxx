@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkVariationalRegistrationFilter.h"
-#include "itkMultiResolutionVariationalRegistration.h"
+#include "itkVariationalRegistrationMultiResolutionFilter.h"
 #include "itkVariationalRegistrationDemonsFunction.h"
 #include "itkVariationalRegistrationDiffusionRegularizer.h"
 #include "itkVariationalRegistrationStopCriterion.h"
@@ -102,7 +102,7 @@ TImage *output )
 
 }
 
-int itkMultiResolutionVariationalRegistrationTest(int, char* [] )
+int itkVariationalRegistrationMultiResolutionFilterTest(int, char* [] )
 {
 
   typedef unsigned char PixelType;
@@ -196,7 +196,7 @@ int itkMultiResolutionVariationalRegistrationTest(int, char* [] )
   its[1] = 200;
   its[0] = 200;
 
-  typedef itk::MultiResolutionVariationalRegistration<ImageType,ImageType,FieldType> MRRegistrationFilterType;
+  typedef itk::VariationalRegistrationMultiResolutionFilter<ImageType,ImageType,FieldType> MRRegistrationFilterType;
   MRRegistrationFilterType::Pointer mrRegFilter = MRRegistrationFilterType::New();
   mrRegFilter->SetRegistrationFilter( regFilter );
   mrRegFilter->SetMovingImage( moving );
