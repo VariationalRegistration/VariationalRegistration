@@ -1,12 +1,13 @@
 itk_module_test()
 
 SET(${itk-module}Tests
-    itkVariationalRegistrationFilterTest.cxx
-    itkVariationalRegistrationMultiResolutionFilterTest.cxx
+    VariationalRegistrationFilterTest.cxx
+    VariationalRegistrationMultiResolutionFilterTest.cxx
 )
 
 # list(APPEND ExternalData_URL_TEMPLATES "https://googledrive.com/host/0B-qP96NdUKVfTFVZYUNyNEJoTlk/ExternalData_%(algo)_%(hash)")
 # list(APPEND ExternalData_URL_TEMPLATES "file:///vol/medic01/users/aschmidt/Dropbox/ITKExternalData/ExternalData_%(algo)_%(hash)")
+
 
 CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
 
@@ -18,10 +19,10 @@ CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
 
 itk_add_test(NAME VariationalRegistrationFilterTest
-      COMMAND ${itk-module}TestDriver itkVariationalRegistrationFilterTest)
+      COMMAND ${itk-module}TestDriver VariationalRegistrationFilterTest)
 
 itk_add_test(NAME VariationalRegistrationMultiResolutionFilterTest
-      COMMAND ${itk-module}TestDriver itkVariationalRegistrationMultiResolutionFilterTest)
+      COMMAND ${itk-module}TestDriver VariationalRegistrationMultiResolutionFilterTest)
 
 #####################################
 # 2D tests
