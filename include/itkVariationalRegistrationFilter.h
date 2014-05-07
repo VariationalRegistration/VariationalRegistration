@@ -125,7 +125,8 @@ public:
 
   /** MovingImage image type. */
   typedef unsigned char                            MaskImagePixelType;
-  typedef Image< MaskImagePixelType, ImageDimension > MaskImageType;
+  typedef Image< MaskImagePixelType, ImageDimension >
+                                                   MaskImageType;
   typedef typename MaskImageType::Pointer          MaskImagePointer;
   typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
 

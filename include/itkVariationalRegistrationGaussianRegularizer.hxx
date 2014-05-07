@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationGaussianRegularizer_txx
-#define __itkVariationalRegistrationGaussianRegularizer_txx
+#ifndef __itkVariationalRegistrationGaussianRegularizer_hxx
+#define __itkVariationalRegistrationGaussianRegularizer_hxx
 #include "itkVariationalRegistrationGaussianRegularizer.h"
 
 #include "itkImageRegionConstIterator.h"
@@ -52,10 +52,10 @@ void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::SetStandardDeviations( double value )
 {
-	StandardDeviationsType sigma;
-	sigma.Fill(value);
+  StandardDeviationsType sigma;
+  sigma.Fill(value);
 
-	SetStandardDeviations(sigma);
+  SetStandardDeviations(sigma);
 }
 
 /**
@@ -75,12 +75,12 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 
   DisplacementFieldConstPointer field = this->GetInput();
 
-  typedef typename DisplacementFieldType::PixelType VectorType;
-  typedef typename VectorType::ValueType ScalarType;
+  typedef typename DisplacementFieldType::PixelType      VectorType;
+  typedef typename VectorType::ValueType                 ScalarType;
   typedef GaussianOperator< ScalarType, ImageDimension > OperatorType;
   typedef VectorNeighborhoodOperatorImageFilter<
       DisplacementFieldType,
-      DisplacementFieldType > SmootherType;
+      DisplacementFieldType >                            SmootherType;
 
   OperatorType opers[ImageDimension];
   typename SmootherType::Pointer smoothers[ImageDimension];
@@ -93,10 +93,10 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
         vnl_math_sqr( this->GetStandardDeviations()[j] );
     if( this->GetUseImageSpacing() == true )
       {
-  	  if( this->GetInput()->GetSpacing()[j] == 0.0 )
-  	  {
-  		  itkExceptionMacro(<< "Pixel spacing cannot be zero");
-  	  }
+      if( this->GetInput()->GetSpacing()[j] == 0.0 )
+      {
+        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+      }
         // convert the variance from physical units to pixels
         const double s = this->GetInput()->GetSpacing()[j];
         opers[j].SetVariance( variance / vnl_math_sqr(s) );

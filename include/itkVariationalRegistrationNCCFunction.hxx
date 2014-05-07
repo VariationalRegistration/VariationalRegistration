@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationNCCFunction_txx
-#define __itkVariationalRegistrationNCCFunction_txx
+#ifndef __itkVariationalRegistrationNCCFunction_hxx
+#define __itkVariationalRegistrationNCCFunction_hxx
 
 #include "itkVariationalRegistrationNCCFunction.h"
 #include "itkExceptionObject.h"
@@ -75,7 +75,7 @@ typename VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplac
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeGlobalTimeStep( void * /*gd*/ ) const
 {
-	  return this->GetTimeStep() * m_Normalizer;
+    return this->GetTimeStep() * m_Normalizer;
 }
 
 /*

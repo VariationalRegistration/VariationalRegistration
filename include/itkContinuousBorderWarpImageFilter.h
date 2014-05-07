@@ -25,8 +25,9 @@ namespace itk
 /** \class ContinuousBorderWarpImageFilter
  * \brief Warps an image using an input deformation field.
  *
- *
- * \ingroup GeometricTransforms MultiThreaded
+ * \ingroup VariationalRegistration
+ * \ingroup GeometricTransforms
+ * \ingroup MultiThreaded
  */
 template <
   class TInputImage,

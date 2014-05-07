@@ -126,7 +126,7 @@ protected:
   virtual void ThreadedSolveElasticLES( OffsetValueType from, OffsetValueType to );
 
   typename DisplacementFieldType::IndexType CalculateComplexImageIndex(
-      OffsetValueType offset ) ;
+      OffsetValueType offset );
 
 private:
   VariationalRegistrationElasticRegularizer(const Self&); //purposely not implemented

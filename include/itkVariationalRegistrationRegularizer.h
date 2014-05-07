@@ -49,7 +49,7 @@ class ITK_EXPORT VariationalRegistrationRegularizer
 {
 public:
   /** Standard class typedefs */
-  typedef VariationalRegistrationRegularizer     Self;
+  typedef VariationalRegistrationRegularizer      Self;
   typedef InPlaceImageFilter<
     TDisplacementField, TDisplacementField >      Superclass;
   typedef SmartPointer< Self >                    Pointer;
