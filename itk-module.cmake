@@ -13,12 +13,10 @@ itk_module(VariationalRegistration
    ITKRegistrationCommon
    ITKMathematicalMorphology
    ITKBinaryMathematicalMorphology
- TEST_DEPENDS
-   ITKIOImageBase
-   ITKTestKernel #to handle IO in src
+   ITKTestKernel #necessary to handle IO in src
+ EXCLUDE_FROM_DEFAULT
  DESCRIPTION
    "${DOCUMENTATION}"
- EXCLUDE_FROM_DEFAULT
 )
 
 
