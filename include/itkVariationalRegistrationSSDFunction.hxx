@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationSSDFunction_txx
-#define __itkVariationalRegistrationSSDFunction_txx
+#ifndef __itkVariationalRegistrationSSDFunction_hxx
+#define __itkVariationalRegistrationSSDFunction_hxx
 
 #include "itkVariationalRegistrationSSDFunction.h"
 #include "vnl/vnl_math.h"
@@ -124,34 +124,34 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
     }
   else
     {
-	  typename GradientCalculatorType::OutputType gradient;
+    typename GradientCalculatorType::OutputType gradient;
 
-	  // Compute the gradient of either fixed or moving image
-	  if( m_GradientType == GRADIENT_TYPE_WARPED )
-		{
-		gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex( index );
-		}
-	  else
-		if( m_GradientType == GRADIENT_TYPE_FIXED )
-		  {
-		  gradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-		  }
-		else
-		  if( m_GradientType == GRADIENT_TYPE_SYMMETRIC )
-			{
-			// Does not have to be divided by 2, normalization is done afterwards
-			gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex( index )
-				+ m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-			}
-		  else
-			{
-			itkExceptionMacro( << "Unknown gradient type!" );
-			}
+    // Compute the gradient of either fixed or moving image
+    if( m_GradientType == GRADIENT_TYPE_WARPED )
+    {
+    gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex( index );
+    }
+    else
+    if( m_GradientType == GRADIENT_TYPE_FIXED )
+      {
+      gradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+      }
+    else
+      if( m_GradientType == GRADIENT_TYPE_SYMMETRIC )
+      {
+      // Does not have to be divided by 2, normalization is done afterwards
+      gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex( index )
+        + m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+      }
+      else
+      {
+      itkExceptionMacro( << "Unknown gradient type!" );
+      }
 
-		for( unsigned int j = 0; j < ImageDimension; j++ )
-		  {
-		  update[j] = speedValue * gradient[j];
-		  }
+    for( unsigned int j = 0; j < ImageDimension; j++ )
+      {
+      update[j] = speedValue * gradient[j];
+      }
     }
 
   // Update the global data (metric etc.)

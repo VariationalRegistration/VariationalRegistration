@@ -68,8 +68,8 @@ class ITK_EXPORT VariationalRegistrationNCCFunction :
 public:
   /** Standard class typedefs. */
   typedef VariationalRegistrationNCCFunction     Self;
-  typedef VariationalRegistrationFunction< TFixedImage,	TMovingImage, TDisplacementField >
-  	  	  	  	  	  	  	  	  	  	  	  	 Superclass;
+  typedef VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >
+                                                 Superclass;
   typedef SmartPointer< Self >                   Pointer;
   typedef SmartPointer< const Self >             ConstPointer;
 

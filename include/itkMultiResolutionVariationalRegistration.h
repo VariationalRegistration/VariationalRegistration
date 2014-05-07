@@ -78,7 +78,7 @@ class ITK_EXPORT MultiResolutionVariationalRegistration :
 {
 public:
   /** Standard class typedefs */
-  typedef MultiResolutionVariationalRegistration Self;
+  typedef MultiResolutionVariationalRegistration   Self;
   typedef ImageToImageFilter< TDisplacementField, TDisplacementField >
                                                    Superclass;
   typedef SmartPointer< Self >                     Pointer;
@@ -108,10 +108,10 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
 
   /** MovingImage image type. */
-  typedef unsigned char                             MaskImagePixelType;
+  typedef unsigned char                               MaskImagePixelType;
   typedef Image< MaskImagePixelType, ImageDimension > MaskImageType;
-  typedef typename MaskImageType::Pointer           MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer      MaskImageConstPointer;
+  typedef typename MaskImageType::Pointer             MaskImagePointer;
+  typedef typename MaskImageType::ConstPointer        MaskImageConstPointer;
 
   /** Internal float image type. */
   typedef Image< TRealType, itkGetStaticConstMacro(ImageDimension) > FloatImageType;

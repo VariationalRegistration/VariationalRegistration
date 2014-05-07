@@ -55,9 +55,9 @@ public:
   /** Standard class typedefs */
   typedef VariationalRegistrationDiffusionRegularizer  Self;
   typedef VariationalRegistrationRegularizer<
-      TDisplacementField >                       Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+      TDisplacementField >                             Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

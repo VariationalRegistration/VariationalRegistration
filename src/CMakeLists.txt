@@ -3,7 +3,7 @@ include_directories("${VariationalRegistration_SOURCE_DIR}/src")
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
-MESSAGE(STATUS "Use Librariers:" "${ITK_LIBRARIES} ${VariationalRegistration_LIBRARIES}")
+MESSAGE(STATUS "Use Libraries:" "${ITK_LIBRARIES} ${VariationalRegistration_LIBRARIES}")
 
 add_executable(itkVariationalRegistration VariationalRegistrationMain.cxx )
 target_link_libraries(itkVariationalRegistration ${ITK_LIBRARIES} ${VariationalRegistration_LIBRARIES})

@@ -407,7 +407,7 @@ int main( int argc, char *argv[] )
       std::cout << "  Use debug mode:                  true" << std::endl;
       useDebugMode = true;
       break;
-      case '3':
+    case '3':
 #ifdef USE_2D_IMPL
         std::cout << "  Write 3D displacement field:     true" << std::endl;
         bWrite3DDisplacementField = true;
@@ -626,7 +626,7 @@ int main( int argc, char *argv[] )
       break;
     }
 
-	function = ssdFunction;
+  function = ssdFunction;
   }
   break;
   case 2:
@@ -642,13 +642,13 @@ int main( int argc, char *argv[] )
     switch( forceDomain )
     {
     case 0:
-    	nccFunction->SetGradientTypeToWarpedMovingImage();
+      nccFunction->SetGradientTypeToWarpedMovingImage();
       break;
     case 1:
-    	nccFunction->SetGradientTypeToFixedImage();
+      nccFunction->SetGradientTypeToFixedImage();
       break;
     case 2:
-    	nccFunction->SetGradientTypeToSymmetric();
+      nccFunction->SetGradientTypeToSymmetric();
       break;
     }
     function = nccFunction;
@@ -841,8 +841,8 @@ int main( int argc, char *argv[] )
     if( DIMENSION == 2 && bWrite3DDisplacementField )
     {
       std::cout << "Converting deformation field to 3D..." << std::endl;
-      typedef Image<Vector<float, 3> , 3> OutDisplacementFieldType;
-      typedef OutDisplacementFieldType::Pointer OutDisplacementFieldPointerType;
+      typedef Image<Vector<float, 3> , 3>               OutDisplacementFieldType;
+      typedef OutDisplacementFieldType::Pointer         OutDisplacementFieldPointerType;
       typedef ImageFileWriter<OutDisplacementFieldType> OutDisplacementFieldWriterType;
 
       OutDisplacementFieldPointerType writeField = OutDisplacementFieldType::New();
@@ -925,10 +925,10 @@ int main( int argc, char *argv[] )
   if( warpedImageFilename != NULL )
     {
 
-	  typedef FunctionType::MovingImageWarperType MovingImageWarperType;
-	  MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
+    typedef FunctionType::MovingImageWarperType MovingImageWarperType;
+    MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
 
-	  warper->SetInput( movingImage );
+    warper->SetInput( movingImage );
     warper->SetOutputParametersFromImage( fixedImage );
     warper->SetDisplacementField( outputDisplacementField );
     warper->UpdateLargestPossibleRegion();
