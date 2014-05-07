@@ -1,5 +1,10 @@
 itk_module_test()
 
+SET(ITK${itk-module}Tests
+    itkVariationalRegistrationFilterTest.cxx
+    itkMultiResolutionVariationalRegistrationTest.cxx
+)
+
 SET(TEST_DATA_ROOT "${${itk-module}_SOURCE_DIR}/Data")
 
 CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}")
@@ -12,6 +17,12 @@ CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-mod
 set(BASELINE ${TEST_DATA_ROOT}/Baseline)
 set(INPUTDIR ${TEST_DATA_ROOT}/Input)
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
+
+itk_add_test(NAME itkVariationalRegistrationFilterTest
+      COMMAND ${itk-module}TestDriver itkVariationalRegistrationFilterTest)
+
+itk_add_test(NAME itkMultiResolutionVariationalRegistrationTest
+      COMMAND ${itk-module}TestDriver itkMultiResolutionVariationalRegistrationTest)
 
 #####################################
 # 2D tests
