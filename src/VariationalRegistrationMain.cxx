@@ -41,7 +41,7 @@ extern "C"
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
 
-#include "itkMultiResolutionVariationalRegistration.h"
+#include "itkVariationalRegistrationMultiResolutionFilter.h"
 #include "itkVariationalRegistrationFilter.h"
 #include "itkVariationalDiffeomorphicRegistrationFilter.h"
 #include "itkVariationalSymmetricDiffeomorphicRegistrationFilter.h"
@@ -159,7 +159,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Error during registration of required factories: " << error << std::endl;
     }
-  
+
   std::cout << "==========================================" << std::endl;
   std::cout << "====  itkVariationalRegistration (" << DIMENSION<<"D) ====" << std::endl;
   std::cout << "==========================================" << std::endl;
@@ -743,7 +743,7 @@ int main( int argc, char *argv[] )
     its[level] = its[level + 1];
     }
 
-  typedef MultiResolutionVariationalRegistration<ImageType,ImageType,DisplacementFieldType> MRRegistrationFilterType;
+  typedef VariationalRegistrationMultiResolutionFilter<ImageType,ImageType,DisplacementFieldType> MRRegistrationFilterType;
 
   MRRegistrationFilterType::Pointer mrRegFilter = MRRegistrationFilterType::New();
   mrRegFilter->SetRegistrationFilter( regFilter );

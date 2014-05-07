@@ -2,7 +2,7 @@ itk_module_test()
 
 SET(${itk-module}Tests
     itkVariationalRegistrationFilterTest.cxx
-    itkMultiResolutionVariationalRegistrationTest.cxx
+    itkVariationalRegistrationMultiResolutionFilterTest.cxx
 )
 
 # list(APPEND ExternalData_URL_TEMPLATES "https://googledrive.com/host/0B-qP96NdUKVfTFVZYUNyNEJoTlk/ExternalData_%(algo)_%(hash)")
@@ -20,8 +20,8 @@ set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
 itk_add_test(NAME VariationalRegistrationFilterTest
       COMMAND ${itk-module}TestDriver itkVariationalRegistrationFilterTest)
 
-itk_add_test(NAME MultiResolutionVariationalRegistrationTest
-      COMMAND ${itk-module}TestDriver itkMultiResolutionVariationalRegistrationTest)
+itk_add_test(NAME VariationalRegistrationMultiResolutionFilterTest
+      COMMAND ${itk-module}TestDriver itkVariationalRegistrationMultiResolutionFilterTest)
 
 #####################################
 # 2D tests
