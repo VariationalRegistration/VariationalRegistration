@@ -97,10 +97,12 @@ void PrintHelp()
   std::cout << "-s 0|1|2                 Select search space." << std::endl;
   std::cout << "                           0: Standard (default)." << std::endl;
   std::cout << "                           1: Diffeomorphic." << std::endl;
-  std::cout << "                           2: Symmetric diffeomorphic (NYI)." << std::endl;
+  std::cout << "                           2: Symmetric diffeomorphic." << std::endl;
   std::cout << "-u 0|1                   Use spacing for regularization." << std::endl;
   std::cout << "                           0: false" << std::endl;
   std::cout << "                           1: true (default)" << std::endl;
+  std::cout << "-e <exp iterations>      Number of iterations for exponentiator in case of" << std::endl;
+  std::cout << "                         diffeomorphic registration (search space 1 or 2)." << std::endl;
   std::cout << std::endl;
   std::cout << "Parameters for regularizer:" << std::endl;
   std::cout << "-r 0|1|2                 Select regularizer." << std::endl;
@@ -108,7 +110,7 @@ void PrintHelp()
   std::cout << "                           1: Diffusive regularizer (default)." << std::endl;
   std::cout << "                           2: Elastic regularizer." << std::endl;
   std::cout << "-a <alpha>               Alpha for the regularization (only diffusive)." << std::endl;
-  std::cout << "-v <variance>            Variance for the regularization (only gaussian)." << std::endl;
+  std::cout << "-v <variance>            Variance for the regularization (only Gaussian)." << std::endl;
   std::cout << "-m <mu>                  Mu for the regularization (only elastic)." << std::endl;
   std::cout << "-b <lambda>              Lambda for the regularization (only elasic)." << std::endl;
   std::cout << std::endl;
@@ -117,7 +119,6 @@ void PrintHelp()
   std::cout << "                           0: Demon forces (default)." << std::endl;
   std::cout << "                           1: Sum of Squared Differences." << std::endl;
   std::cout << "                           2: Cross Correlation." << std::endl;
-  std::cout << "                           3: Normalized Mutual Information (NYI)." << std::endl;
   std::cout << "-q <radius>              Radius of neighborhood size for Cross Correlation." << std::endl;
   std::cout << "-d 0|1|2                 Select image domain for force calculation." << std::endl;
   std::cout << "                           0: Warped image forces (default)." << std::endl;
@@ -183,6 +184,7 @@ int main( int argc, char *argv[] )
   // Registration parameters
   int numberOfIterations = 400;
   int numberOfLevels = 3;
+  int numberOfExponentiatorIterations = 4;
   double timestep = 1.0;
   int searchSpace = 0;            // Standard
   bool useImageSpacing = true;
@@ -211,7 +213,7 @@ int main( int argc, char *argv[] )
   bool bWrite3DDisplacementField = false;
 
   // Reading parameters
-  while( (c = getopt( argc, argv, "Z:F:R:M:T:I:S:O:W:G:L:i:n:l:t:s:u:r:a:v:m:b:f:d:w:p:g:h:q:x?3" )) != -1 )
+  while( (c = getopt( argc, argv, "Z:F:R:M:T:I:S:O:W:G:L:e:i:n:l:t:s:u:r:a:v:m:b:f:d:w:p:g:h:q:x?3" )) != -1 )
   {
     switch ( c )
     {
@@ -252,6 +254,10 @@ int main( int argc, char *argv[] )
     case 'L':
       logFilename = optarg;
       std::cout << "  Log filename:                    " << logFilename << std::endl;
+      break;
+    case 'e':
+      numberOfExponentiatorIterations = atoi( optarg );
+      std::cout << "  No. of exp. iterations:          " << numberOfExponentiatorIterations << std::endl;
       break;
     case 'i':
     case 'n':
@@ -718,16 +724,23 @@ int main( int argc, char *argv[] )
       ImageType,ImageType,DisplacementFieldType> SymmetricDiffeomorphicRegistrationFilterType;
 
   RegistrationFilterType::Pointer regFilter;
+  DiffeomorphicRegistrationFilterType::Pointer diffeoRegFilter;
+  SymmetricDiffeomorphicRegistrationFilterType::Pointer symmDiffeoRegFilter;
+
   switch( searchSpace )
   {
   case 0:
     regFilter = RegistrationFilterType::New();
     break;
   case 1:
-    regFilter = DiffeomorphicRegistrationFilterType::New();
+    diffeoRegFilter = DiffeomorphicRegistrationFilterType::New();
+    diffeoRegFilter->SetNumberOfExponentiatorIterations( numberOfExponentiatorIterations );
+    regFilter = diffeoRegFilter;
     break;
   case 2:
-    regFilter = SymmetricDiffeomorphicRegistrationFilterType::New();
+    symmDiffeoRegFilter = SymmetricDiffeomorphicRegistrationFilterType::New();
+    symmDiffeoRegFilter->SetNumberOfExponentiatorIterations( numberOfExponentiatorIterations );
+    regFilter = symmDiffeoRegFilter;
     break;
   }
   regFilter->SetRegularizer( regularizer );
