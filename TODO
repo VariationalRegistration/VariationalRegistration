@@ -3,14 +3,9 @@
 - Add Tests for Symmetric Diffeomorphic                      (Jan)
 - Check results for FFTWF                                    (Jan)
 - Check for unnecessary #includes                            (???)
-- Add documentation in 
-  include/itkMultiResolutionVariationalRegistration.h        (???)
-  include/itkVariationalRegistrationStopCriterion.h 	       (Alex)
 - Resolve issue with accuracy in velocity exponentiation     (Rene)
-- Check for issue with GaussianSmoothing and UseImageSpacing (Alex)
 - Check for tau and alpha in equations in the documentation  (Rene)
 - Find repository for external data                          (???)
-- Fix bug with GetDisplacementField for MR Diffeomorphic     (Alex)
  
 =========================================
 DONE:
@@ -28,3 +23,7 @@ DONE:
 - Check conditions in http://www.itk.org/Wiki/ITK/Release_4/Modularization/Code_Reviews/Checklist (Alex): Issues: Use Get/Set macros consistently
 - Use Get/Set macros consistently (Alex)
 - Use External Data separated from Git (Alex)
+- Add documentation in include/itkVariationalRegistrationStopCriterion.h (Alex)
+- Check for issue with GaussianSmoothing and UseImageSpacing (Alex)
+- Add documentation in include/itkMultiResolutionVariationalRegistration.h (Alex)
+- Fix bug with GetDisplacementField for MR Diffeomorphic     (Alex)
