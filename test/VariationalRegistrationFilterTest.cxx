@@ -177,6 +177,7 @@ int VariationalRegistrationFilterTest(int, char* [] )
       ImageType, ImageType, FieldType> DemonsFunctionType;
   DemonsFunctionType::Pointer demonsFunction = DemonsFunctionType::New();
   demonsFunction->SetGradientTypeToFixedImage();
+  demonsFunction->SetIntensityDifferenceThreshold(0.001);
   demonsFunction->SetTimeStep( 1.0 );
 
   // Setup regularizer
@@ -232,7 +233,6 @@ int VariationalRegistrationFilterTest(int, char* [] )
   warper->SetOutputDirection( fixed->GetDirection() );
   warper->SetEdgePaddingValue( bgnd );
 
-  warper->Print( std::cout );
 
   warper->Update();
 
@@ -265,7 +265,14 @@ int VariationalRegistrationFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // -----------------------------------------------------------
+  std::cout << "Test printing informations.";
+  std::cout << std::endl;
+
+  demonsFunction->Print( std::cout );
+  diffRegularizer->Print( std::cout );
   regFilter->Print( std::cout );
+  warper->Print( std::cout );
 
   // -----------------------------------------------------------
   std::cout << "Test running registrator without initial deformation field.";
