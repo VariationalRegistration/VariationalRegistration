@@ -4,10 +4,8 @@
 - Check results for FFTWF (jan)
 - Check for unnecessary #includes (??)
 - Add documentation in 
-  include/itkContinuousBorderWarpImageFilter.h               (Alex)
   include/itkMultiResolutionVariationalRegistration.h        (??)
   include/itkVariationalRegistrationStopCriterion.h 	     (Alex)
-  include/itkVariationalRegistrationLogger.h                 (Alex)
 - Resolve issue with accuracy in velocity exponentiation     (Rene)
 - Check for issue with GaussianSmoothing and UseImageSpacing (Alex)
 - Check for tau and alpha in equations in the documentation  (Rene)
@@ -19,7 +17,9 @@ DONE:
 - Remove warnings for unused variables during compile
 - Check for failed tests with GaussianSmoothing in ITK-4.5.2
 - Doku in  include/itkVariationalDiffeomorphicRegistrationFilter.h    
-- Doku in  include/itkVariationalSymmetricDiffeomorphicRegistrationFilter.h
+- Doku in  include/itkVariationalSymmetricDiffeomorphicRegistrationFilter.h  
+- Doku in  include/itkVariationalRegistrationLogger.h                 (Jan)
+- Doku in  include/itkContinuousBorderWarpImageFilter.h               (Jan)
 - ADD dependency on ITK_USE_FFTWD (jan)
 - Remove errors in test VariationalRegistrationInDoxygenGroup (Alex)
 - Add a test to use with CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}") to remove warnings (jan)
