@@ -5,12 +5,9 @@ SET(${itk-module}Tests
     VariationalRegistrationMultiResolutionFilterTest.cxx
 )
 
-# list(APPEND ExternalData_URL_TEMPLATES "https://googledrive.com/host/0B-qP96NdUKVfTFVZYUNyNEJoTlk/ExternalData_%(algo)_%(hash)")
-# list(APPEND ExternalData_URL_TEMPLATES "file:///vol/medic01/users/aschmidt/Dropbox/ITKExternalData/ExternalData_%(algo)_%(hash)")
+# both approaches do not work
 #list(APPEND ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
 set(ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
-
-MESSAGE(STATUS "Using OpenCL: ${ExternalData_URL_TEMPLATES}")
 
 CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
 
@@ -20,6 +17,7 @@ CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module
 #
 #####################################
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
+set(INPUTDIR ${${itk-module}_SOURCE_DIR}/test/Input)
 
 itk_add_test(NAME VariationalRegistrationFilterTest
       COMMAND ${itk-module}TestDriver VariationalRegistrationFilterTest)
@@ -30,7 +28,7 @@ itk_add_test(NAME VariationalRegistrationMultiResolutionFilterTest
 #####################################
 # 2D tests
 #####################################
-SET(COMMON_PARAMS2D -F DATA{Input/img1.png} -M DATA{Input/img2.png} -l 4 -p 1 -g 0.00001)
+SET(COMMON_PARAMS2D -F ${INPUTDIR}/img1.png -M ${INPUTDIR}/img2.png -l 4 -p 1 -g 0.00001)
 
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian2DTest)
@@ -62,16 +60,16 @@ itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TE
 
 # Active Thirion forces, diffusive regularization, diffeomorphic transform
 set(TESTNAME VariationalRegistrationDiffeomorph2DTest)
-itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 1 -a 1.5 -s 1 -W ${TEMP}/${TESTNAME}.tif)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 1 -a 1.5 -s 1 -e 2 -W ${TEMP}/${TESTNAME}.tif)
 
 # Active Thirion forces, diffusive regularization, symmetric diffeomorphic transform
 set(TESTNAME VariationalRegistrationSymDiff2DTest)
-itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 1 -a 1.5 -s 2 -W ${TEMP}/${TESTNAME}.tif)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 1 -a 1.5 -s 2 -e 2 -W ${TEMP}/${TESTNAME}.tif)
 
 #####################################
 # 3D tests
 #####################################
-SET(COMMON_PARAMS3D -F DATA{Input/10-P_5x5x5.nii.gz} -M DATA{Input/60-P_5x5x5.nii.gz} -l 3 -p 1 -g 0.00001)
+SET(COMMON_PARAMS3D -F ${INPUTDIR}/10-P_5x5x5.nii.gz -M ${INPUTDIR}/60-P_5x5x5.nii.gz -l 3 -p 1 -g 0.00001)
 
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian3DTest)
@@ -95,9 +93,9 @@ itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TE
 
 # Active Thirion forces and diffusive regularization, diffeomorphic transform
 set(TESTNAME VariationalRegistrationDiffeomorph3DTest)
-itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 1 -a 1 -s 1 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 1 -a 1 -s 1 -e 2 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
 
 # Active Thirion forces and diffusive regularization, symmetric diffeomorphic transform
 set(TESTNAME VariationalRegistrationSymDiff3DTest)
-itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 1 -a 1 -s 2 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 1 -a 1 -s 2 -e 2 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
 
