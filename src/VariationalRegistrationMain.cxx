@@ -468,7 +468,7 @@ int main( int argc, char *argv[] )
   typedef ImageFileReader<ImageType>                 ImageReaderType;
   typedef ImageFileWriter<ImageType>                 ImageWriterType;
 
-  typedef VariationalRegistrationDemonsFunction<ImageType,ImageType,DisplacementFieldType>::MaskImageType
+  typedef VariationalRegistrationFunction<ImageType,ImageType,DisplacementFieldType>::MaskImageType
                                                      MaskType;
   typedef MaskType::Pointer                          MaskPointerType;
   typedef ImageFileReader<MaskType>                  MaskReaderType;

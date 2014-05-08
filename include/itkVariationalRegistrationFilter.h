@@ -84,8 +84,8 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  *
- * For details see: <i>Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt: 
- * "Estimation of lung motion fields in 4D CT data by variational non-linear intensity-based registration: 
+ * For details see: <i>Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
+ * "Estimation of lung motion fields in 4D CT data by variational non-linear intensity-based registration:
  *  A comparison and evaluation study", Phys. Med. Biol., 2014</i>
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
@@ -190,7 +190,7 @@ public:
    * elastic in nature. If SmoothDisplacementField is on, then the
    * deformation field is smoothed using the DenseRegistrationRegularizer. */
   itkSetMacro( SmoothDisplacementField, bool );
-  itkGetMacro( SmoothDisplacementField, bool );
+  itkGetConstMacro( SmoothDisplacementField, bool );
   itkBooleanMacro( SmoothDisplacementField );
 
   /** Set/Get whether the update field is smoothed
@@ -198,7 +198,7 @@ public:
    * viscous in nature. If SmoothUpdateField is on, then the
    * update field is smoothed using the DenseRegistrationRegularizer. */
   itkSetMacro( SmoothUpdateField, bool );
-  itkGetMacro( SmoothUpdateField, bool );
+  itkGetConstMacro( SmoothUpdateField, bool );
   itkBooleanMacro( SmoothUpdateField );
 
   /** Get the metric value. The metric value is the mean square difference

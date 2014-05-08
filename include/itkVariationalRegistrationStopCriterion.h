@@ -115,24 +115,50 @@ public:
   /** Get maximum distance to regression line. */
   itkGetMacro( MaxDistanceToRegressionLine, double );
 
+  /** Enumerate for the different line fitting modes. */
+  enum LineFittingMode {
+    LINE_FITTING_MODE_ORIGINAL = 0,
+    LINE_FITTING_MODE_NORMALIZED = 1,
+    LINE_FITTING_MODE_SCALED = 2
+  };
+
+  /** Set the line fitting mode. */
+  itkSetEnumMacro( LineFittingMode, LineFittingMode );
+
+  /** Get the line fitting mode. */
+  itkGetEnumMacro( LineFittingMode, LineFittingMode );
+
   void SetLineFittingModeToOriginalValues()
-    { m_LineFittingMode = LINE_FITTING_MODE_ORIGINAL; }
+    { this->SetLineFittingMode( LINE_FITTING_MODE_ORIGINAL ); }
 
   void SetLineFittingModeToNormalizedValues()
-    { m_LineFittingMode = LINE_FITTING_MODE_NORMALIZED; }
+    { this->SetLineFittingMode( LINE_FITTING_MODE_NORMALIZED ); }
 
   void SetLineFittingModeToScaledValues()
-    { m_LineFittingMode = LINE_FITTING_MODE_SCALED; }
+    { this->SetLineFittingMode( LINE_FITTING_MODE_SCALED ); }
+
+  /** Enumerate for the different multi-resolution stop criterion strategies. */
+  enum MultiResolutionPolicy {
+    MULTI_RESOLUTION_POLICY_DEFAULT = 0,
+    MULTI_RESOLUTION_POLICY_SIMPLE_GRADUATED = 1,
+    MULTI_RESOLUTION_POLICY_GRADUATED = 2
+  };
+
+  /** Set the multi resolution policy. */
+  itkSetEnumMacro( MultiResolutionPolicy, MultiResolutionPolicy );
+
+  /** Get the multi resolution policy. */
+  itkGetEnumMacro( MultiResolutionPolicy, MultiResolutionPolicy );
 
   /** In each level, use the default stop criterion of the registration filter. */
   void SetMultiResolutionPolicyToDefault()
-    { m_MultiResolutionPolicy = MULTI_RESOLUTION_POLICY_DEFAULT; }
+    { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_DEFAULT ); }
 
   /** Apply a simple graduated policy:
    *  - On coarser levels, perform increase count check.
    *  - On finest level, also apply line fitting. */
   void SetMultiResolutionPolicyToSimpleGraduated()
-    { m_MultiResolutionPolicy = MULTI_RESOLUTION_POLICY_SIMPLE_GRADUATED; }
+    { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_SIMPLE_GRADUATED ); }
 
   /** Apply a graduated policy:
    *  - On coarser levels, perform no check at all, i.e. always execute the
@@ -140,7 +166,7 @@ public:
    *  - On the second finest level, perform increase count check.
    *  - On finest level, also apply line fitting. */
   void SetMultiResolutionPolicyToGraduated()
-    { m_MultiResolutionPolicy = MULTI_RESOLUTION_POLICY_GRADUATED; }
+    { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_GRADUATED ); }
 
   void Execute( itk::Object *caller, const itk::EventObject & event );
 
@@ -150,20 +176,6 @@ protected:
   VariationalRegistrationStopCriterion();
   ~VariationalRegistrationStopCriterion();
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /** Enumerate for the different multi-resolution stop criterion strategies. */
-  enum MultiResolutionPolicy {
-    MULTI_RESOLUTION_POLICY_DEFAULT = 0,
-    MULTI_RESOLUTION_POLICY_SIMPLE_GRADUATED = 1,
-    MULTI_RESOLUTION_POLICY_GRADUATED = 2
-  };
-
-  /** Enumerate for the different line fitting modes. */
-  enum LineFittingMode {
-    LINE_FITTING_MODE_ORIGINAL = 0,
-    LINE_FITTING_MODE_NORMALIZED = 1,
-    LINE_FITTING_MODE_SCALED = 2
-  };
 
   /** Set the flags according to the multi-resolution policy for
    * the next level. */
