@@ -235,6 +235,9 @@ public:
 
   /** Set number of iterations per multi-resolution levels. */
   itkSetMacro( NumberOfIterations, NumberOfIterationsType );
+
+  /** Set number of iterations per multi-resolution levels to the same value in
+   *  each dimension. */
   itkSetVectorMacro( NumberOfIterations, unsigned int, m_NumberOfLevels );
 
   /** Get number of iterations per multi-resolution levels. */
@@ -252,6 +255,8 @@ public:
 protected:
   VariationalRegistrationMultiResolutionFilter();
   ~VariationalRegistrationMultiResolutionFilter() {}
+
+  /** Print information about the filter. */
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   /** Generate output data by performing the registration

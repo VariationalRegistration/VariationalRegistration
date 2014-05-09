@@ -183,6 +183,8 @@ public:
 protected:
   VariationalRegistrationFunction();
   ~VariationalRegistrationFunction() {}
+
+  /** Print information about the filter. */
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Warp the moving image into the domain of the fixed image using the
