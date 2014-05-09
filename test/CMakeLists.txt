@@ -17,7 +17,6 @@ CreateTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module
 #
 #####################################
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
-set(INPUTDIR ${${itk-module}_SOURCE_DIR}/test/Input)
 
 itk_add_test(NAME VariationalRegistrationFilterTest
       COMMAND ${itk-module}TestDriver VariationalRegistrationFilterTest)
@@ -28,15 +27,15 @@ itk_add_test(NAME VariationalRegistrationMultiResolutionFilterTest
 #####################################
 # 2D tests
 #####################################
-SET(COMMON_PARAMS2D -F ${INPUTDIR}/img1.png -M ${INPUTDIR}/img2.png -l 4 -p 1 -g 0.00001)
+SET(COMMON_PARAMS2D -F DATA{Input/img1.png} -M DATA{Input/img2.png} -l 4 -p 1 -g 0.00001)
 
 # Print help test
-set(TESTNAME VariationalRegistrationPrintHelpTest)
-itk_add_test(NAME ${TESTNAME}  COMMAND itkTestDriver $<TARGET_FILE:VariationalRegistration2D> -?)
+set(TESTNAME VariationalRegistration2DPrintHelpTest)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver $<TARGET_FILE:VariationalRegistration2D> -?)
 
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian2DTest)
-itk_add_test(NAME ${TESTNAME}  COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 0 -v 1.5 -u 0  -W ${TEMP}/${TESTNAME}.tif)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 0 -v 1.5 -u 0  -W ${TEMP}/${TESTNAME}.tif)
 
 # Active Thirion forces and diffusive regularization
 set(TESTNAME VariationalRegistrationDiffusive2DTest)
@@ -75,9 +74,13 @@ itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TE
 #####################################
 SET(COMMON_PARAMS3D -F ${INPUTDIR}/10-P_5x5x5.nii.gz -M ${INPUTDIR}/60-P_5x5x5.nii.gz -l 3 -p 1 -g 0.00001)
 
+# Print help test
+set(TESTNAME VariationalRegistration3DPrintHelpTest)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver $<TARGET_FILE:VariationalRegistration> -?)
+
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian3DTest)
-itk_add_test(NAME ${TESTNAME}  COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 0 -v 1.5 -u 0  -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 0 -v 1.5 -u 0  -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
 
 # Active Thirion forces and diffusive regularization
 set(TESTNAME VariationalRegistrationDiffusive3DTest)
