@@ -85,11 +85,11 @@ class ITK_EXPORT VariationalRegistrationMultiResolutionFilter :
 {
 public:
   /** Standard class typedefs */
-  typedef VariationalRegistrationMultiResolutionFilter   Self;
+  typedef VariationalRegistrationMultiResolutionFilter Self;
   typedef ImageToImageFilter< TDisplacementField, TDisplacementField >
-                                                   Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
+                                                       Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,18 +98,18 @@ public:
   itkTypeMacro( VariationalRegistrationMultiResolutionFilter, ImageToImageFilter );
 
   /** Fixed image type. */
-  typedef TFixedImage                               FixedImageType;
-  typedef typename FixedImageType::Pointer          FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer     FixedImageConstPointer;
+  typedef TFixedImage                                 FixedImageType;
+  typedef typename FixedImageType::Pointer            FixedImagePointer;
+  typedef typename FixedImageType::ConstPointer       FixedImageConstPointer;
 
   /** Moving image type. */
-  typedef TMovingImage                              MovingImageType;
-  typedef typename MovingImageType::Pointer         MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer    MovingImageConstPointer;
+  typedef TMovingImage                                MovingImageType;
+  typedef typename MovingImageType::Pointer           MovingImagePointer;
+  typedef typename MovingImageType::ConstPointer      MovingImageConstPointer;
 
   /** Deformation field image type. */
-  typedef TDisplacementField                        DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer   DisplacementFieldPointer;
+  typedef TDisplacementField                          DisplacementFieldType;
+  typedef typename DisplacementFieldType::Pointer     DisplacementFieldPointer;
 
   /** ImageDimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
@@ -125,35 +125,35 @@ public:
 
   /** The internal registration type. */
   typedef VariationalRegistrationFilter< FixedImageType, MovingImageType, DisplacementFieldType >
-                                                    RegistrationType;
-  typedef typename RegistrationType::Pointer        RegistrationPointer;
+                                                      RegistrationType;
+  typedef typename RegistrationType::Pointer          RegistrationPointer;
 
   /** The default registration type. */
   typedef VariationalRegistrationFilter< FixedImageType, MovingImageType, DisplacementFieldType >
-                                                    DefaultRegistrationType;
+                                                      DefaultRegistrationType;
 
   /** The fixed multi-resolution image pyramid type. */
   typedef MultiResolutionPyramidImageFilter< FixedImageType, FixedImageType >
-                                                    FixedImagePyramidType;
-  typedef typename FixedImagePyramidType::Pointer   FixedImagePyramidPointer;
+                                                      FixedImagePyramidType;
+  typedef typename FixedImagePyramidType::Pointer     FixedImagePyramidPointer;
 
   /** The moving multi-resolution image pyramid type. */
   typedef MultiResolutionPyramidImageFilter< MovingImageType, MovingImageType >
-                                                    MovingImagePyramidType;
-  typedef typename MovingImagePyramidType::Pointer  MovingImagePyramidPointer;
+                                                      MovingImagePyramidType;
+  typedef typename MovingImagePyramidType::Pointer    MovingImagePyramidPointer;
 
   /** The mask multi-resolution image pyramid type. */
   typedef MultiResolutionPyramidImageFilter< FloatImageType, FloatImageType >
-                                                    MaskImagePyramidType;
-  typedef typename MaskImagePyramidType::Pointer    MaskImagePyramidPointer;
+                                                      MaskImagePyramidType;
+  typedef typename MaskImagePyramidType::Pointer      MaskImagePyramidPointer;
 
   /** The deformation field expander type. */
   typedef VectorResampleImageFilter< DisplacementFieldType, DisplacementFieldType >
-                                                    FieldExpanderType;
-  typedef typename FieldExpanderType::Pointer       FieldExpanderPointer;
+                                                      FieldExpanderType;
+  typedef typename FieldExpanderType::Pointer         FieldExpanderPointer;
 
   /** Array containing the number of iterations. */
-  typedef Array< unsigned int >                     NumberOfIterationsType;
+  typedef Array< unsigned int >                       NumberOfIterationsType;
 
   /** Set the fixed image. */
   virtual void SetFixedImage( const FixedImageType * ptr );
