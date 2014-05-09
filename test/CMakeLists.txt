@@ -30,6 +30,10 @@ itk_add_test(NAME VariationalRegistrationMultiResolutionFilterTest
 #####################################
 SET(COMMON_PARAMS2D -F ${INPUTDIR}/img1.png -M ${INPUTDIR}/img2.png -l 4 -p 1 -g 0.00001)
 
+# Print help test
+set(TESTNAME VariationalRegistrationPrintHelpTest)
+itk_add_test(NAME ${TESTNAME}  COMMAND itkTestDriver $<TARGET_FILE:VariationalRegistration2D> -?)
+
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian2DTest)
 itk_add_test(NAME ${TESTNAME}  COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 0 -v 1.5 -u 0  -W ${TEMP}/${TESTNAME}.tif)
