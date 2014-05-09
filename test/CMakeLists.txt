@@ -72,7 +72,7 @@ itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TE
 #####################################
 # 3D tests
 #####################################
-SET(COMMON_PARAMS3D -F ${INPUTDIR}/10-P_5x5x5.nii.gz -M ${INPUTDIR}/60-P_5x5x5.nii.gz -l 3 -p 1 -g 0.00001)
+SET(COMMON_PARAMS3D -F DATA{Input/10-P_5x5x5.nii.gz} -M DATA{Input/60-P_5x5x5.nii.gz} -l 3 -p 1 -g 0.00001)
 
 # Print help test
 set(TESTNAME VariationalRegistration3DPrintHelpTest)
