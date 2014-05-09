@@ -142,7 +142,7 @@ protected:
   /** solve the LES after forward FFTs (and before backward FFTs). Multithreaded method. */
   virtual void ThreadedSolveElasticLES( OffsetValueType from, OffsetValueType to );
 
-  /** Calculate the offset in the complex image. */
+  /** Calculate the index in the complex image for a given offset. */
   typename DisplacementFieldType::IndexType CalculateComplexImageIndex(
       OffsetValueType offset );
 
