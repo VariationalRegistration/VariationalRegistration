@@ -149,7 +149,7 @@ protected:
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Type of available image forces */
   enum GradientType {

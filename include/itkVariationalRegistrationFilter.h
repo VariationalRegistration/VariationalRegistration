@@ -62,7 +62,7 @@ namespace itk {
  *    - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
  *
  *  \f$ StopCriterion\f$ is implemented in the class VariationalRegistrationStopCriterion.
- *  Use AddObserver( IterationEvent(), \f$ StopCriterion\f$) to enable different types of stop criteria in the
+ *  Use AddObserver() to enable different types of stop criteria in the
  *  variational registration framework.
  *
  *  VariationalRegistrationFilter has the following parameters:
@@ -166,22 +166,22 @@ public:
   itkGetConstReferenceObjectMacro( Regularizer, RegularizerType );
 
   /** Set the fixed image. */
-  void SetFixedImage( const FixedImageType * ptr );
+  virtual void SetFixedImage( const FixedImageType * ptr );
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void) const;
+  virtual const FixedImageType * GetFixedImage(void) const;
 
   /** Set the moving image. */
-  void SetMovingImage( const MovingImageType * ptr );
+  virtual void SetMovingImage( const MovingImageType * ptr );
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void) const;
+  virtual const MovingImageType * GetMovingImage(void) const;
 
   /** Set the mask image. */
-  void SetMaskImage( const MaskImageType * ptr );
+  virtual void SetMaskImage( const MaskImageType * ptr );
 
   /** Get the mask image. */
-  const MaskImageType * GetMaskImage(void) const;
+  virtual const MaskImageType * GetMaskImage(void) const;
 
   /** Set initial deformation field. */
   virtual void SetInitialDisplacementField( DisplacementFieldType * ptr )
@@ -245,7 +245,7 @@ protected:
   ~VariationalRegistrationFilter() {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest

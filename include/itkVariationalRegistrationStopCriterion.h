@@ -28,11 +28,11 @@ namespace itk {
 
 /** \class itk::VariationalRegistrationStopCriterion
  *
- *  A flexible stop criterion for the variational registration framework.
+ *  \brief A flexible stop criterion for the variational registration framework.
  *
  *  This stop criterion is realised as an observer for the
- *  itkVariationalRegistrationFilter and
- *  itkVariationalRegistrationMultiResolutionFilter.
+ *  VariationalRegistrationFilter and
+ *  VariationalRegistrationMultiResolutionFilter.
  *  It allows testing for
  *    - Number of increase counts for the associated metric
  *    - Slope of a line fitted to the last metric values
@@ -128,7 +128,7 @@ public:
    * value the gradient is smaller then DistanceGradientThresh, the stop
    * criterion is satisfied.
    * \param it Number of fitting iterations. */
-  void SetNumberOfFittingIterations( const int it );
+  virtual void SetNumberOfFittingIterations( const int it );
 
   /** Get number of fitting iterations. */
   itkGetMacro( NumberOfFittingIterations, int );
@@ -163,15 +163,15 @@ public:
   itkGetEnumMacro( LineFittingMode, LineFittingMode );
 
   /** Set line fitting mode to original. */
-  void SetLineFittingModeToOriginalValues()
+  virtual void SetLineFittingModeToOriginalValues()
     { this->SetLineFittingMode( LINE_FITTING_MODE_ORIGINAL ); }
 
   /** Set line fitting mode to normalized values. */
-  void SetLineFittingModeToNormalizedValues()
+  virtual void SetLineFittingModeToNormalizedValues()
     { this->SetLineFittingMode( LINE_FITTING_MODE_NORMALIZED ); }
 
   /** Set line fitting mode to scaled values. */
-  void SetLineFittingModeToScaledValues()
+  virtual void SetLineFittingModeToScaledValues()
     { this->SetLineFittingMode( LINE_FITTING_MODE_SCALED ); }
 
   /** Enumerate for the different multi resolution policies. */
@@ -195,13 +195,13 @@ public:
   itkGetEnumMacro( MultiResolutionPolicy, MultiResolutionPolicy );
 
   /** In each level, use the default stop criterion of the registration filter. */
-  void SetMultiResolutionPolicyToDefault()
+  virtual void SetMultiResolutionPolicyToDefault()
     { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_DEFAULT ); }
 
   /** Apply a simple graduated policy:
    *  - On coarser levels, perform increase count check.
    *  - On finest level, also apply line fitting. */
-  void SetMultiResolutionPolicyToSimpleGraduated()
+  virtual void SetMultiResolutionPolicyToSimpleGraduated()
     { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_SIMPLE_GRADUATED ); }
 
   /** Apply a graduated policy:
@@ -209,19 +209,19 @@ public:
    *    max number of iterations.
    *  - On the second finest level, perform increase count check.
    *  - On finest level, also apply line fitting. */
-  void SetMultiResolutionPolicyToGraduated()
+  virtual void SetMultiResolutionPolicyToGraduated()
     { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_GRADUATED ); }
 
-  void Execute( itk::Object *caller, const itk::EventObject & event );
+  virtual void Execute( itk::Object *caller, const itk::EventObject & event );
 
-  void Execute( const itk::Object *caller, const itk::EventObject & event );
+  virtual void Execute( const itk::Object *caller, const itk::EventObject & event );
 
 protected:
   VariationalRegistrationStopCriterion();
   ~VariationalRegistrationStopCriterion();
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Set the flags according to the multi-resolution policy for
    * the next level. */
@@ -240,7 +240,7 @@ protected:
   virtual bool CheckStopRegistration();
 
   /** Calculate linear regression line. */
-  void FitLine( const double *const x, const double *const y,
+  virtual void FitLine( const double *const x, const double *const y,
       const int n, double *m, double *b);
 
 private:
@@ -277,7 +277,7 @@ private:
   // Distance and iteration array.
   double*               m_DistanceArray;
   double*               m_IterationArray;
-  double *              m_DistanceArrayForFitting;
+  double*               m_DistanceArrayForFitting;
 };
 
 } // end namespace itk

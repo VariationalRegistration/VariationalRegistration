@@ -31,7 +31,7 @@ namespace itk {
  *  vector field \f$ u \f$ and the output is the regularized (i.e. smoothed) vector field.
  *
  *  Implement a concrete regularization method in a subclass; overwrite the methods
- *  \c Initialize() and \c GenerateData().
+ *  Initialize() and GenerateData().
  *
  *  \sa VariationalRegistrationFilter
  *
@@ -85,7 +85,7 @@ protected:
   ~VariationalRegistrationRegularizer() {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Initialize the filter. */
   virtual void Initialize() {};
