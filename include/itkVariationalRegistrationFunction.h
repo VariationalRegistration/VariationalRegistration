@@ -153,7 +153,7 @@ public:
     { return m_MaskBackgroundThreshold; }
 
   /** Set the object's state before each iteration. */
-  virtual virtual void InitializeIteration();
+  virtual void InitializeIteration();
 
   /** Computes the time step for an update.
    * Returns the constant time step.
