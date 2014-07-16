@@ -17,6 +17,9 @@
  *=========================================================================*/
 #ifndef __itkVariationalRegistrationElasticRegularizer_hxx
 #define __itkVariationalRegistrationElasticRegularizer_hxx
+
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
+
 #include "itkVariationalRegistrationElasticRegularizer.h"
 
 #include "itkImageRegionConstIterator.h"
@@ -672,5 +675,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 }
 
 }      // end namespace itk
+
+#endif
 
 #endif

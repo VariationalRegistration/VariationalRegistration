@@ -21,6 +21,8 @@
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreader.h"
 
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
+
 // other includes:
 #include "itkFFTWCommon.h"
 
@@ -89,7 +91,7 @@ public:
   typedef double RealTypeFFT;
   #else
     #if defined( ITK_USE_FFTWF )
-    //Allow to use single precision
+      //Allow to use single precision
       #warning "Using single precision for FFT computations!"
   typedef float RealTypeFFT;
     #endif
@@ -199,4 +201,5 @@ private:
 # include "itkVariationalRegistrationElasticRegularizer.hxx"
 #endif
 
+#endif
 #endif
