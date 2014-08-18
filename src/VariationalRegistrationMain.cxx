@@ -71,7 +71,8 @@ extern "C"
 #include "itkVariationalRegistrationGaussianRegularizer.h"
 #include "itkVariationalRegistrationDiffusionRegularizer.h"
 #if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
-  #include "itkVariationalRegistrationElasticRegularizer.h"
+#include "itkVariationalRegistrationElasticRegularizer.h"
+#include "itkVariationalRegistrationCurvatureRegularizer.h"
 #endif
 
 #include "itkVariationalRegistrationStopCriterion.h"
@@ -135,11 +136,12 @@ void PrintHelp()
   std::cout << "                               diffeomorphic registration (search space 1 or 2)." << std::endl;
   std::cout << std::endl;
   std::cout << "  Parameters for regularizer:" << std::endl;
-  std::cout << "    -r 0|1|2                 Select regularizer." << std::endl;
+  std::cout << "    -r 0|1|2|3               Select regularizer." << std::endl;
   std::cout << "                               0: Gaussian smoother." << std::endl;
   std::cout << "                               1: Diffusive regularizer (default)." << std::endl;
   std::cout << "                               2: Elastic regularizer." << std::endl;
-  std::cout << "    -a <alpha>               Alpha for the regularization (only diffusive)." << std::endl;
+  std::cout << "                               3: Curvature regularizer." << std::endl;
+  std::cout << "    -a <alpha>               Alpha for the regularization (only diffusive or curvature)." << std::endl;
   std::cout << "    -v <variance>            Variance for the regularization (only gaussian)." << std::endl;
   std::cout << "    -m <mu>                  Mu for the regularization (only elastic)." << std::endl;
   std::cout << "    -b <lambda>              Lambda for the regularization (only elasic)." << std::endl;
@@ -343,6 +345,10 @@ int main( int argc, char *argv[] )
       else if( regularizerType == 2 )
       {
         std::cout << "  Regularizer:                     Elastic" << std::endl;
+      }
+      else if( regularizerType == 3 )
+      {
+        std::cout << "  Regularizer:                     Curvature" << std::endl;
       }
       else
       {
@@ -700,6 +706,7 @@ int main( int argc, char *argv[] )
   typedef VariationalRegistrationDiffusionRegularizer<DisplacementFieldType> DiffusionRegularizerType;
 #if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
   typedef VariationalRegistrationElasticRegularizer<DisplacementFieldType>   ElasticRegularizerType;
+  typedef VariationalRegistrationCurvatureRegularizer<DisplacementFieldType> CurvatureRegularizerType;
 #endif
 
   RegularizerType::Pointer regularizer;
@@ -726,6 +733,17 @@ int main( int argc, char *argv[] )
     elasticRegularizer->SetMu( regulMu );
     elasticRegularizer->SetLambda( regulLambda );
     regularizer = elasticRegularizer;
+#else
+    ExceptionMacro( << "ITK has to be built with ITK_USE_FFTWD set ON for elastic regularisation!" );
+#endif
+    }
+    break;
+  case 3:
+    {
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
+    CurvatureRegularizerType::Pointer curvatureRegularizer = CurvatureRegularizerType::New();
+    curvatureRegularizer->SetAlpha( regulAlpha );
+    regularizer = curvatureRegularizer;
 #else
     ExceptionMacro( << "ITK has to be built with ITK_USE_FFTWD set ON for elastic regularisation!" );
 #endif
