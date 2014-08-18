@@ -18,7 +18,7 @@
 #ifndef __itkVariationalRegistrationCurvatureRegularizer_hxx
 #define __itkVariationalRegistrationCurvatureRegularizer_hxx
 
-//#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
 
 #include "itkVariationalRegistrationCurvatureRegularizer.h"
 
@@ -476,4 +476,4 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::PrintSelf(
 
 #endif
 
-//#endif
+#endif
