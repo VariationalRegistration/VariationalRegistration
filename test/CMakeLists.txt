@@ -41,11 +41,13 @@ itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TE
 set(TESTNAME VariationalRegistrationDiffusive2DTest)
 itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 1 -a 1.5 -W ${TEMP}/${TESTNAME}.tif)
 
-if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  # Active Thirion forces and elastic regularization
-  set(TESTNAME VariationalRegistrationElastic2DTest)
-  itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 2 -m 0.5 -b 1.0 -W ${TEMP}/${TESTNAME}.tif)
-endif(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+# Active Thirion forces and elastic regularization
+set(TESTNAME VariationalRegistrationElastic2DTest)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 2 -m 0.5 -b 1.0 -W ${TEMP}/${TESTNAME}.tif)
+
+# Active Thirion forces and curvature regularization
+set(TESTNAME VariationalRegistrationCurvature2DTest)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.tif} ${TEMP}/${TESTNAME}.tif $<TARGET_FILE:VariationalRegistration2D> ${COMMON_PARAMS2D} -r 3 -a 1 -W ${TEMP}/${TESTNAME}.tif)
 
 # Passive Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationPassiveDemons2D)
@@ -88,11 +90,13 @@ itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TE
 set(TESTNAME VariationalRegistrationDiffusive3DTest)
 itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 1 -a 1 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
 
-if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  # Active Thirion forces and elastic regularization
-  set(TESTNAME VariationalRegistrationElastic3DTest)
-  itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 2 -m 0.25 -b 0.25 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
-endif(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+# Active Thirion forces and elastic regularization
+set(TESTNAME VariationalRegistrationElastic3DTest)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 2 -m 0.25 -b 0.25 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
+
+# Active Thirion forces and curvature regularization
+set(TESTNAME VariationalRegistrationCurvature3DTest)
+itk_add_test(NAME ${TESTNAME} COMMAND itkTestDriver --compare DATA{Baseline/${TESTNAME}.nii.gz} ${TEMP}/${TESTNAME}.nii.gz $<TARGET_FILE:VariationalRegistration> ${COMMON_PARAMS3D} -r 3 -a 1 -W ${TEMP}/${TESTNAME}.nii.gz -O ${TEMP}/${TESTNAME}_displ.mhd)
 
 # SSD forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationSSD3DTest)
