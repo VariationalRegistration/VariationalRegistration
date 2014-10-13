@@ -138,7 +138,8 @@ public:
    /** Computes the time step for an update.
    * Returns the constant time step scaled with the mean squared spacing.
    * \sa SetTimeStep() */
-  virtual typename Superclass::TimeStepType ComputeGlobalTimeStep(void * gd ) const;
+  virtual typename Superclass::TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
+    { return return this->GetTimeStep() * m_Normalizer; }
 
 protected:
   VariationalRegistrationNCCFunction();
