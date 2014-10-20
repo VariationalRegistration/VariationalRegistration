@@ -139,7 +139,7 @@ public:
    * Returns the constant time step scaled with the mean squared spacing.
    * \sa SetTimeStep() */
   virtual typename Superclass::TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
-    { return return this->GetTimeStep() * m_Normalizer; }
+    { return this->GetTimeStep() * m_Normalizer; }
 
 protected:
   VariationalRegistrationNCCFunction();

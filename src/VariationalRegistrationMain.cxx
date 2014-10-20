@@ -794,7 +794,7 @@ int main( int argc, char *argv[] )
   //
   // Setup multi-resolution filter
   //
-  unsigned int its[numberOfLevels];
+  Array< unsigned int > its(numberOfLevels);
   its[numberOfLevels - 1] = numberOfIterations;
   for( int level = numberOfLevels - 2; level >= 0; --level )
     {
