@@ -66,6 +66,7 @@ extern "C"
 #include "itkVariationalRegistrationDemonsFunction.h"
 #include "itkVariationalRegistrationSSDFunction.h"
 #include "itkVariationalRegistrationNCCFunction.h"
+#include "itkVariationalRegistrationFastNCCFunction.h"
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkVariationalRegistrationGaussianRegularizer.h"
@@ -624,7 +625,7 @@ int main( int argc, char *argv[] )
       ImageType, ImageType, DisplacementFieldType> DemonsFunctionType;
   typedef VariationalRegistrationSSDFunction<
       ImageType, ImageType, DisplacementFieldType> SSDFunctionType;
-  typedef VariationalRegistrationNCCFunction<
+  typedef VariationalRegistrationFastNCCFunction<
       ImageType, ImageType, DisplacementFieldType> NCCFunctionType;
 
   FunctionType::Pointer function;
