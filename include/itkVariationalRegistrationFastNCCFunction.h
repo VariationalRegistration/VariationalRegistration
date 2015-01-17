@@ -143,11 +143,12 @@ protected:
     double          m_SumOfSquaredChange;
     IndexType       m_LastIndex;
     bool bValuesAreValid;
-    std::list<double> sfSliceValueList;
-    std::list<double> smSliceValueList;
-    std::list<double> sffSliceValueList;
-    std::list<double> smmSliceValueList;
-    std::list<double> sfmSliceValueList;
+    unsigned int lastSliceIndex;
+    std::vector<double> sfSliceValueList;
+    std::vector<double> smSliceValueList;
+    std::vector<double> sffSliceValueList;
+    std::vector<double> smmSliceValueList;
+    std::vector<double> sfmSliceValueList;
     double sfLastValue;
     double smLastValue;
     double sffLastValue;
