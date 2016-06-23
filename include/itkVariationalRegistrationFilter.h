@@ -195,7 +195,7 @@ public:
    * this checks whether the fixed and moving images have been
    * set. While DenseRegistration can take a third input as an
    * initial deformation field, this input is not a required input. */
-  virtual std::vector<SmartPointer<DataObject> >::size_type GetNumberOfValidRequiredInputs() const;
+  virtual std::vector<SmartPointer<DataObject> >::size_type GetNumberOfValidRequiredInputs() const ITK_OVERRIDE;
 
   /** Set that the deformation field is smoothed
    * (regularized). Smoothing the deformation yields a solution
@@ -245,7 +245,7 @@ protected:
   ~VariationalRegistrationFilter() {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -253,38 +253,38 @@ protected:
    *
    * For the fixed image and deformation field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If
    * the initial deformation field is not set, the output information is
    * copied from the fixed image. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  virtual void CopyInputToOutput();
+  virtual void CopyInputToOutput() ITK_OVERRIDE;
 
   /** This method is called before iterating the solution. */
-  virtual void Initialize();
+  virtual void Initialize() ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feedback is implemented as part of this method. */
-  virtual void InitializeIteration();
+  virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Apply update. */
-  virtual void ApplyUpdate( const TimeStepType& dt );
+  virtual void ApplyUpdate( const TimeStepType& dt ) ITK_OVERRIDE;
 
   /** Override VerifyInputInformation() since this filter's inputs do
    * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() {}
+  virtual void VerifyInputInformation() ITK_OVERRIDE {}
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving. */
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
     {  return (Superclass::Halt() || m_StopRegistrationFlag); }
 
   /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is
