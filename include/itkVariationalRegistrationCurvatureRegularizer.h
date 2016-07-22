@@ -53,6 +53,7 @@ namespace itk {
  *
  *  \note This class was developed with funding from the German Research
  *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
+ *
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt
