@@ -43,7 +43,7 @@ namespace itk {
  *  \author Jan Ehrhardt
  */
 template< class TRegistrationFilter, class TMRFilter >
-class ITK_EXPORT VariationalRegistrationLogger
+class VariationalRegistrationLogger
   : public Command
 {
 public:

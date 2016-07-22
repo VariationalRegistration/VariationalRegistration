@@ -61,7 +61,7 @@ namespace itk {
  *  \author Jan Ehrhardt
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT VariationalRegistrationFastNCCFunction :
+class VariationalRegistrationFastNCCFunction :
   public VariationalRegistrationNCCFunction< TFixedImage,  TMovingImage, TDisplacementField >
 {
 public:

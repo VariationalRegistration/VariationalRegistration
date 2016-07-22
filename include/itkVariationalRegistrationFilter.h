@@ -99,7 +99,7 @@ namespace itk {
  *     image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT VariationalRegistrationFilter
+class VariationalRegistrationFilter
   : public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
 {
 public:

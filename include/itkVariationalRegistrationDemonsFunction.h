@@ -52,7 +52,7 @@ namespace itk {
  *  \author Jan Ehrhardt
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT VariationalRegistrationDemonsFunction :
+class VariationalRegistrationDemonsFunction :
     public VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 {
 public:

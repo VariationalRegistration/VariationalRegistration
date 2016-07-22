@@ -60,7 +60,7 @@ template <
   class TOutputImage,
   class TDisplacementField
   >
-class ITK_EXPORT ContinuousBorderWarpImageFilter :
+class ContinuousBorderWarpImageFilter :
     public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
 {
 public:

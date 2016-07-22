@@ -59,7 +59,7 @@ namespace itk {
  *  \author Jan Ehrhardt
  */
 template< class TDisplacementField >
-class ITK_EXPORT VariationalRegistrationCurvatureRegularizer
+class VariationalRegistrationCurvatureRegularizer
   : public VariationalRegistrationRegularizer< TDisplacementField >
 {
 public:

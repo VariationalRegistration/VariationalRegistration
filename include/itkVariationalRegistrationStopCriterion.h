@@ -65,7 +65,7 @@ namespace itk {
  *  \author Jan Ehrhardt
  */
 template< class TRegistrationFilter, class TMRFilter >
-class ITK_EXPORT VariationalRegistrationStopCriterion
+class VariationalRegistrationStopCriterion
   : public Command
 {
 public:
