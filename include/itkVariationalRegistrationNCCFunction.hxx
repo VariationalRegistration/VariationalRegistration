@@ -132,9 +132,7 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
   //
   // Get fixed image information and neighborhood radius
   //
-  const RadiusType radius = it.GetRadius(); // should be same as this->GetRadius()
 
-  //
   // Compute sums and mean in local neighborhood
   // of current position index
   // Iterate in current neighborhood to compute the following values:
