@@ -442,7 +442,8 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ThreadedSo
  * Calculate the index in the complex image for a given offset.
  */
 template<class TDisplacementField>
-typename VariationalRegistrationCurvatureRegularizer<TDisplacementField>::DisplacementFieldType::IndexType VariationalRegistrationCurvatureRegularizer<TDisplacementField>::CalculateImageIndex( OffsetValueType offset )
+typename VariationalRegistrationCurvatureRegularizer<TDisplacementField>::DisplacementFieldType::IndexType VariationalRegistrationCurvatureRegularizer<TDisplacementField>
+::CalculateImageIndex( OffsetValueType offset )
 {
   typename DisplacementFieldType::IndexType index;
   typename DisplacementFieldType::IndexType requestedRegionIndex = this->GetOutput()->GetRequestedRegion().GetIndex();

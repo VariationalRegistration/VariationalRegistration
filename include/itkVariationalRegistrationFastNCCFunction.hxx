@@ -46,8 +46,9 @@ void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplace
  * Compute update at a non boundary neighbourhood
  */
 template<class TFixedImage, class TMovingImage, class TDisplacementField>
-typename VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
-    const NeighborhoodType &it, void *gd, const FloatOffsetType& itkNotUsed(offset) )
+typename VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
+::ComputeUpdate(const NeighborhoodType &it, void *gd, const FloatOffsetType& itkNotUsed(offset) )
 {
   NCCGlobalDataStruct *globalData = (NCCGlobalDataStruct *) gd;
   assert( globalData != NULL );
