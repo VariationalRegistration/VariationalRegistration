@@ -64,11 +64,10 @@ class VariationalRegistrationCurvatureRegularizer
 {
 public:
   /** Standard class typedefs */
-  typedef VariationalRegistrationCurvatureRegularizer  Self;
-  typedef VariationalRegistrationRegularizer<
-      TDisplacementField >                           Superclass;
-  typedef SmartPointer< Self >                       Pointer;
-  typedef SmartPointer< const Self >                 ConstPointer;
+  typedef VariationalRegistrationCurvatureRegularizer             Self;
+  typedef VariationalRegistrationRegularizer<TDisplacementField > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -168,8 +167,8 @@ private:
   /** FFT plans and buffers */
   typename FFTWProxyType::PlanType     m_PlanForward;   /** FFT forward plan  */
   typename FFTWProxyType::PlanType     m_PlanBackward;  /** FFT backward plan */
-  typename FFTWProxyType::PixelType* m_VectorFieldComponentBuffer;   /** FFT memory space for input/output spatial data */
-  typename FFTWProxyType::PixelType* m_DCTVectorFieldComponentBuffer;  /** FFT memory space for output/input frequency data */
+  typename FFTWProxyType::PixelType*   m_VectorFieldComponentBuffer;   /** FFT memory space for input/output spatial data */
+  typename FFTWProxyType::PixelType*   m_DCTVectorFieldComponentBuffer;  /** FFT memory space for output/input frequency data */
 
   struct CurvatureFFTThreadStruct
     {

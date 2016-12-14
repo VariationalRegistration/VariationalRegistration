@@ -69,6 +69,7 @@ public:
   typedef VariationalRegistrationFastNCCFunction     Self;
   typedef VariationalRegistrationNCCFunction< TFixedImage,  TMovingImage, TDisplacementField >
                                                  Superclass;
+                                                 
   typedef SmartPointer< Self >                   Pointer;
   typedef SmartPointer< const Self >             ConstPointer;
 
