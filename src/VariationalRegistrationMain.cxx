@@ -601,7 +601,7 @@ int main( int argc, char *argv[] )
       {
       matcher->Update();
       }
-    catch( itk::ExceptionObject& err )
+    catch( itk::ExceptionObject&  )
       {
       ExceptionMacro( << "Could not match input images!" );
       }
