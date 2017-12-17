@@ -52,7 +52,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
   m_MaskImagePyramid = MaskImagePyramidType::New();
 
   m_FieldExpander = FieldExpanderType::New();
-  m_DisplacementField = NULL;
+  m_DisplacementField = nullptr;
 
   m_NumberOfLevels = 3;
   m_NumberOfIterations.SetSize( m_NumberOfLevels );
@@ -312,8 +312,8 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
       (int) m_ElapsedLevels, (int) m_MaskImagePyramid->GetNumberOfLevels() );
 
   // Get valid input deformation field.
-  DisplacementFieldPointer tempField = NULL;
-  DisplacementFieldPointer displField = NULL;
+  DisplacementFieldPointer tempField = nullptr;
+  DisplacementFieldPointer displField = nullptr;
 
   // If InitialField is set, smooth and resample it to the size of the coarsest
   // level and then use it.
@@ -359,7 +359,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
     m_FieldExpander->UpdateLargestPossibleRegion();
-    m_FieldExpander->SetInput( NULL );
+    m_FieldExpander->SetInput( nullptr );
     tempField = m_FieldExpander->GetOutput();
     tempField->DisconnectPipeline();
     }
@@ -376,7 +376,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     // Set input deformation field.
     if( tempField.IsNull() )
       {
-      m_RegistrationFilter->SetInput( NULL );
+      m_RegistrationFilter->SetInput( nullptr );
       }
     else
       {
@@ -395,7 +395,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
       m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
       m_FieldExpander->UpdateLargestPossibleRegion();
-      m_FieldExpander->SetInput( NULL );
+      m_FieldExpander->SetInput( nullptr );
       tempField = m_FieldExpander->GetOutput();
       tempField->DisconnectPipeline();
 
@@ -522,9 +522,9 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     }
 
   // Release memory
-  m_FieldExpander->SetInput( NULL );
+  m_FieldExpander->SetInput( nullptr );
   m_FieldExpander->GetOutput()->ReleaseData();
-  m_RegistrationFilter->SetInput( NULL );
+  m_RegistrationFilter->SetInput( nullptr );
   m_RegistrationFilter->GetOutput()->ReleaseData();
 }
 

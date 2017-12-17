@@ -281,7 +281,7 @@ int VariationalRegistrationFilterTest(int, char* [] )
   bool passed = true;
   try
     {
-    regFilter->SetInput( NULL );
+    regFilter->SetInput( nullptr );
     regFilter->SetNumberOfIterations( 2 );
     regFilter->Update();
     }
@@ -306,7 +306,7 @@ int VariationalRegistrationFilterTest(int, char* [] )
   try
     {
     regFilter->SetInput( caster->GetOutput() );
-    regFilter->SetMovingImage( NULL );
+    regFilter->SetMovingImage( nullptr );
     regFilter->Update();
     }
   catch( itk::ExceptionObject & err )

@@ -54,9 +54,9 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   m_RegressionLineSlopeThreshold = 0.005;
   m_MaxDistanceToRegressionLine = 0.005;
 
-  m_IterationArray = NULL;
-  m_DistanceArray = NULL;
-  m_DistanceArrayForFitting = NULL;
+  m_IterationArray = nullptr;
+  m_DistanceArray = nullptr;
+  m_DistanceArrayForFitting = nullptr;
 
   m_MaxMetricValue = NumericTraits<double>::min();
   m_MinMetricValue = NumericTraits<double>::max();
@@ -71,11 +71,11 @@ template< class TRegistrationFilter, class TMRFilter >
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::~VariationalRegistrationStopCriterion()
 {
-  if( m_IterationArray != NULL )
+  if( m_IterationArray != nullptr )
     delete[] m_IterationArray;
-  if( m_DistanceArray != NULL )
+  if( m_DistanceArray != nullptr )
     delete[] m_DistanceArray;
-  if( m_DistanceArrayForFitting != NULL )
+  if( m_DistanceArrayForFitting != nullptr )
     delete[] m_DistanceArrayForFitting;
 }
 
@@ -238,11 +238,11 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   m_MaxMetricValue = NumericTraits< double >::max();
   m_MinMetricValue = NumericTraits< double >::max();
 
-  if( m_IterationArray != NULL )
+  if( m_IterationArray != nullptr )
     delete[] m_IterationArray;
-  if( m_DistanceArray != NULL )
+  if( m_DistanceArray != nullptr )
     delete[] m_DistanceArray;
-  if( m_DistanceArrayForFitting != NULL )
+  if( m_DistanceArrayForFitting != nullptr )
     delete[] m_DistanceArrayForFitting;
 
   m_IterationArray = new double[m_NumberOfFittingIterations];
