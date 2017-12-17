@@ -107,18 +107,18 @@ public:
 
 protected:
   VariationalRegistrationGaussianRegularizer();
-  ~VariationalRegistrationGaussianRegularizer() {}
+  ~VariationalRegistrationGaussianRegularizer() ITK_OVERRIDE {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
 private:
   VariationalRegistrationGaussianRegularizer(const Self&); //purposely not implemented

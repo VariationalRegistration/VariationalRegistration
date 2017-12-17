@@ -82,10 +82,10 @@ public:
 
 protected:
   VariationalRegistrationRegularizer();
-  ~VariationalRegistrationRegularizer() {}
+  ~VariationalRegistrationRegularizer() ITK_OVERRIDE {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the filter. */
   virtual void Initialize() {};

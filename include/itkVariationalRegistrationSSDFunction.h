@@ -102,11 +102,11 @@ public:
   typedef typename GradientCalculatorType::Pointer   GradientCalculatorPointer;
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() ITK_OVERRIDE;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  virtual PixelType ComputeUpdate(
+  PixelType ComputeUpdate(
       const NeighborhoodType &neighborhood,
       void *globalData,
       const FloatOffsetType &offset = FloatOffsetType( 0.0 ) ) ITK_OVERRIDE;
@@ -141,12 +141,12 @@ public:
    /** Computes the time step for an update.
   * Returns the constant time step scaled with the mean squared spacing.
   * \sa SetTimeStep() */
-  virtual typename Superclass::TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
+  typename Superclass::TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
     { return this->GetTimeStep() * m_Normalizer; }
 
 protected:
   VariationalRegistrationSSDFunction();
-  ~VariationalRegistrationSSDFunction() {}
+  ~VariationalRegistrationSSDFunction() ITK_OVERRIDE {}
 
   typedef typename Superclass::GlobalDataStruct       GlobalDataStruct;
 

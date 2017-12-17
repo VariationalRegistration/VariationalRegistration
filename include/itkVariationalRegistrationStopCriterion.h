@@ -212,16 +212,16 @@ public:
   virtual void SetMultiResolutionPolicyToGraduated()
     { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_GRADUATED ); }
 
-  virtual void Execute( itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE;
+  void Execute( itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE;
 
-  virtual void Execute( const itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE;
+  void Execute( const itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE;
 
 protected:
   VariationalRegistrationStopCriterion();
-  ~VariationalRegistrationStopCriterion();
+  ~VariationalRegistrationStopCriterion() ITK_OVERRIDE;
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Set the flags according to the multi-resolution policy for
    * the next level. */

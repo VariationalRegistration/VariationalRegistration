@@ -153,20 +153,20 @@ public:
     { return m_MaskBackgroundThreshold; }
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() ITK_OVERRIDE;
 
   /** Computes the time step for an update.
    * Returns the constant time step.
    * \sa SetTimeStep() */
-  virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
     { return m_TimeStep; }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void *GetGlobalDataPointer() const ITK_OVERRIDE;
+  void *GetGlobalDataPointer() const ITK_OVERRIDE;
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE;
+  void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE;
 
   //
   // Metric accessor methods
@@ -182,10 +182,10 @@ public:
 
 protected:
   VariationalRegistrationFunction();
-  ~VariationalRegistrationFunction() {}
+  ~VariationalRegistrationFunction() ITK_OVERRIDE {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Warp the moving image into the domain of the fixed image using the
    * deformation field. */
