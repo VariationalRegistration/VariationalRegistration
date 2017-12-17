@@ -116,7 +116,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
 
   rfp->SetFixedImage( movingPtr );
   rfp->SetMovingImage( fixedPtr );
-  rfp->SetDisplacementField( this->GetInverseDisplacementField() );
+  rfp->SetDisplacementField( this->GetModifiableInverseDisplacementField() );
 
   if( maskImage )
     {
@@ -143,8 +143,8 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
 
   swap = this->GetUpdateBuffer()->GetPixelContainer();
   this->GetUpdateBuffer()->SetPixelContainer(
-      this->GetBackwardUpdateBuffer()->GetPixelContainer() );
-  this->GetBackwardUpdateBuffer()->SetPixelContainer( swap );
+      this->GetModifiableBackwardUpdateBuffer()->GetPixelContainer() );
+  this->GetModifiableBackwardUpdateBuffer()->SetPixelContainer( swap );
 
   // Initialize backward iteration.
   this->InitializeBackwardIteration();
@@ -156,8 +156,8 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
   // stored in m_BackwardUpdateBuffer.
   swap = this->GetUpdateBuffer()->GetPixelContainer();
   this->GetUpdateBuffer()->SetPixelContainer(
-      this->GetBackwardUpdateBuffer()->GetPixelContainer() );
-  this->GetBackwardUpdateBuffer()->SetPixelContainer( swap );
+      this->GetModifiableBackwardUpdateBuffer()->GetPixelContainer() );
+  this->GetModifiableBackwardUpdateBuffer()->SetPixelContainer( swap );
 
   // Return mean time step.
   return 0.5 * dt;

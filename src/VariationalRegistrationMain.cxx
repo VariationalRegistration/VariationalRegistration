@@ -513,7 +513,6 @@ int main( int argc, char *argv[] )
   DisplacementFieldPointerType initialField;
 
   ImagePointerType warpedOutputImage;
-  DisplacementFieldPointerType outputDisplacementField;
   DisplacementFieldPointerType outputVelocityField;
 
   //////////////////////////////////////////////
@@ -868,7 +867,7 @@ int main( int argc, char *argv[] )
 
   std::cout << "Registration execution finished." << std::endl;
 
-  outputDisplacementField = mrRegFilter->GetDisplacementField();
+  DisplacementFieldType::ConstPointer outputDisplacementField = mrRegFilter->GetDisplacementField();
   if( searchSpace == 1 || searchSpace == 2 )
   {
     outputVelocityField = mrRegFilter->GetOutput();
@@ -913,7 +912,7 @@ int main( int argc, char *argv[] )
 
       writeField->Allocate();
 
-      ImageRegionIterator<DisplacementFieldType> defIterator(
+      ImageRegionConstIterator<DisplacementFieldType> defIterator(
           outputDisplacementField, outputDisplacementField->GetRequestedRegion() );
 
       while( ! defIterator.IsAtEnd() )
