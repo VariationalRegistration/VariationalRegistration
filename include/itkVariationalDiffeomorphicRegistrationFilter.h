@@ -130,10 +130,10 @@ public:
   itkGetConstMacro( NumberOfExponentiatorIterations, unsigned int );
 
   /** Set initial deformation field. \warning This can't be used for diffeomorphic registration.*/
-  void SetInitialDisplacementField( DisplacementFieldType * ptr ) ITK_OVERRIDE;
+  void SetInitialDisplacementField( DisplacementFieldType * ptr ) override;
 
   /** Get output deformation field. Returns the displacement field of the current transformation.*/
-  DisplacementFieldType * GetDisplacementField() ITK_OVERRIDE
+  DisplacementFieldType * GetDisplacementField() override
     { return m_DisplacementField; }
 
   /** Set initial deformation field. */
@@ -146,16 +146,16 @@ public:
 
 protected:
   VariationalDiffeomorphicRegistrationFilter();
-  ~VariationalDiffeomorphicRegistrationFilter() ITK_OVERRIDE {}
+  ~VariationalDiffeomorphicRegistrationFilter() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** This method is called before iterating the solution. */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Apply update. */
-  void ApplyUpdate( const TimeStepType& dt ) ITK_OVERRIDE;
+  void ApplyUpdate( const TimeStepType& dt ) override;
 
   /** Calculates the deformation field by calculating the exponential
    * of the velocity field. */
