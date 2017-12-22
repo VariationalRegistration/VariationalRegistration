@@ -218,7 +218,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
     }
 
   //delete n
-  delete n;
+  delete [] n;
 
   return true;
 }
