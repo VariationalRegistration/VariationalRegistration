@@ -97,8 +97,8 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
     return m_ZeroUpdateReturn;
     }
 
-  const double warpedValue = (double) this->GetWarpedImage()->GetPixel( index );
-  const double fixedValue = (double) this->GetFixedImage()->GetPixel( index );
+  const auto warpedValue = (double) this->GetWarpedImage()->GetPixel( index );
+  const auto fixedValue = (double) this->GetFixedImage()->GetPixel( index );
 
   // Calculate spped value
   const double speedValue = fixedValue - warpedValue;
@@ -143,7 +143,7 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
     }
 
   // Update the global data (metric etc.)
-  GlobalDataStruct *globalData = (GlobalDataStruct *) gd;
+  auto *globalData = (GlobalDataStruct *) gd;
   if( globalData )
     {
     globalData->m_NumberOfPixelsProcessed += 1;

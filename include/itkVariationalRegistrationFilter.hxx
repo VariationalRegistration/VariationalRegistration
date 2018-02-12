@@ -264,9 +264,7 @@ typename VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacement
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType()
 {
-  RegistrationFunctionType *rfp =
-      dynamic_cast< RegistrationFunctionType * >
-      ( this->GetDifferenceFunction().GetPointer() );
+  auto *rfp = dynamic_cast< RegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if( !rfp )
     {
@@ -286,9 +284,7 @@ const typename VariationalRegistrationFilter< TFixedImage, TMovingImage, TDispla
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType() const
 {
-  const RegistrationFunctionType *rfp =
-      dynamic_cast< const RegistrationFunctionType * >
-      ( this->GetDifferenceFunction().GetPointer() );
+  const auto *rfp = dynamic_cast< const RegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if( !rfp )
     {

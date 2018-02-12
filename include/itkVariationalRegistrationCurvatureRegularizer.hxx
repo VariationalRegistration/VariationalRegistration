@@ -365,12 +365,12 @@ template<class TDisplacementField>
 ITK_THREAD_RETURN_TYPE VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureLESThreaderCallback( void * arg )
 {
   //Get MultiThreader struct
-  MultiThreader::ThreadInfoStruct* threadStruct = (MultiThreader::ThreadInfoStruct *) arg;
+  auto* threadStruct = (MultiThreader::ThreadInfoStruct *) arg;
   int threadId = threadStruct->ThreadID;
   int threadCount = threadStruct->NumberOfThreads;
 
   // Calculate region for current thread
-  CurvatureFFTThreadStruct* userStruct = (CurvatureFFTThreadStruct*) threadStruct->UserData;
+  auto* userStruct = (CurvatureFFTThreadStruct*) threadStruct->UserData;
 
   // Calculate the range in the m_ComplexBuffer of the thread
   OffsetValueType threadRange = userStruct->totalSize / threadCount;

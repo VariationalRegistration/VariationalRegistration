@@ -104,11 +104,9 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   if( itk::IterationEvent().CheckEvent( &event ) )
     {
     // Cast caller for subsequent check
-    RegistrationFilterType* regFilter =
-        dynamic_cast< RegistrationFilterType* >( caller );
+    auto* regFilter = dynamic_cast< RegistrationFilterType* >( caller );
 
-    MRFilterType* mrFilter =
-        dynamic_cast< MRFilterType* >( caller );
+    auto* mrFilter = dynamic_cast< MRFilterType* >( caller );
 
     // If caller is MR filter, set mode for next level according to
     // MR policy
@@ -144,8 +142,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   else
     if( itk::InitializeEvent().CheckEvent( &event ) )
       {
-      MRFilterType* mrFilter =
-          dynamic_cast< MRFilterType* >( caller );
+      auto* mrFilter = dynamic_cast< MRFilterType* >( caller );
 
       if( mrFilter )
         {
@@ -475,7 +472,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   double sumy = 0.0;
   double sumx2 = 0.0;
   double sumxy = 0.0;
-  double dn = (double) n;
+  auto dn = (double) n;
 
   if( n <= 1 )
     {
