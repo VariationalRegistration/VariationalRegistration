@@ -110,7 +110,7 @@ public:
   typedef typename DisplacementFieldType::Pointer     DisplacementFieldPointer;
 
   /** ImageDimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** MovingImage image type. */
   typedef unsigned char                               MaskImagePixelType;
