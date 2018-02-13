@@ -290,7 +290,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
   if( maskImage )
     {
     // Cast mask image to real type and calculate pyramid.
-    typedef CastImageFilter< MaskImageType, FloatImageType > MaskImageCasterType;
+    using MaskImageCasterType = CastImageFilter< MaskImageType, FloatImageType >;
     typename MaskImageCasterType::Pointer caster = MaskImageCasterType::New();
     caster->SetInput( maskImage );
 
@@ -324,8 +324,8 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     // First smooth it.
     tempField = inputPtr;
 
-    typedef RecursiveGaussianImageFilter< DisplacementFieldType,
-        DisplacementFieldType > GaussianFilterType;
+    using GaussianFilterType = RecursiveGaussianImageFilter< DisplacementFieldType,
+        DisplacementFieldType >;
     typename GaussianFilterType::Pointer smoother = GaussianFilterType::New();
 
     for( unsigned int dim = 0; dim < DisplacementFieldType::ImageDimension; ++dim )
@@ -409,24 +409,24 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 
     if( maskImage )
       {
-      typedef MinimumMaximumImageCalculator< FloatImageType > MinMaxCalculatorType;
+      using MinMaxCalculatorType = MinimumMaximumImageCalculator< FloatImageType >;
       typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
       minMaxCalculator->SetImage( m_MaskImagePyramid->GetOutput( maskLevel ) );
       minMaxCalculator->ComputeMaximum();
 
-      typedef BinaryThresholdImageFilter< FloatImageType, MaskImageType > ThresholderType;
+      using ThresholderType = BinaryThresholdImageFilter< FloatImageType, MaskImageType >;
       typename ThresholderType::Pointer thresholder = ThresholderType::New();
       thresholder->SetInput( m_MaskImagePyramid->GetOutput( maskLevel ) );
       thresholder->SetLowerThreshold( minMaxCalculator->GetMaximum() / 2 );
       thresholder->SetInsideValue( NumericTraits< MaskImagePixelType >::One );
       thresholder->SetOutsideValue( NumericTraits< MaskImagePixelType >::Zero );
 
-      typedef BinaryBallStructuringElement< MaskImagePixelType, ImageDimension > StructuringElementType;
+      using StructuringElementType = BinaryBallStructuringElement< MaskImagePixelType, ImageDimension >;
       StructuringElementType structuringElement;
       structuringElement.SetRadius( 1 );  // 3x3 structuring element
       structuringElement.CreateStructuringElement();
 
-      typedef BinaryDilateImageFilter< MaskImageType, MaskImageType, StructuringElementType > DelaterType;
+      using DelaterType = BinaryDilateImageFilter< MaskImageType, MaskImageType, StructuringElementType >;
       typename DelaterType::Pointer delater = DelaterType::New();
       delater->SetKernel( structuringElement );
       delater->SetInput( thresholder->GetOutput() );

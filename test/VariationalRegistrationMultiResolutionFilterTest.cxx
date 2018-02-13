@@ -64,7 +64,7 @@ typename TImage::PixelType foregnd,
 typename TImage::PixelType backgnd )
 {
 
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator it( image, image->GetBufferedRegion() );
   it.GoToBegin();
 
@@ -93,7 +93,7 @@ CopyImageBuffer(
 TImage *input,
 TImage *output )
 {
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator outIt( output, output->GetBufferedRegion() );
   for( Iterator inIt( input, output->GetBufferedRegion() ); !inIt.IsAtEnd(); ++inIt, ++outIt )
     {
@@ -105,15 +105,15 @@ TImage *output )
 int VariationalRegistrationMultiResolutionFilterTest(int, char* [] )
 {
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension>             ImageType;
-  typedef itk::Vector<float,ImageDimension>                VectorType;
-  typedef itk::Image<VectorType,ImageDimension>            FieldType;
-  //typedef itk::Image<VectorType::ValueType,ImageDimension> FloatImageType;
-  typedef ImageType::IndexType                             IndexType;
-  typedef ImageType::SizeType                              SizeType;
-  typedef ImageType::RegionType                            RegionType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
+  //using FloatImageType = itk::Image<VectorType::ValueType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using SizeType = ImageType::SizeType;
+  using RegionType = ImageType::RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -164,7 +164,7 @@ int VariationalRegistrationMultiResolutionFilterTest(int, char* [] )
   zeroVec.Fill( 0.0 );
   initField->FillBuffer( zeroVec );
 
-  typedef itk::VectorCastImageFilter<FieldType,FieldType> CasterType;
+  using CasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( initField );
   caster->InPlaceOff();
@@ -173,20 +173,20 @@ int VariationalRegistrationMultiResolutionFilterTest(int, char* [] )
   std::cout << "Run Multi-resolution registration and warp moving" << std::endl;
 
   // Setup registration function
-  typedef itk::VariationalRegistrationDemonsFunction<
-      ImageType, ImageType, FieldType> DemonsFunctionType;
+  using DemonsFunctionType = itk::VariationalRegistrationDemonsFunction<
+      ImageType, ImageType, FieldType>;
   DemonsFunctionType::Pointer demonsFunction = DemonsFunctionType::New();
   demonsFunction->SetGradientTypeToFixedImage();
   demonsFunction->SetTimeStep( 1.0 );
 
   // Setup regularizer
-  typedef itk::VariationalRegistrationDiffusionRegularizer<FieldType> DiffusionRegularizerType;
+  using DiffusionRegularizerType = itk::VariationalRegistrationDiffusionRegularizer<FieldType>;
   DiffusionRegularizerType::Pointer diffRegularizer = DiffusionRegularizerType::New();
   diffRegularizer->SetAlpha( 0.1 );
 
   // Setup registration filter
-  typedef itk::VariationalRegistrationFilter<
-      ImageType,ImageType,FieldType> RegistrationFilterType;
+  using RegistrationFilterType = itk::VariationalRegistrationFilter<
+      ImageType,ImageType,FieldType>;
   RegistrationFilterType::Pointer regFilter = RegistrationFilterType::New();
   regFilter->SetRegularizer( diffRegularizer );
   regFilter->SetDifferenceFunction( demonsFunction );
@@ -196,7 +196,7 @@ int VariationalRegistrationMultiResolutionFilterTest(int, char* [] )
   its[1] = 200;
   its[0] = 200;
 
-  typedef itk::VariationalRegistrationMultiResolutionFilter<ImageType,ImageType,FieldType> MRRegistrationFilterType;
+  using MRRegistrationFilterType = itk::VariationalRegistrationMultiResolutionFilter<ImageType,ImageType,FieldType>;
   MRRegistrationFilterType::Pointer mrRegFilter = MRRegistrationFilterType::New();
   mrRegFilter->SetRegistrationFilter( regFilter );
   mrRegFilter->SetMovingImage( moving );
@@ -206,8 +206,8 @@ int VariationalRegistrationMultiResolutionFilterTest(int, char* [] )
   mrRegFilter->SetInitialField( caster->GetOutput() );
 
   // Setup stop criterion
-  typedef itk::VariationalRegistrationStopCriterion<
-      RegistrationFilterType,MRRegistrationFilterType> StopCriterionType;
+  using StopCriterionType = itk::VariationalRegistrationStopCriterion<
+      RegistrationFilterType,MRRegistrationFilterType>;
   StopCriterionType::Pointer stopCriterion = StopCriterionType::New();
   stopCriterion->SetRegressionLineSlopeThreshold( 0.0001 );
   stopCriterion->SetNumberOfFittingIterations( 20 );
@@ -222,20 +222,19 @@ int VariationalRegistrationMultiResolutionFilterTest(int, char* [] )
   mrRegFilter->AddObserver( itk::InitializeEvent(), stopCriterion );
 
   // Setup logger
-  typedef itk::VariationalRegistrationLogger<
-      RegistrationFilterType,MRRegistrationFilterType> LoggerType;
+  using LoggerType = itk::VariationalRegistrationLogger<
+      RegistrationFilterType,MRRegistrationFilterType>;
   LoggerType::Pointer logger = LoggerType::New();
 
   regFilter->AddObserver( itk::IterationEvent(), logger );
   mrRegFilter->AddObserver( itk::IterationEvent(), logger );
 
   // warp moving image
-  typedef itk::ContinuousBorderWarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::ContinuousBorderWarpImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-    InterpolatorType;
+  using CoordRepType = WarperType::CoordRepType;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 

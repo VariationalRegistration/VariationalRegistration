@@ -492,20 +492,19 @@ int main( int argc, char *argv[] )
   // image variable
   //
   //////////////////////////////////////////////
-  typedef Image<Vector<float, DIMENSION>, DIMENSION> DisplacementFieldType;
-  typedef DisplacementFieldType::Pointer             DisplacementFieldPointerType;
-  typedef ImageFileReader<DisplacementFieldType>     DisplacementFieldReaderType;
-  typedef ImageFileWriter<DisplacementFieldType>     DisplacementFieldWriterType;
+  using DisplacementFieldType = Image<Vector<float, DIMENSION>, DIMENSION>;
+  using DisplacementFieldPointerType = DisplacementFieldType::Pointer;
+  using DisplacementFieldReaderType = ImageFileReader<DisplacementFieldType>;
+  using DisplacementFieldWriterType = ImageFileWriter<DisplacementFieldType>;
 
-  typedef Image<short, DIMENSION>                    ImageType;
-  typedef ImageType::Pointer                         ImagePointerType;
-  typedef ImageFileReader<ImageType>                 ImageReaderType;
-  typedef ImageFileWriter<ImageType>                 ImageWriterType;
+  using ImageType = Image<short, DIMENSION>;
+  using ImagePointerType = ImageType::Pointer;
+  using ImageReaderType = ImageFileReader<ImageType>;
+  using ImageWriterType = ImageFileWriter<ImageType>;
 
-  typedef VariationalRegistrationFunction<ImageType,ImageType,DisplacementFieldType>::MaskImageType
-                                                     MaskType;
-  typedef MaskType::Pointer                          MaskPointerType;
-  typedef ImageFileReader<MaskType>                  MaskReaderType;
+  using MaskType = VariationalRegistrationFunction<ImageType,ImageType,DisplacementFieldType>::MaskImageType;
+  using MaskPointerType = MaskType::Pointer;
+  using MaskReaderType = ImageFileReader<MaskType>;
 
   ImagePointerType fixedImage;
   ImagePointerType movingImage;
@@ -586,7 +585,7 @@ int main( int argc, char *argv[] )
   if( useHistogramMatching )
     {
     std::cout << "Performing histogram matching of moving image..." << std::endl;
-    typedef HistogramMatchingImageFilter<ImageType, ImageType> MatchingFilterType;
+    using MatchingFilterType = HistogramMatchingImageFilter<ImageType, ImageType>;
     MatchingFilterType::Pointer matcher;
 
     matcher = MatchingFilterType::New();
@@ -619,14 +618,14 @@ int main( int argc, char *argv[] )
   // Setup registration function
   //
 
-  typedef VariationalRegistrationFunction<
-      ImageType,ImageType,DisplacementFieldType>   FunctionType;
-  typedef VariationalRegistrationDemonsFunction<
-      ImageType, ImageType, DisplacementFieldType> DemonsFunctionType;
-  typedef VariationalRegistrationSSDFunction<
-      ImageType, ImageType, DisplacementFieldType> SSDFunctionType;
-  typedef VariationalRegistrationFastNCCFunction<
-      ImageType, ImageType, DisplacementFieldType> NCCFunctionType;
+  using FunctionType = VariationalRegistrationFunction<
+      ImageType,ImageType,DisplacementFieldType>;
+  using DemonsFunctionType = VariationalRegistrationDemonsFunction<
+      ImageType, ImageType, DisplacementFieldType>;
+  using SSDFunctionType = VariationalRegistrationSSDFunction<
+      ImageType, ImageType, DisplacementFieldType>;
+  using NCCFunctionType = VariationalRegistrationFastNCCFunction<
+      ImageType, ImageType, DisplacementFieldType>;
 
   FunctionType::Pointer function;
   switch( forceType )
@@ -702,12 +701,12 @@ int main( int argc, char *argv[] )
   //
   // Setup regularizer
   //
-  typedef VariationalRegistrationRegularizer<DisplacementFieldType>          RegularizerType;
-  typedef VariationalRegistrationGaussianRegularizer<DisplacementFieldType>  GaussianRegularizerType;
-  typedef VariationalRegistrationDiffusionRegularizer<DisplacementFieldType> DiffusionRegularizerType;
+  using RegularizerType = VariationalRegistrationRegularizer<DisplacementFieldType>;
+  using GaussianRegularizerType = VariationalRegistrationGaussianRegularizer<DisplacementFieldType>;
+  using DiffusionRegularizerType = VariationalRegistrationDiffusionRegularizer<DisplacementFieldType>;
 #if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
-  typedef VariationalRegistrationElasticRegularizer<DisplacementFieldType>   ElasticRegularizerType;
-  typedef VariationalRegistrationCurvatureRegularizer<DisplacementFieldType> CurvatureRegularizerType;
+  using ElasticRegularizerType = VariationalRegistrationElasticRegularizer<DisplacementFieldType>;
+  using CurvatureRegularizerType = VariationalRegistrationCurvatureRegularizer<DisplacementFieldType>;
 #endif
 
   RegularizerType::Pointer regularizer;
@@ -757,12 +756,12 @@ int main( int argc, char *argv[] )
   //
   // Setup registration filter
   //
-  typedef VariationalRegistrationFilter<
-      ImageType,ImageType,DisplacementFieldType> RegistrationFilterType;
-  typedef VariationalDiffeomorphicRegistrationFilter<
-      ImageType,ImageType,DisplacementFieldType> DiffeomorphicRegistrationFilterType;
-  typedef VariationalSymmetricDiffeomorphicRegistrationFilter<
-      ImageType,ImageType,DisplacementFieldType> SymmetricDiffeomorphicRegistrationFilterType;
+  using RegistrationFilterType = VariationalRegistrationFilter<
+      ImageType,ImageType,DisplacementFieldType>;
+  using DiffeomorphicRegistrationFilterType = VariationalDiffeomorphicRegistrationFilter<
+      ImageType,ImageType,DisplacementFieldType>;
+  using SymmetricDiffeomorphicRegistrationFilterType = VariationalSymmetricDiffeomorphicRegistrationFilter<
+      ImageType,ImageType,DisplacementFieldType>;
 
   RegistrationFilterType::Pointer regFilter;
   switch( searchSpace )
@@ -802,7 +801,7 @@ int main( int argc, char *argv[] )
     its[level] = its[level + 1];
     }
 
-  typedef VariationalRegistrationMultiResolutionFilter<ImageType,ImageType,DisplacementFieldType> MRRegistrationFilterType;
+  using MRRegistrationFilterType = VariationalRegistrationMultiResolutionFilter<ImageType,ImageType,DisplacementFieldType>;
 
   MRRegistrationFilterType::Pointer mrRegFilter = MRRegistrationFilterType::New();
   mrRegFilter->SetRegistrationFilter( regFilter );
@@ -816,8 +815,8 @@ int main( int argc, char *argv[] )
   //
   // Setup stop criterion
   //
-  typedef VariationalRegistrationStopCriterion<
-      RegistrationFilterType,MRRegistrationFilterType> StopCriterionType;
+  using StopCriterionType = VariationalRegistrationStopCriterion<
+      RegistrationFilterType,MRRegistrationFilterType>;
   StopCriterionType::Pointer stopCriterion = StopCriterionType::New();
   stopCriterion->SetRegressionLineSlopeThreshold( stopCriterionSlope );
   stopCriterion->PerformLineFittingMaxDistanceCheckOn();
@@ -842,8 +841,8 @@ int main( int argc, char *argv[] )
   //
   // Setup logger
   //
-  typedef VariationalRegistrationLogger<
-      RegistrationFilterType,MRRegistrationFilterType> LoggerType;
+  using LoggerType = VariationalRegistrationLogger<
+      RegistrationFilterType,MRRegistrationFilterType>;
   LoggerType::Pointer logger = LoggerType::New();
 
   regFilter->AddObserver( itk::IterationEvent(), logger );
@@ -886,9 +885,9 @@ int main( int argc, char *argv[] )
     if( DIMENSION == 2 && bWrite3DDisplacementField )
     {
       std::cout << "Converting deformation field to 3D..." << std::endl;
-      typedef Image<Vector<float, 3> , 3>               OutDisplacementFieldType;
-      typedef OutDisplacementFieldType::Pointer         OutDisplacementFieldPointerType;
-      typedef ImageFileWriter<OutDisplacementFieldType> OutDisplacementFieldWriterType;
+      using OutDisplacementFieldType = Image<Vector<float, 3> , 3>;
+      using OutDisplacementFieldPointerType = OutDisplacementFieldType::Pointer;
+      using OutDisplacementFieldWriterType = ImageFileWriter<OutDisplacementFieldType>;
 
       OutDisplacementFieldPointerType writeField = OutDisplacementFieldType::New();
 
@@ -970,7 +969,7 @@ int main( int argc, char *argv[] )
   if( warpedImageFilename != nullptr )
     {
 
-    typedef FunctionType::MovingImageWarperType MovingImageWarperType;
+    using MovingImageWarperType = FunctionType::MovingImageWarperType;
     MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
 
     warper->SetInput( movingImage );
