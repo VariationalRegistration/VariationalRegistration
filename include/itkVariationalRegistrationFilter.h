@@ -103,6 +103,8 @@ class VariationalRegistrationFilter
   : public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFilter);
+
   /** Standard class type alias */
   using Self = VariationalRegistrationFilter;
   using Superclass = DenseFiniteDifferenceImageFilter<
@@ -289,9 +291,6 @@ protected:
   const RegistrationFunctionType * DownCastDifferenceFunctionType() const;
 
 private:
-  VariationalRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Regularizer for the smoothing of the displacement field. */
   RegularizerPointer m_Regularizer;
 

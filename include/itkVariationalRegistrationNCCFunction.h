@@ -65,6 +65,8 @@ class VariationalRegistrationNCCFunction :
   public VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationNCCFunction);
+
   /** Standard class type alias. */
   using Self = VariationalRegistrationNCCFunction;
   using Superclass = VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >;
@@ -168,10 +170,6 @@ protected:
 
   /** Precalculated normalizer for spacing consideration. */
   double                          m_Normalizer;
-
-private:
-  VariationalRegistrationNCCFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
 };
 
 

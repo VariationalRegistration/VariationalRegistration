@@ -49,10 +49,12 @@ namespace itk {
  *  \author Jan Ehrhardt
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class VariationalRegistrationSSDFunction :
+class  :
     public VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationSSDFunction);
+
   /** Standard class type alias. */
   using Self = VariationalRegistrationSSDFunction;
   using Superclass = VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >;
@@ -159,9 +161,6 @@ protected:
   };
 
 private:
-  VariationalRegistrationSSDFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer       m_FixedImageGradientCalculator;
 

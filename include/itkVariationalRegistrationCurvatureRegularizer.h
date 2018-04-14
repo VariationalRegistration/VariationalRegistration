@@ -63,6 +63,8 @@ class VariationalRegistrationCurvatureRegularizer
   : public VariationalRegistrationRegularizer< TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationCurvatureRegularizer);
+
   /** Standard class type alias */
   using Self = VariationalRegistrationCurvatureRegularizer;
   using Superclass = VariationalRegistrationRegularizer<TDisplacementField >;
@@ -143,9 +145,6 @@ protected:
       OffsetValueType offset );
 
 private:
-  VariationalRegistrationCurvatureRegularizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Weight of the regularization term. */
   ValueType m_Alpha;
 

@@ -59,6 +59,8 @@ class VariationalRegistrationElasticRegularizer
   : public VariationalRegistrationRegularizer< TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationElasticRegularizer);
+
   /** Standard class type alias */
   using Self = VariationalRegistrationElasticRegularizer;
   using Superclass = VariationalRegistrationRegularizer<
@@ -149,9 +151,6 @@ protected:
       OffsetValueType offset );
 
 private:
-  VariationalRegistrationElasticRegularizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Weight of the regularization term. */
   ValueType m_Lambda;
 

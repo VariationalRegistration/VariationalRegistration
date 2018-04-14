@@ -51,6 +51,8 @@ class VariationalRegistrationFunction :
   public FiniteDifferenceFunction< TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFunction);
+
   /** Standard class type alias. */
   using Self = VariationalRegistrationFunction;
   using Superclass = FiniteDifferenceFunction< TDisplacementField >;
@@ -203,9 +205,6 @@ protected:
     };
 
 private:
-  VariationalRegistrationFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** The Moving image. */
   MovingImagePointer              m_MovingImage;
 

@@ -81,6 +81,8 @@ class VariationalDiffeomorphicRegistrationFilter
   : public VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalDiffeomorphicRegistrationFilter);
+
   /** Standard class type alias */
   using Self = VariationalDiffeomorphicRegistrationFilter;
   using Superclass = VariationalRegistrationFilter<
@@ -173,9 +175,6 @@ protected:
     { return m_Exponentiator; }
 
 private:
-  VariationalDiffeomorphicRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** The deformation field. */
   FieldExponentiatorPointer m_Exponentiator;
   DisplacementFieldPointer  m_DisplacementField;

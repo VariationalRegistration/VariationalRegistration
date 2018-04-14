@@ -56,6 +56,8 @@ class VariationalRegistrationDemonsFunction :
     public VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationDemonsFunction);
+
   /** Standard class type alias. */
   using Self = VariationalRegistrationDemonsFunction;
   using Superclass = VariationalRegistrationFunction<
@@ -158,9 +160,6 @@ protected:
   };
 
 private:
-  VariationalRegistrationDemonsFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer       m_FixedImageGradientCalculator;
 
