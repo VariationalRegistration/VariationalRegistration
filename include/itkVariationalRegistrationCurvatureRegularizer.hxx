@@ -198,7 +198,7 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
   // directly
 
   // first set multi-threading
-  fftw_plan_with_nthreads( this->GetNumberOfThreads() );
+  fftw_plan_with_nthreads( this->GetNumberOfWorkUnits() );
 
   this->m_PlanForward = fftw_plan_r2r( ImageDimension, size, this->m_VectorFieldComponentBuffer, this->m_DCTVectorFieldComponentBuffer, fftForwardKind, FFTW_MEASURE | FFTW_DESTROY_INPUT );
   if( this->m_PlanForward == nullptr )
@@ -351,7 +351,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurva
   curvatureThreadParameters.currentDimension = currentDimension;
 
   // Setup MultiThreader
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod( this->SolveCurvatureLESThreaderCallback, &curvatureThreadParameters );
 
   // Execute MultiThreader
@@ -365,9 +365,9 @@ template<typename TDisplacementField>
 ITK_THREAD_RETURN_TYPE VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureLESThreaderCallback( void * arg )
 {
   //Get MultiThreader struct
-  auto* threadStruct = (MultiThreader::ThreadInfoStruct *) arg;
-  int threadId = threadStruct->ThreadID;
-  int threadCount = threadStruct->NumberOfThreads;
+  auto* threadStruct = (MultiThreaderBase::WorkUnitInfo *) arg;
+  int threadId = threadStruct->WorkUnitID;
+  int threadCount = threadStruct->NumberOfWorkUnits;
 
   // Calculate region for current thread
   auto* userStruct = (CurvatureFFTThreadStruct*) threadStruct->UserData;

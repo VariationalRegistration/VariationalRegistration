@@ -180,7 +180,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
   calcBufferStr.component = component;
   calcBufferStr.bPtr = m_BufferImage;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   this->GetMultiThreader()->SetSingleMethod( this->CalcBufferCallback, &calcBufferStr );
 
   // Multithread the execution
@@ -234,9 +234,9 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::CalcBufferCallback( void* arg )
 {
   // Get MultiThreader struct
-  auto* threadStruct = (MultiThreader::ThreadInfoStruct *) arg;
-  int threadId = threadStruct->ThreadID;
-  int threadCount = threadStruct->NumberOfThreads;
+  auto* threadStruct = (MultiThreaderBase::WorkUnitInfo *) arg;
+  int threadId = threadStruct->WorkUnitID;
+  int threadCount = threadStruct->NumberOfWorkUnits;
 
   // Get user struct
   auto* userStruct = (CalcBufferThreadStruct*) threadStruct->UserData;
@@ -281,9 +281,9 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::RegularizeDirectionCallback( void* arg )
 {
   // Get MultiThreader struct
-  auto* threadStruct = (MultiThreader::ThreadInfoStruct *) (arg);
-  int threadId = threadStruct->ThreadID;
-  int threadCount = threadStruct->NumberOfThreads;
+  auto* threadStruct = (MultiThreaderBase::WorkUnitInfo *) (arg);
+  int threadId = threadStruct->WorkUnitID;
+  int threadCount = threadStruct->NumberOfWorkUnits;
 
   // Get user struct
   auto* userStruct = (RegularizeThreadStruct*) threadStruct->UserData;
@@ -372,9 +372,9 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::MergeDirectionsCallback( void* arg )
 {
   // Get MultiThreader struct
-  auto* threadStruct = (MultiThreader::ThreadInfoStruct *) (arg);
-  int threadId = threadStruct->ThreadID;
-  int threadCount = threadStruct->NumberOfThreads;
+  auto* threadStruct = (MultiThreaderBase::WorkUnitInfo *) (arg);
+  int threadId = threadStruct->WorkUnitID;
+  int threadCount = threadStruct->NumberOfWorkUnits;
 
   // Get user struct
   auto* userStruct = (MergeDirectionsThreadStruct*) threadStruct->UserData;
