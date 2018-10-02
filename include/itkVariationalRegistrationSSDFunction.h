@@ -49,7 +49,7 @@ namespace itk {
  *  \author Jan Ehrhardt
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class  :
+class VariationalRegistrationSSDFunction :
     public VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 {
 public:
