@@ -16,7 +16,7 @@ For more information, see the `Insight Journal article <http://hdl.handle.net/10
    http://hdl.handle.net/10380/3460
    http://www.insight-journal.org/browse/publication/917
 
-This work was motivated by the following publication:
+This work was motivated by the following publication::
 
    Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
    Estimation of lung motion fields in 4D CT data by variational non-linear
