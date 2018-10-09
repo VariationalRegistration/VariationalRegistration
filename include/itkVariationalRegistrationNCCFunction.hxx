@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >::VariationalRegistrationNCCFunction()
 {
   RadiusType r;
@@ -49,7 +49,7 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void VariationalRegistrationNCCFunction< TFixedImage, TMovingImage,
     TDisplacementField >::PrintSelf( std::ostream& os, Indent indent ) const
 {
@@ -69,7 +69,7 @@ void VariationalRegistrationNCCFunction< TFixedImage, TMovingImage,
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -102,7 +102,7 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /*
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >::PixelType
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate(

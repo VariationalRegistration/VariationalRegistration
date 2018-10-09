@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::VariationalRegistrationFastNCCFunction()
 {
 }
@@ -36,7 +36,7 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
 /*
  * Standard "PrintSelf" method.
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
@@ -45,7 +45,7 @@ void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplace
 /*
  * Compute update at a non boundary neighbourhood
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
 ::ComputeUpdate(const NeighborhoodType &it, void *gd, const FloatOffsetType& itkNotUsed(offset) )
@@ -357,7 +357,7 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
  * Returns an empty struct that is used by the threads to include the
  * required update information for each thread.
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void*
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GetGlobalDataPointer() const
 {
@@ -392,7 +392,7 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
 /**
  * Update the metric and release the per-thread-global data.
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer( void *gd ) const
 {
   auto * globalData = (NCCGlobalDataStruct *) gd;

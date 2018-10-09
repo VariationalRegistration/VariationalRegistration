@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::VariationalRegistrationStopCriterion()
 {
@@ -67,7 +67,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Default destructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::~VariationalRegistrationStopCriterion()
 {
@@ -83,7 +83,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
  * Not implemented because registration filter must not be const to
  * return the result of check
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::Execute( const itk::Object * itkNotUsed(caller), const itk::EventObject & itkNotUsed(event) )
@@ -94,7 +94,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Handle iteration event to check if stop criterion is fulfilled
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::Execute( itk::Object *caller, const itk::EventObject & event )
@@ -160,7 +160,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  *
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::SetModeForNextLevel(
@@ -224,7 +224,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Reset the fitting data
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::ResetFittingData()
@@ -257,7 +257,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Set the number of iterations used for line fitting
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::SetNumberOfFittingIterations( int it )
@@ -270,7 +270,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Set the metric value for the current iteration
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::SetNextMetricValue( const double value )
@@ -321,7 +321,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Perform stop criterion check. This function returns false, if error occurred.
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 bool
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::CheckStopRegistration()
@@ -460,7 +460,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Perform line fitting using linear regression
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::FitLine(
@@ -506,7 +506,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::PrintSelf( std::ostream& os, Indent indent ) const

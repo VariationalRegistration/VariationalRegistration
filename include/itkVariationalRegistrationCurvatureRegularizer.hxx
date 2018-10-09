@@ -32,7 +32,7 @@ namespace itk
 /**
  * Default constructor
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 VariationalRegistrationCurvatureRegularizer<TDisplacementField>::VariationalRegistrationCurvatureRegularizer()
 {
   for( unsigned int i = 0; i < ImageDimension; ++i )
@@ -60,7 +60,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::VariationalRegi
 /**
  * Default destructor
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalRegistrationCurvatureRegularizer()
 {
   //
@@ -90,7 +90,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalReg
 /**
  * Generate data
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::GenerateData()
 {
   // Allocate the output image
@@ -106,7 +106,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::GenerateDa
 /*
  * Initialize flags
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize()
 {
   this->Superclass::Initialize();
@@ -152,7 +152,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
 /**
  * Initialize FFT plans
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurvatureFFTPlans()
 {
   itkDebugMacro( << "Initializing curvature plans for FFT..." );
@@ -218,7 +218,7 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
 /**
  * Initialize elastic matrix
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurvatureDiagonalMatrix()
 {
   itkDebugMacro( << "Initializing curvature matrix for FFT..." );
@@ -262,7 +262,7 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
 /**
  * Execute regularization
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize()
 {
   DisplacementFieldConstPointer inputField = this->GetInput();
@@ -341,7 +341,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize
 /**
  * Solve elastic LES
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureLES( unsigned int currentDimension )
 {
   // Declare thread data struct and set filter
@@ -361,7 +361,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurva
 /**
  * Solve elastic LES
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 ITK_THREAD_RETURN_TYPE VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureLESThreaderCallback( void * arg )
 {
   //Get MultiThreader struct
@@ -386,7 +386,7 @@ ITK_THREAD_RETURN_TYPE VariationalRegistrationCurvatureRegularizer<TDisplacement
 /**
  * Solve elastic LES
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ThreadedSolveCurvatureLES( unsigned int currentDimension, OffsetValueType from, OffsetValueType to )
 {
 
@@ -441,7 +441,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ThreadedSo
 /*
  * Calculate the index in the complex image for a given offset.
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 typename VariationalRegistrationCurvatureRegularizer<TDisplacementField>::DisplacementFieldType::IndexType VariationalRegistrationCurvatureRegularizer<TDisplacementField>
 ::CalculateImageIndex( OffsetValueType offset )
 {
@@ -462,7 +462,7 @@ typename VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Displa
 /*
  * Print status information
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

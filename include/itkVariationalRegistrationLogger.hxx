@@ -30,7 +30,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::VariationalRegistrationLogger()
 {
@@ -39,7 +39,7 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 /**
  * Default destructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::~VariationalRegistrationLogger()
 {
@@ -48,7 +48,7 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 /**
  *
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::Execute( const itk::Object *caller, const itk::EventObject & event )
@@ -97,7 +97,7 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::PrintSelf( std::ostream& os, Indent indent ) const

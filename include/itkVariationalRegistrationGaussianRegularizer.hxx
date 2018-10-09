@@ -31,7 +31,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::VariationalRegistrationGaussianRegularizer()
 {
@@ -47,7 +47,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 /**
  * Set the standard deviations.
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::SetStandardDeviations( double value )
@@ -62,7 +62,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
  * Generate data by applying Gaussian regularization independently
  * on each component of the field
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::GenerateData()
@@ -135,7 +135,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 /*
  * Initialize flags
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::Initialize()
@@ -146,7 +146,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 /*
  * Print status information
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const
