@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::VariationalSymmetricDiffeomorphicRegistrationFilter()
 {
@@ -39,7 +39,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
 /*
  * Initialize flags
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::Initialize()
@@ -102,7 +102,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeBackwardIteration()
@@ -126,7 +126,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
   rfp->InitializeIteration();
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::TimeStepType
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
@@ -163,7 +163,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
   return 0.5 * dt;
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ApplyUpdate( const TimeStepType& dt )
@@ -175,7 +175,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
   this->CalcInverseDeformationFromVelocityField( this->GetVelocityField() );
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ThreadedApplyUpdate( const TimeStepType& dt, const ThreadRegionType &regionToProcess, unsigned int )
@@ -205,7 +205,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
  * Calculates the inverse deformation field by calculating the exponential
  * of the negative velocity field
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::CalcInverseDeformationFromVelocityField( const DisplacementFieldType * velocityField )
@@ -225,7 +225,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, 
 /*
  * Print status information
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalSymmetricDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const

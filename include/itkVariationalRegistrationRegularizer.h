@@ -43,7 +43,7 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< class TDisplacementField>
+template< typename TDisplacementField>
 class VariationalRegistrationRegularizer
   : public InPlaceImageFilter< TDisplacementField, TDisplacementField >
 {

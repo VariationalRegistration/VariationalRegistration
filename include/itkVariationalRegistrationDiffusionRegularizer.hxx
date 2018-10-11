@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::VariationalRegistrationDiffusionRegularizer()
 {
@@ -45,7 +45,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 /**
  * Generate data by regularizing each component of the field independently
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::GenerateData()
@@ -66,7 +66,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 /*
  * Initialize flags
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::Initialize()
@@ -109,7 +109,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 /**
  * Initialize the matrices for the LU decomposition
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::InitLUMatrices( ValueType** alphaI, ValueType** betaI, ValueType** gammaI, int n, int dim )
@@ -164,7 +164,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 /**
  * Regularize one component of the field using AOS
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::RegularizeComponent( const int component )
@@ -228,7 +228,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
  * Callback function for threaded copying of one field component into the
  * image buffer as a preparation for AOS
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 ITK_THREAD_RETURN_TYPE
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::CalcBufferCallback( void* arg )
@@ -275,7 +275,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
  *
  * For efficiency reasons, this method operates directly on the image buffers.
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 ITK_THREAD_RETURN_TYPE
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::RegularizeDirectionCallback( void* arg )
@@ -366,7 +366,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
  * Callback function for the threaded adding of the regularization in
  * each spatial direction
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 ITK_THREAD_RETURN_TYPE
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::MergeDirectionsCallback( void* arg )
@@ -422,7 +422,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
  * version because the split is performed differently for each direction of
  * regularization.
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 int
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::SplitBoundaryFaceRegion(
@@ -482,7 +482,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 /*
  * Print status information
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationDiffusionRegularizer< TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const

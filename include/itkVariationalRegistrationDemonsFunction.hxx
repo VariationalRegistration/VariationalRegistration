@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::VariationalRegistrationDemonsFunction()
 {
@@ -44,7 +44,7 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
 /**
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const
@@ -69,7 +69,7 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -97,7 +97,7 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
 /**
  * Compute update at a specific neighborhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
 VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
