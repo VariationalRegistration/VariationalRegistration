@@ -54,7 +54,7 @@ namespace itk {
  *  Different force terms and regularization methods can be combined by using the methods SetDifferenceFunction() and
  *  SetRegularizer().
  *
- *  The implemented method can be summariced as follows:
+ *  The implemented method can be summarized as follows:
  *    - initialize \f$ u \f$ (default \f$ u=0 \f$)
  *    - <b>do</b>
  *      - compute the update field \f$ f^k \f$ using \f$ R(x) \f$ and the warped image \f$ T(x+u^k(x)) \f$
@@ -98,17 +98,19 @@ namespace itk {
  *     <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *     image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 class VariationalRegistrationFilter
   : public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationFilter            Self;
-  typedef DenseFiniteDifferenceImageFilter<
-    TDisplacementField, TDisplacementField >       Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFilter);
+
+  /** Standard class type alias */
+  using Self = VariationalRegistrationFilter;
+  using Superclass = DenseFiniteDifferenceImageFilter<
+    TDisplacementField, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -117,47 +119,42 @@ public:
   itkTypeMacro(itkVariationalRegistrationFilter, DenseFiniteDifferenceImageFilter );
 
   /** Get image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** FixedImage image type. */
-  typedef TFixedImage                              FixedImageType;
-  typedef typename FixedImageType::Pointer         FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer    FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef TMovingImage                             MovingImageType;
-  typedef typename MovingImageType::Pointer        MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer   MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                       DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer  DisplacementFieldPointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** MovingImage image type. */
-  typedef unsigned char                            MaskImagePixelType;
-  typedef Image< MaskImagePixelType, ImageDimension >
-                                                   MaskImageType;
-  typedef typename MaskImageType::Pointer          MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
+  using MaskImagePixelType = unsigned char;
+  using MaskImageType = Image< MaskImagePixelType, ImageDimension >;
+  using MaskImagePointer = typename MaskImageType::Pointer;
+  using MaskImageConstPointer = typename MaskImageType::ConstPointer;
 
   /** Types inherited from the superclass */
-  typedef typename Superclass::OutputImageType     OutputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType        TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** VariationalRegistrationFunction type. */
-  typedef VariationalRegistrationFunction< FixedImageType, MovingImageType, DisplacementFieldType >
-                                                   RegistrationFunctionType;
-  typedef VariationalRegistrationDemonsFunction< FixedImageType, MovingImageType, DisplacementFieldType >
-                                                   DefaultRegistrationFunctionType;
+  using RegistrationFunctionType = VariationalRegistrationFunction< FixedImageType, MovingImageType, DisplacementFieldType >;
+  using DefaultRegistrationFunctionType = VariationalRegistrationDemonsFunction< FixedImageType, MovingImageType, DisplacementFieldType >;
 
   /** Regularizer type. */
-  typedef VariationalRegistrationRegularizer< DisplacementFieldType >
-                                                   RegularizerType;
-  typedef typename RegularizerType::Pointer        RegularizerPointer;
-  typedef VariationalRegistrationDiffusionRegularizer< DisplacementFieldType >
-                                                   DefaultRegularizerType;
+  using RegularizerType = VariationalRegistrationRegularizer< DisplacementFieldType >;
+  using RegularizerPointer = typename RegularizerType::Pointer;
+  using DefaultRegularizerType = VariationalRegistrationDiffusionRegularizer< DisplacementFieldType >;
 
   /** Set the regularizer. */
   itkSetObjectMacro( Regularizer, RegularizerType );
@@ -195,7 +192,7 @@ public:
    * this checks whether the fixed and moving images have been
    * set. While DenseRegistration can take a third input as an
    * initial deformation field, this input is not a required input. */
-  virtual std::vector<SmartPointer<DataObject> >::size_type GetNumberOfValidRequiredInputs() const ITK_OVERRIDE;
+  std::vector<SmartPointer<DataObject> >::size_type GetNumberOfValidRequiredInputs() const override;
 
   /** Set that the deformation field is smoothed
    * (regularized). Smoothing the deformation yields a solution
@@ -242,10 +239,10 @@ public:
 
 protected:
   VariationalRegistrationFilter();
-  ~VariationalRegistrationFilter() {}
+  ~VariationalRegistrationFilter() override {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -253,38 +250,38 @@ protected:
    *
    * For the fixed image and deformation field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If
    * the initial deformation field is not set, the output information is
    * copied from the fixed image. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  virtual void CopyInputToOutput() ITK_OVERRIDE;
+  void CopyInputToOutput() override;
 
   /** This method is called before iterating the solution. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feedback is implemented as part of this method. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** Apply update. */
-  virtual void ApplyUpdate( const TimeStepType& dt ) ITK_OVERRIDE;
+  void ApplyUpdate( const TimeStepType& dt ) override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
    * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() override {}
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving. */
-  virtual bool Halt() ITK_OVERRIDE
+  bool Halt() override
     {  return (Superclass::Halt() || m_StopRegistrationFlag); }
 
   /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is
@@ -294,9 +291,6 @@ protected:
   const RegistrationFunctionType * DownCastDifferenceFunctionType() const;
 
 private:
-  VariationalRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Regularizer for the smoothing of the displacement field. */
   RegularizerPointer m_Regularizer;
 

@@ -64,20 +64,22 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 class VariationalRegistrationStopCriterion
   : public Command
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariationalRegistrationStopCriterion        Self;
-  typedef Command                                     Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationStopCriterion);
+
+  /** Standard class type alias. */
+  using Self = VariationalRegistrationStopCriterion;
+  using Superclass = Command;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Registration and MR filter types */
-  typedef TRegistrationFilter                         RegistrationFilterType;
-  typedef TMRFilter                                   MRFilterType;
+  using RegistrationFilterType = TRegistrationFilter;
+  using MRFilterType = TMRFilter;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -212,16 +214,16 @@ public:
   virtual void SetMultiResolutionPolicyToGraduated()
     { this->SetMultiResolutionPolicy( MULTI_RESOLUTION_POLICY_GRADUATED ); }
 
-  virtual void Execute( itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE;
+  void Execute( itk::Object *caller, const itk::EventObject & event ) override;
 
-  virtual void Execute( const itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE;
+  void Execute( const itk::Object *caller, const itk::EventObject & event ) override;
 
 protected:
   VariationalRegistrationStopCriterion();
-  ~VariationalRegistrationStopCriterion();
+  ~VariationalRegistrationStopCriterion() override;
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Set the flags according to the multi-resolution policy for
    * the next level. */
@@ -244,9 +246,6 @@ protected:
       const int n, double *m, double *b);
 
 private:
-  VariationalRegistrationStopCriterion(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   // Stop criterion multi-resolution policy.
   MultiResolutionPolicy m_MultiResolutionPolicy;
 

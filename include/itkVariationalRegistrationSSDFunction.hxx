@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::VariationalRegistrationSSDFunction()
 {
@@ -50,7 +50,7 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -78,7 +78,7 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  * Compute update at a specific neighborhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
 VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementField >
@@ -97,8 +97,8 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
     return m_ZeroUpdateReturn;
     }
 
-  const double warpedValue = (double) this->GetWarpedImage()->GetPixel( index );
-  const double fixedValue = (double) this->GetFixedImage()->GetPixel( index );
+  const auto warpedValue = (double) this->GetWarpedImage()->GetPixel( index );
+  const auto fixedValue = (double) this->GetFixedImage()->GetPixel( index );
 
   // Calculate spped value
   const double speedValue = fixedValue - warpedValue;
@@ -143,7 +143,7 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
     }
 
   // Update the global data (metric etc.)
-  GlobalDataStruct *globalData = (GlobalDataStruct *) gd;
+  auto *globalData = (GlobalDataStruct *) gd;
   if( globalData )
     {
     globalData->m_NumberOfPixelsProcessed += 1;
@@ -157,7 +157,7 @@ VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationSSDFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const

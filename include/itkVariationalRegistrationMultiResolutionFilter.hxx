@@ -33,7 +33,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::VariationalRegistrationMultiResolutionFilter()
 {
@@ -52,7 +52,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
   m_MaskImagePyramid = MaskImagePyramidType::New();
 
   m_FieldExpander = FieldExpanderType::New();
-  m_DisplacementField = NULL;
+  m_DisplacementField = nullptr;
 
   m_NumberOfLevels = 3;
   m_NumberOfIterations.SetSize( m_NumberOfLevels );
@@ -74,7 +74,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Set the moving image image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::SetMovingImage( const MovingImageType * ptr )
@@ -85,7 +85,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Get the moving image image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 const typename VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::MovingImageType *
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
@@ -98,7 +98,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Set the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::SetFixedImage( const FixedImageType * ptr )
@@ -109,7 +109,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Get the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 const typename VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::FixedImageType *
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
@@ -122,7 +122,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Set the mask image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::SetMaskImage( const MaskImageType * ptr )
@@ -133,7 +133,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Get the mask image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 const typename VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::MaskImageType *
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
@@ -146,7 +146,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Get the number of required inputs, that are set correctly.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 std::vector< SmartPointer< DataObject > >::size_type
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GetNumberOfValidRequiredInputs() const
@@ -169,7 +169,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Set the number of multi-resolution levels.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::SetNumberOfLevels( unsigned int num )
@@ -198,7 +198,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Standard PrintSelf method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::PrintSelf( std::ostream& os, Indent indent ) const
@@ -244,7 +244,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
  * registrator and field_expander.
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateData()
@@ -290,7 +290,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
   if( maskImage )
     {
     // Cast mask image to real type and calculate pyramid.
-    typedef CastImageFilter< MaskImageType, FloatImageType > MaskImageCasterType;
+    using MaskImageCasterType = CastImageFilter< MaskImageType, FloatImageType >;
     typename MaskImageCasterType::Pointer caster = MaskImageCasterType::New();
     caster->SetInput( maskImage );
 
@@ -312,8 +312,8 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
       (int) m_ElapsedLevels, (int) m_MaskImagePyramid->GetNumberOfLevels() );
 
   // Get valid input deformation field.
-  DisplacementFieldPointer tempField = NULL;
-  DisplacementFieldPointer displField = NULL;
+  DisplacementFieldPointer tempField = nullptr;
+  DisplacementFieldPointer displField = nullptr;
 
   // If InitialField is set, smooth and resample it to the size of the coarsest
   // level and then use it.
@@ -324,8 +324,8 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     // First smooth it.
     tempField = inputPtr;
 
-    typedef RecursiveGaussianImageFilter< DisplacementFieldType,
-        DisplacementFieldType > GaussianFilterType;
+    using GaussianFilterType = RecursiveGaussianImageFilter< DisplacementFieldType,
+        DisplacementFieldType >;
     typename GaussianFilterType::Pointer smoother = GaussianFilterType::New();
 
     for( unsigned int dim = 0; dim < DisplacementFieldType::ImageDimension; ++dim )
@@ -359,7 +359,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
     m_FieldExpander->UpdateLargestPossibleRegion();
-    m_FieldExpander->SetInput( NULL );
+    m_FieldExpander->SetInput( nullptr );
     tempField = m_FieldExpander->GetOutput();
     tempField->DisconnectPipeline();
     }
@@ -376,7 +376,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     // Set input deformation field.
     if( tempField.IsNull() )
       {
-      m_RegistrationFilter->SetInput( NULL );
+      m_RegistrationFilter->SetInput( nullptr );
       }
     else
       {
@@ -395,7 +395,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
       m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
       m_FieldExpander->UpdateLargestPossibleRegion();
-      m_FieldExpander->SetInput( NULL );
+      m_FieldExpander->SetInput( nullptr );
       tempField = m_FieldExpander->GetOutput();
       tempField->DisconnectPipeline();
 
@@ -409,24 +409,24 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 
     if( maskImage )
       {
-      typedef MinimumMaximumImageCalculator< FloatImageType > MinMaxCalculatorType;
+      using MinMaxCalculatorType = MinimumMaximumImageCalculator< FloatImageType >;
       typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
       minMaxCalculator->SetImage( m_MaskImagePyramid->GetOutput( maskLevel ) );
       minMaxCalculator->ComputeMaximum();
 
-      typedef BinaryThresholdImageFilter< FloatImageType, MaskImageType > ThresholderType;
+      using ThresholderType = BinaryThresholdImageFilter< FloatImageType, MaskImageType >;
       typename ThresholderType::Pointer thresholder = ThresholderType::New();
       thresholder->SetInput( m_MaskImagePyramid->GetOutput( maskLevel ) );
       thresholder->SetLowerThreshold( minMaxCalculator->GetMaximum() / 2 );
       thresholder->SetInsideValue( NumericTraits< MaskImagePixelType >::One );
       thresholder->SetOutsideValue( NumericTraits< MaskImagePixelType >::Zero );
 
-      typedef BinaryBallStructuringElement< MaskImagePixelType, ImageDimension > StructuringElementType;
+      using StructuringElementType = BinaryBallStructuringElement< MaskImagePixelType, ImageDimension >;
       StructuringElementType structuringElement;
       structuringElement.SetRadius( 1 );  // 3x3 structuring element
       structuringElement.CreateStructuringElement();
 
-      typedef BinaryDilateImageFilter< MaskImageType, MaskImageType, StructuringElementType > DelaterType;
+      using DelaterType = BinaryDilateImageFilter< MaskImageType, MaskImageType, StructuringElementType >;
       typename DelaterType::Pointer delater = DelaterType::New();
       delater->SetKernel( structuringElement );
       delater->SetInput( thresholder->GetOutput() );
@@ -522,16 +522,16 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
     }
 
   // Release memory
-  m_FieldExpander->SetInput( NULL );
+  m_FieldExpander->SetInput( nullptr );
   m_FieldExpander->GetOutput()->ReleaseData();
-  m_RegistrationFilter->SetInput( NULL );
+  m_RegistrationFilter->SetInput( nullptr );
   m_RegistrationFilter->GetOutput()->ReleaseData();
 }
 
 /*
  * Stop the registration, usually called by an observer.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::StopRegistration()
@@ -543,7 +543,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  * Check if registration is stopped.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 bool
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::Halt()
@@ -573,7 +573,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
  * Override the default implementation for the case when no initial deformation
  * field is set. In this case, output information is copied from fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateOutputInformation()
@@ -605,7 +605,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateInputRequestedRegion()
@@ -645,7 +645,7 @@ VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDispla
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 VariationalRegistrationMultiResolutionFilter< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::EnlargeOutputRequestedRegion(

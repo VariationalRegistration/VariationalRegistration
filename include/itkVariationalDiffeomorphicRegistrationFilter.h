@@ -76,17 +76,19 @@ namespace itk {
  *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField>
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 class VariationalDiffeomorphicRegistrationFilter
   : public VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalDiffeomorphicRegistrationFilter   Self;
-  typedef VariationalRegistrationFilter<
-      TFixedImage, TMovingImage, TDisplacementField >  Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalDiffeomorphicRegistrationFilter);
+
+  /** Standard class type alias */
+  using Self = VariationalDiffeomorphicRegistrationFilter;
+  using Superclass = VariationalRegistrationFilter<
+      TFixedImage, TMovingImage, TDisplacementField >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,33 +97,33 @@ public:
   itkTypeMacro(itkVariationalDiffeomorphicRegistrationFilter, VariationalRegistrationFilter );
 
   /** Get image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** FixedImage image type. */
-  typedef TFixedImage                              FixedImageType;
-  typedef typename FixedImageType::Pointer         FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer    FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef TMovingImage                             MovingImageType;
-  typedef typename MovingImageType::Pointer        MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer   MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                       DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer  DisplacementFieldPointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Types inherited from the superclass */
-  typedef typename Superclass::OutputImageType     OutputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** VariationalRegistrationFunction type. */
-  typedef typename Superclass::RegistrationFunctionType RegistrationFunctionType;
+  using RegistrationFunctionType = typename Superclass::RegistrationFunctionType;
 
   /** Regularizer type. */
-  typedef typename Superclass::RegularizerType     RegularizerType;
+  using RegularizerType = typename Superclass::RegularizerType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType        TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Set the desired number of iterations for the exponentiator. */
   itkSetMacro( NumberOfExponentiatorIterations, unsigned int );
@@ -130,10 +132,10 @@ public:
   itkGetConstMacro( NumberOfExponentiatorIterations, unsigned int );
 
   /** Set initial deformation field. \warning This can't be used for diffeomorphic registration.*/
-  virtual void SetInitialDisplacementField( DisplacementFieldType * ptr ) ITK_OVERRIDE;
+  void SetInitialDisplacementField( DisplacementFieldType * ptr ) override;
 
   /** Get output deformation field. Returns the displacement field of the current transformation.*/
-  virtual DisplacementFieldType * GetDisplacementField() ITK_OVERRIDE
+  DisplacementFieldType * GetDisplacementField() override
     { return m_DisplacementField; }
 
   /** Set initial deformation field. */
@@ -146,36 +148,33 @@ public:
 
 protected:
   VariationalDiffeomorphicRegistrationFilter();
-  ~VariationalDiffeomorphicRegistrationFilter() {}
+  ~VariationalDiffeomorphicRegistrationFilter() override {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** This method is called before iterating the solution. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Apply update. */
-  virtual void ApplyUpdate( const TimeStepType& dt ) ITK_OVERRIDE;
+  void ApplyUpdate( const TimeStepType& dt ) override;
 
   /** Calculates the deformation field by calculating the exponential
    * of the velocity field. */
   virtual void CalcDeformationFromVelocityField( const DisplacementFieldType * velocityField );
 
   /** Exponential field calculator type. */
-  typedef itk::ExponentialDisplacementFieldImageFilter<
-      DisplacementFieldType, DisplacementFieldType>  FieldExponentiatorType;
+  using FieldExponentiatorType = itk::ExponentialDisplacementFieldImageFilter<
+      DisplacementFieldType, DisplacementFieldType>;
 
   /** Typename for the exponentiator. */
-  typedef typename FieldExponentiatorType::Pointer FieldExponentiatorPointer;
+  using FieldExponentiatorPointer = typename FieldExponentiatorType::Pointer;
 
   /** Get the exponentiator used to compute a displacement from a velocity field. */
   virtual FieldExponentiatorPointer GetExponentiator()
     { return m_Exponentiator; }
 
 private:
-  VariationalDiffeomorphicRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** The deformation field. */
   FieldExponentiatorPointer m_Exponentiator;
   DisplacementFieldPointer  m_DisplacementField;

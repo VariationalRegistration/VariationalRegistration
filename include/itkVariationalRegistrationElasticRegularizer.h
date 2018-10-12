@@ -54,17 +54,19 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 class VariationalRegistrationElasticRegularizer
   : public VariationalRegistrationRegularizer< TDisplacementField >
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationElasticRegularizer  Self;
-  typedef VariationalRegistrationRegularizer<
-      TDisplacementField >                           Superclass;
-  typedef SmartPointer< Self >                       Pointer;
-  typedef SmartPointer< const Self >                 ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationElasticRegularizer);
+
+  /** Standard class type alias */
+  using Self = VariationalRegistrationElasticRegularizer;
+  using Superclass = VariationalRegistrationRegularizer<
+      TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,14 +75,14 @@ public:
   itkTypeMacro( VariationalRegistrationElasticRegularizer, VariationalRegistrationRegularizer);
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TDisplacementField::ImageDimension);
+  static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field types, inherited from Superclass. */
-  typedef typename Superclass::DisplacementFieldType         DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer      DisplacementFieldPointer;
-  typedef typename Superclass::DisplacementFieldConstPointer DisplacementFieldConstPointer;
-  typedef typename Superclass::PixelType                     PixelType;
-  typedef typename Superclass::ValueType                     ValueType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using DisplacementFieldConstPointer = typename Superclass::DisplacementFieldConstPointer;
+  using PixelType = typename Superclass::PixelType;
+  using ValueType = typename Superclass::ValueType;
   typedef typename DisplacementFieldType::SizeType::SizeValueType
                                                              OffsetValueType;
 
@@ -88,16 +90,16 @@ public:
 
   #if defined( ITK_USE_FFTWD )
   //Prefer to use double precision
-  typedef double RealTypeFFT;
+  using RealTypeFFT = double;
   #else
     #if defined( ITK_USE_FFTWF )
       //Allow to use single precision
       #warning "Using single precision for FFT computations!"
-  typedef float RealTypeFFT;
+  using RealTypeFFT = float;
     #endif
   #endif
 
-  typedef typename fftw::Proxy<RealTypeFFT> FFTWProxyType;
+  using FFTWProxyType = typename fftw::Proxy<RealTypeFFT>;
 
   /** Set the regularization weight lambda. */
   itkSetMacro( Lambda, ValueType );
@@ -113,18 +115,18 @@ public:
 
 protected:
   VariationalRegistrationElasticRegularizer();
-  ~VariationalRegistrationElasticRegularizer() {}
+  ~VariationalRegistrationElasticRegularizer() override {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
-  virtual void GenerateData();
+  void GenerateData() override;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
-  virtual void Initialize();
+  void Initialize() override;
 
   /** Initialize FFTW plans and multi-threading, allocate arrays for FFT */
   virtual bool InitializeElasticFFTPlans();
@@ -149,9 +151,6 @@ protected:
       OffsetValueType offset );
 
 private:
-  VariationalRegistrationElasticRegularizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Weight of the regularization term. */
   ValueType m_Lambda;
 

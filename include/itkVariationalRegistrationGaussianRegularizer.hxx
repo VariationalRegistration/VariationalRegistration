@@ -31,7 +31,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::VariationalRegistrationGaussianRegularizer()
 {
@@ -47,7 +47,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 /**
  * Set the standard deviations.
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::SetStandardDeviations( double value )
@@ -62,7 +62,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
  * Generate data by applying Gaussian regularization independently
  * on each component of the field
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::GenerateData()
@@ -75,12 +75,12 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 
   DisplacementFieldConstPointer field = this->GetInput();
 
-  typedef typename DisplacementFieldType::PixelType      VectorType;
-  typedef typename VectorType::ValueType                 ScalarType;
-  typedef GaussianOperator< ScalarType, ImageDimension > OperatorType;
-  typedef VectorNeighborhoodOperatorImageFilter<
+  using VectorType = typename DisplacementFieldType::PixelType;
+  using ScalarType = typename VectorType::ValueType;
+  using OperatorType = GaussianOperator< ScalarType, ImageDimension >;
+  using SmootherType = VectorNeighborhoodOperatorImageFilter<
       DisplacementFieldType,
-      DisplacementFieldType >                            SmootherType;
+      DisplacementFieldType >;
 
   OperatorType opers[ImageDimension];
   typename SmootherType::Pointer smoothers[ImageDimension];
@@ -135,7 +135,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 /*
  * Initialize flags
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::Initialize()
@@ -146,7 +146,7 @@ VariationalRegistrationGaussianRegularizer< TDisplacementField >
 /*
  * Print status information
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationGaussianRegularizer< TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const

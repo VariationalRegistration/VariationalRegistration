@@ -26,13 +26,13 @@ namespace itk
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template<class TInputImage, class TOutputImage, class TDisplacementField>
+template<typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  const TDisplacementField * fieldPtr = this->GetDisplacementField();
 
   // support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
@@ -40,7 +40,7 @@ void ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementFie
   // iterator for the output image
   ImageRegionIteratorWithIndex<OutputImageType> outputIt( outputPtr, outputRegionForThread );
 
-  typedef typename InterpolatorType::ContinuousIndexType   ContinuousIndexType;
+  using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
   IndexType index;
   PointType point;
@@ -56,7 +56,7 @@ void ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementFie
   if( fieldPtr->GetLargestPossibleRegion() == outputPtr->GetLargestPossibleRegion() )
     {
     // iterator for the deformation field
-    ImageRegionIterator<DisplacementFieldType>
+    ImageRegionConstIterator<DisplacementFieldType>
       fieldIt( fieldPtr, outputRegionForThread );
 
     while( !outputIt.IsAtEnd() )
@@ -89,8 +89,7 @@ void ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementFie
           }
         }
 
-      PixelType value = static_cast< PixelType > (
-          this->GetInterpolator()->EvaluateAtContinuousIndex( contIndex ) );
+      auto value = static_cast< PixelType > ( this->GetInterpolator()->EvaluateAtContinuousIndex( contIndex ) );
       outputIt.Set( value );
 
       ++outputIt;

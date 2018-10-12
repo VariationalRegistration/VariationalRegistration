@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::VariationalRegistrationFilter()
 {
@@ -53,7 +53,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetFixedImage( const FixedImageType * ptr )
@@ -64,7 +64,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Get the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const typename VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::FixedImageType *
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
@@ -77,7 +77,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the moving image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetMovingImage( const MovingImageType * ptr )
@@ -88,7 +88,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Get the moving image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const typename VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::MovingImageType *
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
@@ -101,7 +101,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the mask image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetMaskImage( const MaskImageType * ptr )
@@ -112,7 +112,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Get the mask image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const typename VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::MaskImageType *
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
@@ -125,7 +125,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Checks if the required inputs are set (FixedImage and MovingImage).
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 std::vector< SmartPointer< DataObject > >::size_type
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetNumberOfValidRequiredInputs() const
@@ -149,7 +149,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
  * Generate output information. If initial field is set, use this for
  * generation, else use the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GenerateOutputInformation()
@@ -182,7 +182,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GenerateInputRequestedRegion()
@@ -222,7 +222,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
  * Override the default implementation for the case when no initial deformation
  * field is set. In this case, the output is filled with zero vectors.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::CopyInputToOutput()
@@ -258,15 +258,13 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
  * Checks whether the DifferenceFunction is of type DemonsRegistrationFunction.
  * It throws and exception, if it is not.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::RegistrationFunctionType *
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType()
 {
-  RegistrationFunctionType *rfp =
-      dynamic_cast< RegistrationFunctionType * >
-      ( this->GetDifferenceFunction().GetPointer() );
+  auto *rfp = dynamic_cast< RegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if( !rfp )
     {
@@ -280,15 +278,13 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
  * Checks whether the DifferenceFunction is of type DemonsRegistrationFunction.
  * It throws and exception, if it is not.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const typename VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::RegistrationFunctionType *
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::DownCastDifferenceFunctionType() const
 {
-  const RegistrationFunctionType *rfp =
-      dynamic_cast< const RegistrationFunctionType * >
-      ( this->GetDifferenceFunction().GetPointer() );
+  const auto *rfp = dynamic_cast< const RegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if( !rfp )
     {
@@ -302,7 +298,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
@@ -314,7 +310,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Initialize flags
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::Initialize()
@@ -329,7 +325,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -362,7 +358,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ApplyUpdate( const TimeStepType& dt )
@@ -401,7 +397,7 @@ VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Print status information
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const

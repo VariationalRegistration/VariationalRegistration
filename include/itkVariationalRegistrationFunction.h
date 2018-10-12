@@ -46,52 +46,53 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField>
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 class VariationalRegistrationFunction :
   public FiniteDifferenceFunction< TDisplacementField >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariationalRegistrationFunction                Self;
-  typedef FiniteDifferenceFunction< TDisplacementField > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFunction);
 
-  typedef typename Superclass::TimeStepType              TimeStepType;
+  /** Standard class type alias. */
+  using Self = VariationalRegistrationFunction;
+  using Superclass = FiniteDifferenceFunction< TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(VariationalRegistrationFunction, FiniteDifferenceFunction);
 
   /** Get image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** MovingImage image type. */
-  typedef TMovingImage                                   MovingImageType;
-  typedef typename MovingImageType::ConstPointer         MovingImagePointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::ConstPointer;
 
   /** FixedImage image type. */
-  typedef TFixedImage                                    FixedImageType;
-  typedef typename FixedImageType::ConstPointer          FixedImagePointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::ConstPointer;
 
   /** FixedImage image type. */
-  typedef TFixedImage                                    WarpedImageType;
-  typedef typename WarpedImageType::ConstPointer         WarpedImagePointer;
+  using WarpedImageType = TFixedImage;
+  using WarpedImagePointer = typename WarpedImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                             DisplacementFieldType;
-  typedef typename DisplacementFieldType::ConstPointer   DisplacementFieldTypePointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldTypePointer = typename DisplacementFieldType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef unsigned char                                  MaskImagePixelType;
-  typedef Image< MaskImagePixelType, ImageDimension >    MaskImageType;
-  typedef typename MaskImageType::ConstPointer           MaskImagePointer;
+  using MaskImagePixelType = unsigned char;
+  using MaskImageType = Image< MaskImagePixelType, ImageDimension >;
+  using MaskImagePointer = typename MaskImageType::ConstPointer;
 
   // uncomment the following line to use the standard ITK warper (not recommended)
   //typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
   /** Typedef of the warp image filter. */
-  typedef itk::ContinuousBorderWarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
-                                                         MovingImageWarperType;
-  typedef typename MovingImageWarperType::Pointer        MovingImageWarperPointer;
+  using MovingImageWarperType = itk::ContinuousBorderWarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >;
+  using MovingImageWarperPointer = typename MovingImageWarperType::Pointer;
 
 
   /** Set the Moving image.  */
@@ -153,20 +154,20 @@ public:
     { return m_MaskBackgroundThreshold; }
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** Computes the time step for an update.
    * Returns the constant time step.
    * \sa SetTimeStep() */
-  virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
     { return m_TimeStep; }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void *GetGlobalDataPointer() const ITK_OVERRIDE;
+  void *GetGlobalDataPointer() const override;
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE;
+  void ReleaseGlobalDataPointer(void *GlobalData) const override;
 
   //
   // Metric accessor methods
@@ -182,10 +183,10 @@ public:
 
 protected:
   VariationalRegistrationFunction();
-  ~VariationalRegistrationFunction() {}
+  ~VariationalRegistrationFunction() override {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Warp the moving image into the domain of the fixed image using the
    * deformation field. */
@@ -204,9 +205,6 @@ protected:
     };
 
 private:
-  VariationalRegistrationFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** The Moving image. */
   MovingImagePointer              m_MovingImage;
 

@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >::VariationalRegistrationNCCFunction()
 {
   RadiusType r;
@@ -49,7 +49,7 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void VariationalRegistrationNCCFunction< TFixedImage, TMovingImage,
     TDisplacementField >::PrintSelf( std::ostream& os, Indent indent ) const
 {
@@ -69,7 +69,7 @@ void VariationalRegistrationNCCFunction< TFixedImage, TMovingImage,
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -102,7 +102,7 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /*
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >::PixelType
 VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate(
@@ -150,10 +150,8 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
     const IndexType neighIndex = it.GetIndex( indct );
     if( fixedImage->GetLargestPossibleRegion().IsInside( neighIndex ) )
       {
-      const double fixedNeighValue =
-          static_cast< double >( fixedImage->GetPixel( neighIndex ) );
-      const double movingNeighValue =
-          static_cast< double >( warpedImage->GetPixel( neighIndex ) );
+      const auto fixedNeighValue = static_cast< double >( fixedImage->GetPixel( neighIndex ) );
+      const auto movingNeighValue = static_cast< double >( warpedImage->GetPixel( neighIndex ) );
 
       sf += fixedNeighValue;
       sm += movingNeighValue;
@@ -186,8 +184,8 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
     localCrossCorrelation = SumFM * SumFM / SumFFMultSumMM;
 
     // Get grayvalues for fixed and warped images
-    const double warpedValue = static_cast< double >( warpedImage->GetPixel( index ) );
-    const double fixedValue = static_cast< double >( fixedImage->GetPixel( index ) );
+    const auto warpedValue = static_cast< double >( warpedImage->GetPixel( index ) );
+    const auto fixedValue = static_cast< double >( fixedImage->GetPixel( index ) );
 
     const double centerWarpedValue = warpedValue - movingMean;
     const double centerFixedValue = fixedValue - fixedMean;
@@ -234,7 +232,7 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
     }
 
   // Update the global data (metric etc.)
-  GlobalDataStruct *globalData = (GlobalDataStruct *) gd;
+  auto *globalData = (GlobalDataStruct *) gd;
   if( globalData )
     {
     globalData->m_NumberOfPixelsProcessed += 1;

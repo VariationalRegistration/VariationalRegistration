@@ -30,7 +30,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::VariationalRegistrationLogger()
 {
@@ -39,7 +39,7 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 /**
  * Default destructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::~VariationalRegistrationLogger()
 {
@@ -48,7 +48,7 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 /**
  *
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::Execute( const itk::Object *caller, const itk::EventObject & event )
@@ -58,11 +58,9 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
   if( itk::IterationEvent().CheckEvent( &event ) )
     {
     // Cast caller for subsequent check
-    const RegistrationFilterType* regFilter =
-        dynamic_cast< const RegistrationFilterType* >( caller );
+    const auto* regFilter = dynamic_cast< const RegistrationFilterType* >( caller );
 
-    const MRFilterType* mrFilter =
-        dynamic_cast< const MRFilterType* >( caller );
+    const auto* mrFilter = dynamic_cast< const MRFilterType* >( caller );
 
     // If caller is MR filter, set mode for next level according to
     // MR policy
@@ -87,8 +85,7 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
   else
     if( itk::InitializeEvent().CheckEvent( &event ) )
       {
-      const MRFilterType* mrFilter =
-          dynamic_cast< const MRFilterType* >( caller );
+      const auto* mrFilter = dynamic_cast< const MRFilterType* >( caller );
 
       if( mrFilter )
         {
@@ -100,7 +97,7 @@ VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
 ::PrintSelf( std::ostream& os, Indent indent ) const

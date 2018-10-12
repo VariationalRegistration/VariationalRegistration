@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::VariationalRegistrationFastNCCFunction()
 {
 }
@@ -36,7 +36,7 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
 /*
  * Standard "PrintSelf" method.
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
@@ -45,12 +45,12 @@ void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplace
 /*
  * Compute update at a non boundary neighbourhood
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
 ::ComputeUpdate(const NeighborhoodType &it, void *gd, const FloatOffsetType& itkNotUsed(offset) )
 {
-  NCCGlobalDataStruct *globalData = (NCCGlobalDataStruct *) gd;
+  auto *globalData = (NCCGlobalDataStruct *) gd;
   assert( globalData != NULL );
 
   // initialize update value to compute with zero
@@ -146,8 +146,8 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
         for( unsigned int i = 0; i < neighborhoodSliceSize; i++ )
         {
           const IndexType neighIndex = it.GetIndex( indct );
-          const double fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
-          const double movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
+          const auto fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
+          const auto movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
 
           sfTemp += fixedNeighValue;
           smTemp += movingNeighValue;
@@ -213,8 +213,8 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
       for( unsigned int i = 0; i < neighborhoodSliceSize; i++ )
       {
         const IndexType neighIndex = it.GetIndex( indct );
-        const double fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
-        const double movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
+        const auto fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
+        const auto movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
 
         sfTemp += fixedNeighValue;
         smTemp += movingNeighValue;
@@ -259,8 +259,8 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
       const IndexType neighIndex = it.GetIndex( indct );
       if( fixedImage->GetBufferedRegion().IsInside( neighIndex ) )
       {
-        const double fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
-        const double movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
+        const auto fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
+        const auto movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
 
         sf += fixedNeighValue;
         sm += movingNeighValue;
@@ -297,8 +297,8 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
     localCrossCorrelation = SumFM * SumFM / SumFFMultSumMM;
 
     // Get grayvalues for fixed and warped images
-    const double warpedValue = static_cast<double>( warpedImage->GetPixel( index ) );
-    const double fixedValue = static_cast<double>( fixedImage->GetPixel( index ) );
+    const auto warpedValue = static_cast<double>( warpedImage->GetPixel( index ) );
+    const auto fixedValue = static_cast<double>( fixedImage->GetPixel( index ) );
 
     const double centerWarpedValue = warpedValue - movingMean;
     const double centerFixedValue = fixedValue - fixedMean;
@@ -357,11 +357,11 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
  * Returns an empty struct that is used by the threads to include the
  * required update information for each thread.
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void*
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GetGlobalDataPointer() const
 {
-  NCCGlobalDataStruct *globalData = new NCCGlobalDataStruct();
+  auto *globalData = new NCCGlobalDataStruct();
 
   globalData->m_SumOfMetricValues = 0.0;
   globalData->m_NumberOfPixelsProcessed = 0L;
@@ -392,12 +392,12 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
 /**
  * Update the metric and release the per-thread-global data.
  */
-template<class TFixedImage, class TMovingImage, class TDisplacementField>
+template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer( void *gd ) const
 {
-  NCCGlobalDataStruct * globalData = (NCCGlobalDataStruct *) gd;
+  auto * globalData = (NCCGlobalDataStruct *) gd;
 
-  GlobalDataStruct * baseRegFunctionGlobalData = new GlobalDataStruct();
+  auto * baseRegFunctionGlobalData = new GlobalDataStruct();
   baseRegFunctionGlobalData->m_SumOfMetricValues = globalData->m_SumOfMetricValues;
   baseRegFunctionGlobalData->m_NumberOfPixelsProcessed = globalData->m_NumberOfPixelsProcessed;
   baseRegFunctionGlobalData->m_SumOfSquaredChange = globalData->m_SumOfSquaredChange;

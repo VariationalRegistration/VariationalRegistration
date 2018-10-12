@@ -26,14 +26,14 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::VariationalRegistrationFunction()
 {
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
-  m_DisplacementField = NULL;
-  m_MaskImage = NULL;
+  m_MovingImage = nullptr;
+  m_FixedImage = nullptr;
+  m_DisplacementField = nullptr;
+  m_MaskImage = nullptr;
 
   m_TimeStep = 1.0;
 
@@ -52,7 +52,7 @@ VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -73,7 +73,7 @@ VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Return the warped moving image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const typename VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::WarpedImagePointer
 VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
@@ -85,7 +85,7 @@ VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Warp the moving image into the fixed image space.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::WarpMovingImage()
@@ -112,12 +112,12 @@ VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
  * Returns an empty struct that is used by the threads to include the
  * required update information for each thread.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void*
 VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetGlobalDataPointer() const
 {
-  GlobalDataStruct *global = new GlobalDataStruct();
+  auto *global = new GlobalDataStruct();
 
   global->m_SumOfMetricValues = 0.0;
   global->m_NumberOfPixelsProcessed = 0L;
@@ -129,12 +129,12 @@ VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer( void *gd ) const
 {
-  GlobalDataStruct * globalData = (GlobalDataStruct *) gd;
+  auto * globalData = (GlobalDataStruct *) gd;
 
   m_MetricCalculationLock.Lock();
 
@@ -158,7 +158,7 @@ VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 VariationalRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const

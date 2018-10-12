@@ -86,17 +86,19 @@ namespace itk {
  *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField>
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 class VariationalSymmetricDiffeomorphicRegistrationFilter
   : public VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalSymmetricDiffeomorphicRegistrationFilter  Self;
-  typedef VariationalDiffeomorphicRegistrationFilter<
-      TFixedImage, TMovingImage, TDisplacementField >          Superclass;
-  typedef SmartPointer< Self >                                 Pointer;
-  typedef SmartPointer< const Self >                           ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalSymmetricDiffeomorphicRegistrationFilter);
+
+  /** Standard class type alias */
+  using Self = VariationalSymmetricDiffeomorphicRegistrationFilter;
+  using Superclass = VariationalDiffeomorphicRegistrationFilter<
+      TFixedImage, TMovingImage, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -105,58 +107,58 @@ public:
   itkTypeMacro(itkVariationalSymmetricDiffeomorphicRegistrationFilter, VariationalDiffeomorphicRegistrationFilter);
 
   /** Get image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** FixedImage image type. */
-  typedef TFixedImage                              FixedImageType;
-  typedef typename FixedImageType::Pointer         FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer    FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef TMovingImage                             MovingImageType;
-  typedef typename MovingImageType::Pointer        MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer   MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                       DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer  DisplacementFieldPointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Types inherited from the superclass */
-  typedef typename Superclass::OutputImageType     OutputImageType;
-  typedef OutputImageType                          UpdateBufferType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using UpdateBufferType = OutputImageType;
 
   /** VariationalRegistrationFunction type. */
-  typedef typename Superclass::RegistrationFunctionType RegistrationFunctionType;
+  using RegistrationFunctionType = typename Superclass::RegistrationFunctionType;
 
   /** Regularizer type. */
-  typedef typename Superclass::RegularizerType     RegularizerType;
+  using RegularizerType = typename Superclass::RegularizerType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType        TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Get output inverse deformation field. */
-  itkGetObjectMacro( InverseDisplacementField, DisplacementFieldType );
+  itkGetModifiableObjectMacro( InverseDisplacementField, DisplacementFieldType );
 
 protected:
   VariationalSymmetricDiffeomorphicRegistrationFilter();
-  ~VariationalSymmetricDiffeomorphicRegistrationFilter() {}
+  ~VariationalSymmetricDiffeomorphicRegistrationFilter() override {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** This method is called before iterating the solution. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Initialize the backward update after forward update was completed */
   virtual void InitializeBackwardIteration();
 
   /** Apply update function that additionally computes the inverse displacement
    *  field for the next iteration. */
-  virtual void ApplyUpdate( const TimeStepType& dt ) ITK_OVERRIDE;
+  void ApplyUpdate( const TimeStepType& dt ) override;
 
   /** Calculate the update for each iteration by first performing the forward
    * and then the backward update step. */
-  virtual TimeStepType CalculateChange() ITK_OVERRIDE;
+  TimeStepType CalculateChange() override;
 
   /** Calculates the inverse deformation field by calculating the exponential
    * of the negative velocity field. */
@@ -164,22 +166,19 @@ protected:
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
-  itkGetObjectMacro( BackwardUpdateBuffer, UpdateBufferType );
+  itkGetModifiableObjectMacro( BackwardUpdateBuffer, UpdateBufferType );
 
   /** The type of region used for multithreading */
-  typedef typename UpdateBufferType::RegionType ThreadRegionType;
+  using ThreadRegionType = typename UpdateBufferType::RegionType;
 
   /** Threaded version of ApplyUpdate that adds forward and backward fields  */
-  virtual void ThreadedApplyUpdate( const TimeStepType &dt,
+  void ThreadedApplyUpdate( const TimeStepType &dt,
                                     const ThreadRegionType &regionToProcess,
-                                    unsigned int threadId ) ITK_OVERRIDE;
+                                    unsigned int threadId ) override;
 
 private:
-  VariationalSymmetricDiffeomorphicRegistrationFilter( const Self& ); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  typedef typename Superclass::FieldExponentiatorType FieldExponentiatorType;
-  typedef typename FieldExponentiatorType::Pointer    FieldExponentiatorPointer;
+  using FieldExponentiatorType = typename Superclass::FieldExponentiatorType;
+  using FieldExponentiatorPointer = typename FieldExponentiatorType::Pointer;
 
   /** The deformation field. */
   FieldExponentiatorPointer            m_InverseExponentiator;

@@ -47,17 +47,19 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 class VariationalRegistrationDiffusionRegularizer
   : public VariationalRegistrationRegularizer< TDisplacementField >
 {
 public:
-  /** Standard class typedefs */
-  typedef VariationalRegistrationDiffusionRegularizer  Self;
-  typedef VariationalRegistrationRegularizer<
-      TDisplacementField >                             Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationDiffusionRegularizer);
+
+  /** Standard class type alias */
+  using Self = VariationalRegistrationDiffusionRegularizer;
+  using Superclass = VariationalRegistrationRegularizer<
+      TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,19 +68,19 @@ public:
   itkTypeMacro(itkVariationalRegistrationDiffusionRegularizer, itkVariationalRegistrationRegularizer);
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TDisplacementField::ImageDimension);
+  static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field types, inherited from Superclass. */
-  typedef typename Superclass::DisplacementFieldType         DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer      DisplacementFieldPointer;
-  typedef typename Superclass::DisplacementFieldConstPointer DisplacementFieldConstPointer;
-  typedef typename Superclass::PixelType                     PixelType;
-  typedef typename Superclass::ValueType                     ValueType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using DisplacementFieldConstPointer = typename Superclass::DisplacementFieldConstPointer;
+  using PixelType = typename Superclass::PixelType;
+  using ValueType = typename Superclass::ValueType;
 
   /** Types for buffer image. */
-  typedef Image<ValueType, ImageDimension>                   BufferImageType;
-  typedef typename BufferImageType::Pointer                  BufferImagePointer;
-  typedef typename BufferImageType::RegionType               BufferImageRegionType;
+  using BufferImageType = Image<ValueType, ImageDimension>;
+  using BufferImagePointer = typename BufferImageType::Pointer;
+  using BufferImageRegionType = typename BufferImageType::RegionType;
 
   /** Set the regularization weight alpha */
   itkSetMacro( Alpha, ValueType );
@@ -88,18 +90,18 @@ public:
 
 protected:
   VariationalRegistrationDiffusionRegularizer();
-  ~VariationalRegistrationDiffusionRegularizer() {}
+  ~VariationalRegistrationDiffusionRegularizer() override {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Calculation and LU decomposition of the tridiagonal matrices
    * using the Thomas algorithm (TDMA). */
@@ -156,9 +158,6 @@ protected:
       BufferImageRegionType& splitRegion );
 
 private:
-  VariationalRegistrationDiffusionRegularizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   /** Weight of the regularization term. */
   ValueType m_Alpha;
 

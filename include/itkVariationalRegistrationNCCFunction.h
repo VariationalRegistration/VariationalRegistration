@@ -60,17 +60,18 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 class VariationalRegistrationNCCFunction :
   public VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariationalRegistrationNCCFunction     Self;
-  typedef VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >
-                                                 Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationNCCFunction);
+
+  /** Standard class type alias. */
+  using Self = VariationalRegistrationNCCFunction;
+  using Superclass = VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,48 +80,46 @@ public:
   itkTypeMacro( VariationalRegistrationNCCFunction, VariationalRegistrationFunction );
 
   /** Get image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType       MovingImageType;
-  typedef typename Superclass::MovingImagePointer    MovingImagePointer;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointer = typename Superclass::MovingImagePointer;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType        FixedImageType;
-  typedef typename Superclass::FixedImagePointer     FixedImagePointer;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePointer = typename Superclass::FixedImagePointer;
 
   /** MaskImage image type. */
-  typedef typename Superclass::MaskImageType         MaskImageType;
-  typedef typename Superclass::MaskImagePointer      MaskImagePointer;
+  using MaskImageType = typename Superclass::MaskImageType;
+  using MaskImagePointer = typename Superclass::MaskImagePointer;
 
-  typedef typename FixedImageType::IndexType         IndexType;
-  typedef typename FixedImageType::SizeType          SizeType;
-  typedef typename FixedImageType::SpacingType       SpacingType;
+  using IndexType = typename FixedImageType::IndexType;
+  using SizeType = typename FixedImageType::SizeType;
+  using SpacingType = typename FixedImageType::SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DisplacementFieldType DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldTypePointer
-                                                     DisplacementFieldTypePointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldTypePointer = typename Superclass::DisplacementFieldTypePointer;
 
    /** Inherit some types from the superclass. */
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::RadiusType             RadiusType;
-  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
+  using PixelType = typename Superclass::PixelType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Gradient calculator type. */
-  typedef CentralDifferenceImageFunction<FixedImageType>
-                                                      GradientCalculatorType;
-  typedef typename GradientCalculatorType::Pointer    GradientCalculatorPointer;
+  using GradientCalculatorType = CentralDifferenceImageFunction<FixedImageType>;
+  using GradientCalculatorPointer = typename GradientCalculatorType::Pointer;
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  virtual PixelType ComputeUpdate( const NeighborhoodType &neighborhood,
+  PixelType ComputeUpdate( const NeighborhoodType &neighborhood,
                     void *globalData,
-                    const FloatOffsetType &offset = FloatOffsetType(0.0) ) ITK_OVERRIDE;
+                    const FloatOffsetType &offset = FloatOffsetType(0.0) ) override;
 
   /** Select that the fixed image gradient is used for computing the forces. */
   virtual void SetGradientTypeToFixedImage()
@@ -138,20 +137,20 @@ public:
    /** Computes the time step for an update.
    * Returns the constant time step scaled with the mean squared spacing.
    * \sa SetTimeStep() */
-  virtual typename Superclass::TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
+  typename Superclass::TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
     { return this->GetTimeStep() * m_Normalizer; }
 
 protected:
   VariationalRegistrationNCCFunction();
-  ~VariationalRegistrationNCCFunction() {}
+  ~VariationalRegistrationNCCFunction() override {}
 
   /** Print information about the filter. */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
-  typedef ConstNeighborhoodIterator<FixedImageType>   FixedImageNeighborhoodIteratorType;
+  using FixedImageNeighborhoodIteratorType = ConstNeighborhoodIterator<FixedImageType>;
 
-  typedef typename Superclass::GlobalDataStruct       GlobalDataStruct;
+  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 
   /** Type of available image forces */
   enum GradientType {
@@ -171,10 +170,6 @@ protected:
 
   /** Precalculated normalizer for spacing consideration. */
   double                          m_Normalizer;
-
-private:
-  VariationalRegistrationNCCFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
 };
 
 

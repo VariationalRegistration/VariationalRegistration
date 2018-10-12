@@ -32,7 +32,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::VariationalRegistrationElasticRegularizer()
 {
@@ -52,20 +52,20 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    this->m_MatrixCos[i] = NULL;
-    this->m_MatrixSin[i] = NULL;
-    this->m_ComplexBuffer[i] = NULL;
-    this->m_PlanForward[i] = NULL;
-    this->m_PlanBackward[i] = NULL;
+    this->m_MatrixCos[i] = nullptr;
+    this->m_MatrixSin[i] = nullptr;
+    this->m_ComplexBuffer[i] = nullptr;
+    this->m_PlanForward[i] = nullptr;
+    this->m_PlanBackward[i] = nullptr;
     }
-  this->m_InputBuffer = NULL;
-  this->m_OutputBuffer = NULL;
+  this->m_InputBuffer = nullptr;
+  this->m_OutputBuffer = nullptr;
 }
 
 /**
  * Generate data
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::GenerateData()
@@ -83,7 +83,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /*
  * Initialize flags
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::Initialize()
@@ -147,36 +147,36 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /*
  * Reset data
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::FreeData()
 {
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    if( this->m_MatrixCos[i] != NULL )
+    if( this->m_MatrixCos[i] != nullptr )
       delete[] this->m_MatrixCos[i];
-    if( this->m_MatrixSin[i] != NULL )
+    if( this->m_MatrixSin[i] != nullptr )
       delete[] this->m_MatrixSin[i];
 
-    if( this->m_PlanForward[i] != NULL )
+    if( this->m_PlanForward[i] != nullptr )
       FFTWProxyType::DestroyPlan( this->m_PlanForward[i] );
-    if( this->m_PlanBackward[i] != NULL )
+    if( this->m_PlanBackward[i] != nullptr )
       FFTWProxyType::DestroyPlan( this->m_PlanBackward[i] );
 
-    if( this->m_ComplexBuffer[i] != NULL )
+    if( this->m_ComplexBuffer[i] != nullptr )
       delete[] this->m_ComplexBuffer[i];
     }
-  if( this->m_InputBuffer != NULL )
+  if( this->m_InputBuffer != nullptr )
     delete[] this->m_InputBuffer;
-  if( this->m_OutputBuffer != NULL )
+  if( this->m_OutputBuffer != nullptr )
     delete[] this->m_OutputBuffer;
 }
 
 /**
  * Initialize FFT plans
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 bool
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::InitializeElasticFFTPlans()
@@ -184,7 +184,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
   itkDebugMacro( << "Initializing elastic plans for FFT..." );
 
   // Get image size in reverse order for FFTW
-  int *n = new int[ImageDimension];
+  auto *n = new int[ImageDimension];
   for( unsigned int i = 0; i < ImageDimension; ++i )
     {
     n[(ImageDimension - 1) - i] = this->m_Size[i];
@@ -218,7 +218,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
     }
 
   //delete n
-  delete n;
+  delete [] n;
 
   return true;
 }
@@ -226,7 +226,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /**
  * Initialize elastic matrix
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 bool
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::InitializeElasticMatrix()
@@ -255,7 +255,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /**
  * Execute regularization
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::Regularize()
@@ -270,7 +270,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 
   // Perform Forward FFT for input field
   itkDebugMacro( << "Performing Forward FFT..." );
-  typedef ImageRegionConstIterator< DisplacementFieldType > ConstIteratorType;
+  using ConstIteratorType = ImageRegionConstIterator< DisplacementFieldType >;
   ConstIteratorType inputIt( inputField, inputField->GetRequestedRegion() );
 
   unsigned int n; //Counter for field copying
@@ -294,7 +294,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
   itkDebugMacro( << "Performing Backward FFT..." );
   DisplacementFieldPointer outField = this->GetOutput();
 
-  typedef ImageRegionIterator< DisplacementFieldType > IteratorType;
+  using IteratorType = ImageRegionIterator< DisplacementFieldType >;
   IteratorType outIt( outField, outField->GetRequestedRegion() );
 
   for( unsigned int i = 0; i < ImageDimension; ++i )
@@ -317,7 +317,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /**
  * Solve elastic LES
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::SolveElasticLES()
@@ -339,20 +339,18 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /**
  * Solve elastic LES
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 ITK_THREAD_RETURN_TYPE
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::SolveElasticLESThreaderCallback( void * arg )
 {
   //Get MultiThreader struct
-  MultiThreader::ThreadInfoStruct* threadStruct =
-      (MultiThreader::ThreadInfoStruct *) arg;
+  auto* threadStruct = (MultiThreader::ThreadInfoStruct *) arg;
   int threadId = threadStruct->ThreadID;
   int threadCount = threadStruct->NumberOfThreads;
 
   // Calculate region for current thread
-  ElasticFFTThreadStruct* userStruct =
-      (ElasticFFTThreadStruct*) threadStruct->UserData;
+  auto* userStruct = (ElasticFFTThreadStruct*) threadStruct->UserData;
 
   // Calculate the range in the m_ComplexBuffer of the thread
   OffsetValueType threadRange = userStruct->totalComplexSize / threadCount;
@@ -370,7 +368,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /**
  * Solve elastic LES
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::ThreadedSolveElasticLES( OffsetValueType from, OffsetValueType to )
@@ -635,7 +633,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /*
  * Calculate the index in the complex image for a given offset.
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 typename VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::DisplacementFieldType::IndexType
 VariationalRegistrationElasticRegularizer< TDisplacementField >
@@ -661,7 +659,7 @@ VariationalRegistrationElasticRegularizer< TDisplacementField >
 /*
  * Print status information
  */
-template< class TDisplacementField >
+template< typename TDisplacementField >
 void
 VariationalRegistrationElasticRegularizer< TDisplacementField >
 ::PrintSelf( std::ostream& os, Indent indent ) const

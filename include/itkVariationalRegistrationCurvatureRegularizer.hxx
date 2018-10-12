@@ -32,7 +32,7 @@ namespace itk
 /**
  * Default constructor
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 VariationalRegistrationCurvatureRegularizer<TDisplacementField>::VariationalRegistrationCurvatureRegularizer()
 {
   for( unsigned int i = 0; i < ImageDimension; ++i )
@@ -48,32 +48,32 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::VariationalRegi
 
   for( unsigned int i = 0; i < ImageDimension; ++i )
   {
-    this->m_DiagonalMatrix[i] = NULL;
+    this->m_DiagonalMatrix[i] = nullptr;
   }
 
-  this->m_PlanForward = NULL;
-  this->m_PlanBackward = NULL;
-  this->m_VectorFieldComponentBuffer = NULL;
-  this->m_DCTVectorFieldComponentBuffer = NULL;
+  this->m_PlanForward = nullptr;
+  this->m_PlanBackward = nullptr;
+  this->m_VectorFieldComponentBuffer = nullptr;
+  this->m_DCTVectorFieldComponentBuffer = nullptr;
 }
 
 /**
  * Default destructor
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalRegistrationCurvatureRegularizer()
 {
   //
   // Free old data, if already allocated
   //
-  if( this->m_VectorFieldComponentBuffer != NULL )
+  if( this->m_VectorFieldComponentBuffer != nullptr )
     delete[] this->m_VectorFieldComponentBuffer;
-  if( this->m_DCTVectorFieldComponentBuffer != NULL )
+  if( this->m_DCTVectorFieldComponentBuffer != nullptr )
     delete[] this->m_DCTVectorFieldComponentBuffer;
 
-  if( this->m_PlanForward != NULL )
+  if( this->m_PlanForward != nullptr )
     FFTWProxyType::DestroyPlan( this->m_PlanForward );
-  if( this->m_PlanBackward != NULL )
+  if( this->m_PlanBackward != nullptr )
     FFTWProxyType::DestroyPlan( this->m_PlanBackward );
 
   //
@@ -81,7 +81,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalReg
   //
   for( unsigned int i = 0; i < ImageDimension; ++i )
   {
-    if( this->m_DiagonalMatrix[i] != NULL )
+    if( this->m_DiagonalMatrix[i] != nullptr )
       delete[] this->m_DiagonalMatrix[i];
   }
 
@@ -90,7 +90,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalReg
 /**
  * Generate data
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::GenerateData()
 {
   // Allocate the output image
@@ -106,7 +106,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::GenerateDa
 /*
  * Initialize flags
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize()
 {
   this->Superclass::Initialize();
@@ -152,7 +152,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
 /**
  * Initialize FFT plans
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurvatureFFTPlans()
 {
   itkDebugMacro( << "Initializing curvature plans for FFT..." );
@@ -160,14 +160,14 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
   //
   // Free old data, if already allocated
   //
-  if( this->m_VectorFieldComponentBuffer != NULL )
+  if( this->m_VectorFieldComponentBuffer != nullptr )
     delete[] this->m_VectorFieldComponentBuffer;
-  if( this->m_DCTVectorFieldComponentBuffer != NULL )
+  if( this->m_DCTVectorFieldComponentBuffer != nullptr )
     delete[] this->m_DCTVectorFieldComponentBuffer;
 
-  if( this->m_PlanForward != NULL )
+  if( this->m_PlanForward != nullptr )
     FFTWProxyType::DestroyPlan( this->m_PlanForward );
-  if( this->m_PlanBackward != NULL )
+  if( this->m_PlanBackward != nullptr )
     FFTWProxyType::DestroyPlan( this->m_PlanBackward );
 
   // Allocate input and output buffers for DCT
@@ -201,13 +201,13 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
   fftw_plan_with_nthreads( this->GetNumberOfThreads() );
 
   this->m_PlanForward = fftw_plan_r2r( ImageDimension, size, this->m_VectorFieldComponentBuffer, this->m_DCTVectorFieldComponentBuffer, fftForwardKind, FFTW_MEASURE | FFTW_DESTROY_INPUT );
-  if( this->m_PlanForward == NULL )
+  if( this->m_PlanForward == nullptr )
   {
     return false;
   }
 
   this->m_PlanBackward = fftw_plan_r2r( ImageDimension, size, this->m_DCTVectorFieldComponentBuffer, this->m_VectorFieldComponentBuffer, fftBackwardKind, FFTW_MEASURE | FFTW_DESTROY_INPUT );
-  if( this->m_PlanBackward == NULL )
+  if( this->m_PlanBackward == nullptr )
   {
     return false;
   }
@@ -218,7 +218,7 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
 /**
  * Initialize elastic matrix
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurvatureDiagonalMatrix()
 {
   itkDebugMacro( << "Initializing curvature matrix for FFT..." );
@@ -228,7 +228,7 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
   //
   for( unsigned int i = 0; i < ImageDimension; ++i )
   {
-    if( this->m_DiagonalMatrix[i] != NULL )
+    if( this->m_DiagonalMatrix[i] != nullptr )
       delete[] this->m_DiagonalMatrix[i];
   }
 
@@ -262,7 +262,7 @@ bool VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Initialize
 /**
  * Execute regularization
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize()
 {
   DisplacementFieldConstPointer inputField = this->GetInput();
@@ -273,7 +273,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize
     return;
   }
 
-  typedef ImageRegionConstIterator<DisplacementFieldType> ConstIteratorType;
+  using ConstIteratorType = ImageRegionConstIterator<DisplacementFieldType>;
   ConstIteratorType inputIt( inputField, inputField->GetLargestPossibleRegion() );
 
   DisplacementFieldPointer outField = this->GetOutput();
@@ -283,7 +283,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize
     return;
   }
 
-  typedef ImageRegionIterator<DisplacementFieldType> IteratorType;
+  using IteratorType = ImageRegionIterator<DisplacementFieldType>;
   IteratorType outIt( outField, outField->GetRequestedRegion() );
 
   //
@@ -341,7 +341,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize
 /**
  * Solve elastic LES
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureLES( unsigned int currentDimension )
 {
   // Declare thread data struct and set filter
@@ -361,16 +361,16 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurva
 /**
  * Solve elastic LES
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 ITK_THREAD_RETURN_TYPE VariationalRegistrationCurvatureRegularizer<TDisplacementField>::SolveCurvatureLESThreaderCallback( void * arg )
 {
   //Get MultiThreader struct
-  MultiThreader::ThreadInfoStruct* threadStruct = (MultiThreader::ThreadInfoStruct *) arg;
+  auto* threadStruct = (MultiThreader::ThreadInfoStruct *) arg;
   int threadId = threadStruct->ThreadID;
   int threadCount = threadStruct->NumberOfThreads;
 
   // Calculate region for current thread
-  CurvatureFFTThreadStruct* userStruct = (CurvatureFFTThreadStruct*) threadStruct->UserData;
+  auto* userStruct = (CurvatureFFTThreadStruct*) threadStruct->UserData;
 
   // Calculate the range in the m_ComplexBuffer of the thread
   OffsetValueType threadRange = userStruct->totalSize / threadCount;
@@ -386,7 +386,7 @@ ITK_THREAD_RETURN_TYPE VariationalRegistrationCurvatureRegularizer<TDisplacement
 /**
  * Solve elastic LES
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ThreadedSolveCurvatureLES( unsigned int currentDimension, OffsetValueType from, OffsetValueType to )
 {
 
@@ -441,7 +441,7 @@ void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::ThreadedSo
 /*
  * Calculate the index in the complex image for a given offset.
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 typename VariationalRegistrationCurvatureRegularizer<TDisplacementField>::DisplacementFieldType::IndexType VariationalRegistrationCurvatureRegularizer<TDisplacementField>
 ::CalculateImageIndex( OffsetValueType offset )
 {
@@ -462,7 +462,7 @@ typename VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Displa
 /*
  * Print status information
  */
-template<class TDisplacementField>
+template<typename TDisplacementField>
 void VariationalRegistrationCurvatureRegularizer<TDisplacementField>::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );

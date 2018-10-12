@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::VariationalRegistrationStopCriterion()
 {
@@ -54,9 +54,9 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   m_RegressionLineSlopeThreshold = 0.005;
   m_MaxDistanceToRegressionLine = 0.005;
 
-  m_IterationArray = NULL;
-  m_DistanceArray = NULL;
-  m_DistanceArrayForFitting = NULL;
+  m_IterationArray = nullptr;
+  m_DistanceArray = nullptr;
+  m_DistanceArrayForFitting = nullptr;
 
   m_MaxMetricValue = NumericTraits<double>::min();
   m_MinMetricValue = NumericTraits<double>::max();
@@ -67,15 +67,15 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Default destructor
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::~VariationalRegistrationStopCriterion()
 {
-  if( m_IterationArray != NULL )
+  if( m_IterationArray != nullptr )
     delete[] m_IterationArray;
-  if( m_DistanceArray != NULL )
+  if( m_DistanceArray != nullptr )
     delete[] m_DistanceArray;
-  if( m_DistanceArrayForFitting != NULL )
+  if( m_DistanceArrayForFitting != nullptr )
     delete[] m_DistanceArrayForFitting;
 }
 
@@ -83,7 +83,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
  * Not implemented because registration filter must not be const to
  * return the result of check
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::Execute( const itk::Object * itkNotUsed(caller), const itk::EventObject & itkNotUsed(event) )
@@ -94,7 +94,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Handle iteration event to check if stop criterion is fulfilled
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::Execute( itk::Object *caller, const itk::EventObject & event )
@@ -104,11 +104,9 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   if( itk::IterationEvent().CheckEvent( &event ) )
     {
     // Cast caller for subsequent check
-    RegistrationFilterType* regFilter =
-        dynamic_cast< RegistrationFilterType* >( caller );
+    auto* regFilter = dynamic_cast< RegistrationFilterType* >( caller );
 
-    MRFilterType* mrFilter =
-        dynamic_cast< MRFilterType* >( caller );
+    auto* mrFilter = dynamic_cast< MRFilterType* >( caller );
 
     // If caller is MR filter, set mode for next level according to
     // MR policy
@@ -144,8 +142,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   else
     if( itk::InitializeEvent().CheckEvent( &event ) )
       {
-      MRFilterType* mrFilter =
-          dynamic_cast< MRFilterType* >( caller );
+      auto* mrFilter = dynamic_cast< MRFilterType* >( caller );
 
       if( mrFilter )
         {
@@ -163,7 +160,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  *
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::SetModeForNextLevel(
@@ -227,7 +224,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Reset the fitting data
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::ResetFittingData()
@@ -238,11 +235,11 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   m_MaxMetricValue = NumericTraits< double >::max();
   m_MinMetricValue = NumericTraits< double >::max();
 
-  if( m_IterationArray != NULL )
+  if( m_IterationArray != nullptr )
     delete[] m_IterationArray;
-  if( m_DistanceArray != NULL )
+  if( m_DistanceArray != nullptr )
     delete[] m_DistanceArray;
-  if( m_DistanceArrayForFitting != NULL )
+  if( m_DistanceArrayForFitting != nullptr )
     delete[] m_DistanceArrayForFitting;
 
   m_IterationArray = new double[m_NumberOfFittingIterations];
@@ -260,7 +257,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Set the number of iterations used for line fitting
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::SetNumberOfFittingIterations( int it )
@@ -273,7 +270,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Set the metric value for the current iteration
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::SetNextMetricValue( const double value )
@@ -324,7 +321,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Perform stop criterion check. This function returns false, if error occurred.
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 bool
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::CheckStopRegistration()
@@ -463,7 +460,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Perform line fitting using linear regression
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::FitLine(
@@ -475,7 +472,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
   double sumy = 0.0;
   double sumx2 = 0.0;
   double sumxy = 0.0;
-  double dn = (double) n;
+  auto dn = (double) n;
 
   if( n <= 1 )
     {
@@ -509,7 +506,7 @@ VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TRegistrationFilter, class TMRFilter >
+template< typename TRegistrationFilter, typename TMRFilter >
 void
 VariationalRegistrationStopCriterion< TRegistrationFilter, TMRFilter >
 ::PrintSelf( std::ostream& os, Indent indent ) const
