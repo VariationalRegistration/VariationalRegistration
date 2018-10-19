@@ -21,6 +21,7 @@
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -266,7 +267,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
       }
     }
 
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
@@ -359,7 +360,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
         }
       }
     }
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
@@ -414,7 +415,7 @@ VariationalRegistrationDiffusionRegularizer< TDisplacementField >
       outIt.Set( vector );
       }
     }
-  return ITK_THREAD_RETURN_VALUE;
+  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**

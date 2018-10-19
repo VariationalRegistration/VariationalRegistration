@@ -19,7 +19,6 @@
 #define itkVariationalRegistrationFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
-#include "itkMultiThreader.h"
 
 #include "itkVariationalRegistrationFunction.h"
 #include "itkVariationalRegistrationDemonsFunction.h"
@@ -277,7 +276,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() const override {}
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving. */
