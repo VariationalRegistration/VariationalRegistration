@@ -21,7 +21,16 @@ itk_module(VariationalRegistration
     ITKRegistrationCommon
     ITKMathematicalMorphology
     ITKBinaryMathematicalMorphology
-    ITKTestKernel #necessary to handle IO in src
+    ITKIOGDCM
+    ITKIOMeta
+    ITKIOJPEG
+    ITKIOPNG
+    ITKIOTIFF
+    ITKIOBMP
+    ITKIOVTK
+    ITKIONRRD
+    ITKIOGIPL
+    ITKIONIFTI
   TEST_DEPENDS
     ITKTestKernel
  EXCLUDE_FROM_DEFAULT
