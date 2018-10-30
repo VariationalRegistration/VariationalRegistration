@@ -40,6 +40,12 @@ This work was motivated by the following publication::
    Phys. Med. Biol., 2014
 
 
+License
+-------
+
+This software is distributed under the Apache 2.0 license. Please see the LICENSE file for details.
+
+
 Acknowledgements
 ----------------
 
