@@ -715,7 +715,7 @@ int main( int argc, char *argv[] )
   case 0:
     {
     GaussianRegularizerType::Pointer gaussRegularizer = GaussianRegularizerType::New();
-    gaussRegularizer->SetStandardDeviations( vcl_sqrt( regulVar ) );
+    gaussRegularizer->SetStandardDeviations( std::sqrt( regulVar ) );
     regularizer = gaussRegularizer;
     }
     break;
