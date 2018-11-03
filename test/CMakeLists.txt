@@ -33,7 +33,7 @@ add_custom_target(BuildExecutablesUsedInTests COMMAND echo "Dummy target"
 
 function(Test2D TestName OutputExt)
   if (OutputExt)
-    set(OutParam "-O ${TEMP}/${TestName}.${OutputExt}")
+    set(OutParam "${TEMP}/${TestName}.${OutputExt}")
   endif()
 
   itk_add_test(NAME ${TestName}
@@ -41,7 +41,7 @@ function(Test2D TestName OutputExt)
     --compare DATA{Baseline/${TestName}.tif} ${TEMP}/${TestName}.tif
     $<TARGET_FILE:VariationalRegistration2D>
     -F DATA{Input/img1.png} -M DATA{Input/img2.png} -l 4 -p 1 -g 0.00001
-    ${ARGN} -W ${TEMP}/${TestName}.tif ${OutParam} )
+    ${ARGN} -W ${TEMP}/${TestName}.tif -O ${OutParam} )
   
   SET_TESTS_PROPERTIES(${TestName} PROPERTIES
     DEPENDS BuildExecutablesUsedInTests)
