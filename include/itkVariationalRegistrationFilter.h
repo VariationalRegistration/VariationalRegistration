@@ -19,7 +19,6 @@
 #define itkVariationalRegistrationFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
-#include "itkMultiThreader.h"
 
 #include "itkVariationalRegistrationFunction.h"
 #include "itkVariationalRegistrationDemonsFunction.h"
@@ -116,7 +115,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(itkVariationalRegistrationFilter, DenseFiniteDifferenceImageFilter );
+  itkTypeMacro( VariationalRegistrationFilter, DenseFiniteDifferenceImageFilter );
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -277,7 +276,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() override {}
+  void VerifyInputInformation() const override {}
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving. */

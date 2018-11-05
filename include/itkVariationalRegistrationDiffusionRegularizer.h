@@ -19,7 +19,6 @@
 #define itkVariationalRegistrationDiffusionRegularizer_h
 
 #include "itkVariationalRegistrationRegularizer.h"
-#include "itkMultiThreader.h"
 
 namespace itk {
 
@@ -65,7 +64,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(itkVariationalRegistrationDiffusionRegularizer, itkVariationalRegistrationRegularizer);
+  itkTypeMacro( VariationalRegistrationDiffusionRegularizer, 
+    VariationalRegistrationRegularizer);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;

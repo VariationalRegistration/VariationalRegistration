@@ -1,6 +1,22 @@
 ITKVariationalRegistration
 ==========================
 
+.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKVariationalRegistration.svg?style=shield
+    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKVariationalRegistration
+
+.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKVariationalRegistration.svg?branch=master
+    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKVariationalRegistration
+
+.. image:: https://img.shields.io/appveyor/ci/itkrobot/itkvariationalregistration.svg
+    :target: https://ci.appveyor.com/project/itkrobot/itkvariationalregistration
+
+=========== =========== ===========
+   Linux      macOS       Windows
+=========== =========== ===========
+|CircleCI|  |TravisCI|  |AppVeyor|
+=========== =========== ===========
+
+
 Overview
 --------
 
