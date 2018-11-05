@@ -1,13 +1,13 @@
 ITKVariationalRegistration
 ==========================
 
-.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKVariationalRegistration.svg?style=shield
+.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKVariationalRegistration.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKVariationalRegistration
 
-.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKVariationalRegistration.svg?branch=master
+.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKVariationalRegistration.svg?branch=master
     :target: https://travis-ci.org/InsightSoftwareConsortium/ITKVariationalRegistration
 
-.. image:: https://img.shields.io/appveyor/ci/itkrobot/itkvariationalregistration.svg
+.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/itkvariationalregistration.svg
     :target: https://ci.appveyor.com/project/itkrobot/itkvariationalregistration
 
 =========== =========== ===========
@@ -38,6 +38,12 @@ This work was motivated by the following publication::
    Estimation of lung motion fields in 4D CT data by variational non-linear
    intensity-based registration: A comparison and evaluation study,
    Phys. Med. Biol., 2014
+
+
+License
+-------
+
+This software is distributed under the Apache 2.0 license. Please see the LICENSE file for details.
 
 
 Acknowledgements
