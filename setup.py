@@ -20,12 +20,12 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKVariationalRegistration',
     description=r'An ITK module to perform variational image registration',
-    long_description='ITKVariationalRegistration provides a fexible framework'
-                     'for deformable registration of two images using'
+    long_description='itk-variationalregistration provides a fexible framework '
+                     'for deformable registration of two images using '
                      'PDE-based variational registration.\n'
-                     'Please refer to:'
-                     'Schmidt-Richberg A., Werner R., Handels H., Ehrhardt J.,'
-                     '“A Flexible Variational Registration Framework”, '
+                     'Please refer to:\n'
+                     'Schmidt-Richberg A., Werner R., Handels H., Ehrhardt J., '
+                     '"A Flexible Variational Registration Framework", '
                      'Insight Journal, http://hdl.handle.net/10380/3460, 2014.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
