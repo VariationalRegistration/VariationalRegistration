@@ -1,6 +1,6 @@
 itk_module_test()
 
-SET(${itk-module}Tests
+set(${itk-module}Tests
     VariationalRegistrationFilterTest.cxx
     VariationalRegistrationMultiResolutionFilterTest.cxx
 )
@@ -43,7 +43,7 @@ function(Test2D TestName OutputExt)
     -F DATA{Input/img1.png} -M DATA{Input/img2.png} -l 4 -p 1 -g 0.00001
     ${ARGN} -W ${TEMP}/${TestName}.tif -O ${OutParam} )
   
-  SET_TESTS_PROPERTIES(${TestName} PROPERTIES
+  set_tests_properties(${TestName} PROPERTIES
     DEPENDS BuildExecutablesUsedInTests)
 endfunction()
 
@@ -96,11 +96,11 @@ function(Test3D TestName)
     -F DATA{Input/10-P_5x5x5.nii.gz} -M DATA{Input/60-P_5x5x5.nii.gz} -l 3 -p 1 -g 0.00001
     ${ARGN} -W ${TEMP}/${TestName}.nii.gz -O ${TEMP}/${TestName}_displ.mhd )
 
-  SET_TESTS_PROPERTIES(${TestName} PROPERTIES
+  set_tests_properties(${TestName} PROPERTIES
     DEPENDS BuildExecutablesUsedInTests)
 endfunction()
 
-SET(COMMON_PARAMS3D -F DATA{Input/10-P_5x5x5.nii.gz} -M DATA{Input/60-P_5x5x5.nii.gz} -l 3 -p 1 -g 0.00001)
+set(COMMON_PARAMS3D -F DATA{Input/10-P_5x5x5.nii.gz} -M DATA{Input/60-P_5x5x5.nii.gz} -l 3 -p 1 -g 0.00001)
 
 
 itk_add_test(NAME VariationalRegistration3DPrintHelpTest
