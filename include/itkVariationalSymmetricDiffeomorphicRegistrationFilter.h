@@ -20,7 +20,8 @@
 
 #include "itkVariationalDiffeomorphicRegistrationFilter.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalSymmetricDiffeomorphicRegistrationFilter
  *
@@ -86,26 +87,24 @@ namespace itk {
  *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 class VariationalSymmetricDiffeomorphicRegistrationFilter
-  : public VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
+  : public VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalSymmetricDiffeomorphicRegistrationFilter);
 
   /** Standard class type alias */
   using Self = VariationalSymmetricDiffeomorphicRegistrationFilter;
-  using Superclass = VariationalDiffeomorphicRegistrationFilter<
-      TFixedImage, TMovingImage, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( VariationalSymmetricDiffeomorphicRegistrationFilter,
-    VariationalDiffeomorphicRegistrationFilter);
+  itkTypeMacro(VariationalSymmetricDiffeomorphicRegistrationFilter, VariationalDiffeomorphicRegistrationFilter);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -138,60 +137,66 @@ public:
   using TimeStepType = typename Superclass::TimeStepType;
 
   /** Get output inverse deformation field. */
-  itkGetModifiableObjectMacro( InverseDisplacementField, DisplacementFieldType );
+  itkGetModifiableObjectMacro(InverseDisplacementField, DisplacementFieldType);
 
 protected:
   VariationalSymmetricDiffeomorphicRegistrationFilter();
   ~VariationalSymmetricDiffeomorphicRegistrationFilter() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method is called before iterating the solution. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Initialize the backward update after forward update was completed */
-  virtual void InitializeBackwardIteration();
+  virtual void
+  InitializeBackwardIteration();
 
   /** Apply update function that additionally computes the inverse displacement
    *  field for the next iteration. */
-  void ApplyUpdate( const TimeStepType& dt ) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Calculate the update for each iteration by first performing the forward
    * and then the backward update step. */
-  TimeStepType CalculateChange() override;
+  TimeStepType
+  CalculateChange() override;
 
   /** Calculates the inverse deformation field by calculating the exponential
    * of the negative velocity field. */
-  virtual void CalcInverseDeformationFromVelocityField( const DisplacementFieldType * velocityField );
+  virtual void
+  CalcInverseDeformationFromVelocityField(const DisplacementFieldType * velocityField);
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
-  itkGetModifiableObjectMacro( BackwardUpdateBuffer, UpdateBufferType );
+  itkGetModifiableObjectMacro(BackwardUpdateBuffer, UpdateBufferType);
 
   /** The type of region used for multithreading */
   using ThreadRegionType = typename UpdateBufferType::RegionType;
 
   /** Threaded version of ApplyUpdate that adds forward and backward fields  */
-  void ThreadedApplyUpdate( const TimeStepType &dt,
-                                    const ThreadRegionType &regionToProcess,
-                                    unsigned int threadId ) override;
+  void
+  ThreadedApplyUpdate(const TimeStepType &     dt,
+                      const ThreadRegionType & regionToProcess,
+                      unsigned int             threadId) override;
 
 private:
   using FieldExponentiatorType = typename Superclass::FieldExponentiatorType;
   using FieldExponentiatorPointer = typename FieldExponentiatorType::Pointer;
 
   /** The deformation field. */
-  FieldExponentiatorPointer            m_InverseExponentiator;
-  DisplacementFieldPointer             m_InverseDisplacementField;
-  typename UpdateBufferType::Pointer   m_BackwardUpdateBuffer;
-
+  FieldExponentiatorPointer          m_InverseExponentiator;
+  DisplacementFieldPointer           m_InverseDisplacementField;
+  typename UpdateBufferType::Pointer m_BackwardUpdateBuffer;
 };
 
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkVariationalSymmetricDiffeomorphicRegistrationFilter.hxx"
+#  include "itkVariationalSymmetricDiffeomorphicRegistrationFilter.hxx"
 #endif
 
 #endif

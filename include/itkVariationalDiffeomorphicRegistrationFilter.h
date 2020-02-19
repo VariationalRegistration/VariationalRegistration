@@ -22,7 +22,8 @@
 #include "itkExponentialDisplacementFieldImageFilter.h"
 
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalDiffeomorphicRegistrationFilter
  *
@@ -45,8 +46,9 @@ namespace itk {
  *    - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
  *
  *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction. The computation
- *  of the regularization with \f$ (Id - \tau\alpha A)^{-1}\f$ is implemented in a subclass of VariationalRegistrationRegularizer.
- *  The exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using the ExponentialDisplacementFieldImageFilter.
+ *  of the regularization with \f$ (Id - \tau\alpha A)^{-1}\f$ is implemented in a subclass of
+ * VariationalRegistrationRegularizer. The exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using
+ * the ExponentialDisplacementFieldImageFilter.
  *
  *  You can set SmoothUpdateFieldOn() to smooth the velocity field before exponentiation.
  *
@@ -76,17 +78,16 @@ namespace itk {
  *      <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 class VariationalDiffeomorphicRegistrationFilter
-  : public VariationalRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
+  : public VariationalRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalDiffeomorphicRegistrationFilter);
 
   /** Standard class type alias */
   using Self = VariationalDiffeomorphicRegistrationFilter;
-  using Superclass = VariationalRegistrationFilter<
-      TFixedImage, TMovingImage, TDisplacementField >;
+  using Superclass = VariationalRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -94,7 +95,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( VariationalDiffeomorphicRegistrationFilter, VariationalRegistrationFilter );
+  itkTypeMacro(VariationalDiffeomorphicRegistrationFilter, VariationalRegistrationFilter);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -126,53 +127,70 @@ public:
   using TimeStepType = typename Superclass::TimeStepType;
 
   /** Set the desired number of iterations for the exponentiator. */
-  itkSetMacro( NumberOfExponentiatorIterations, unsigned int );
+  itkSetMacro(NumberOfExponentiatorIterations, unsigned int);
 
   /** Get the desired number of iterations for the exponentiator. */
-  itkGetConstMacro( NumberOfExponentiatorIterations, unsigned int );
+  itkGetConstMacro(NumberOfExponentiatorIterations, unsigned int);
 
   /** Set initial deformation field. \warning This can't be used for diffeomorphic registration.*/
-  void SetInitialDisplacementField( DisplacementFieldType * ptr ) override;
+  void
+  SetInitialDisplacementField(DisplacementFieldType * ptr) override;
 
   /** Get output deformation field. Returns the displacement field of the current transformation.*/
-  DisplacementFieldType * GetDisplacementField() override
-    { return m_DisplacementField; }
+  DisplacementFieldType *
+  GetDisplacementField() override
+  {
+    return m_DisplacementField;
+  }
 
   /** Set initial deformation field. */
-  virtual void SetInitialVelocityField( DisplacementFieldType * ptr )
-    { this->SetInput( ptr ); }
+  virtual void
+  SetInitialVelocityField(DisplacementFieldType * ptr)
+  {
+    this->SetInput(ptr);
+  }
 
   /** Get output velocity field. */
-  virtual DisplacementFieldType * GetVelocityField()
-    { return this->GetOutput(); }
+  virtual DisplacementFieldType *
+  GetVelocityField()
+  {
+    return this->GetOutput();
+  }
 
 protected:
   VariationalDiffeomorphicRegistrationFilter();
   ~VariationalDiffeomorphicRegistrationFilter() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method is called before iterating the solution. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Apply update. */
-  void ApplyUpdate( const TimeStepType& dt ) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Calculates the deformation field by calculating the exponential
    * of the velocity field. */
-  virtual void CalcDeformationFromVelocityField( const DisplacementFieldType * velocityField );
+  virtual void
+  CalcDeformationFromVelocityField(const DisplacementFieldType * velocityField);
 
   /** Exponential field calculator type. */
-  using FieldExponentiatorType = itk::ExponentialDisplacementFieldImageFilter<
-      DisplacementFieldType, DisplacementFieldType>;
+  using FieldExponentiatorType =
+    itk::ExponentialDisplacementFieldImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
   /** Typename for the exponentiator. */
   using FieldExponentiatorPointer = typename FieldExponentiatorType::Pointer;
 
   /** Get the exponentiator used to compute a displacement from a velocity field. */
-  virtual FieldExponentiatorPointer GetExponentiator()
-    { return m_Exponentiator; }
+  virtual FieldExponentiatorPointer
+  GetExponentiator()
+  {
+    return m_Exponentiator;
+  }
 
 private:
   /** The deformation field. */
@@ -181,13 +199,12 @@ private:
 
   /** Number of iterations for exponentiation (self composing) of velocity field. */
   unsigned int m_NumberOfExponentiatorIterations;
-
 };
 
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkVariationalDiffeomorphicRegistrationFilter.hxx"
+#  include "itkVariationalDiffeomorphicRegistrationFilter.hxx"
 #endif
 
 #endif

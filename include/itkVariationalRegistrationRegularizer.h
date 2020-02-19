@@ -20,7 +20,8 @@
 
 #include "itkInPlaceImageFilter.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalRegistrationRegularizer
  *
@@ -42,25 +43,23 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TDisplacementField>
-class VariationalRegistrationRegularizer
-  : public InPlaceImageFilter< TDisplacementField, TDisplacementField >
+template <typename TDisplacementField>
+class VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationRegularizer;
-  using Superclass = InPlaceImageFilter<
-    TDisplacementField, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TDisplacementField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( VariationalRegistrationRegularizer, InPlaceImageFilter);
+  itkTypeMacro(VariationalRegistrationRegularizer, InPlaceImageFilter);
 
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 
@@ -73,33 +72,35 @@ public:
   using ValueType = typename NumericTraits<PixelType>::ValueType;
 
   /** Set whether the image spacing should be considered or not */
-  itkSetMacro( UseImageSpacing, bool );
+  itkSetMacro(UseImageSpacing, bool);
 
   /** Get whether the image spacing is considered or not */
-  itkGetConstMacro( UseImageSpacing, bool );
+  itkGetConstMacro(UseImageSpacing, bool);
 
   /** Set whether the image spacing should be considered or not */
-  itkBooleanMacro( UseImageSpacing );
+  itkBooleanMacro(UseImageSpacing);
 
 protected:
   VariationalRegistrationRegularizer();
   ~VariationalRegistrationRegularizer() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the filter. */
-  virtual void Initialize() {};
+  virtual void
+  Initialize(){};
 
 private:
   /** A boolean that indicates, if image spacing is considered. */
   bool m_UseImageSpacing;
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkVariationalRegistrationRegularizer.hxx"
+#  include "itkVariationalRegistrationRegularizer.hxx"
 #endif
 
 #endif

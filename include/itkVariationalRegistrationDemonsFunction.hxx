@@ -27,9 +27,9 @@ namespace itk
 /**
  * Default constructor
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
-::VariationalRegistrationDemonsFunction()
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+VariationalRegistrationDemonsFunction<TFixedImage, TMovingImage, TDisplacementField>::
+  VariationalRegistrationDemonsFunction()
 {
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
@@ -44,12 +44,12 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
 /**
  * Standard "PrintSelf" method.
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
-::PrintSelf( std::ostream& os, Indent indent ) const
+VariationalRegistrationDemonsFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
+                                                                                                Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "FixedImageGradientCalculator: ";
   os << m_FixedImageGradientCalculator.GetPointer() << std::endl;
@@ -69,40 +69,39 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
 /**
  * Set the function state values before each iteration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
-::InitializeIteration()
+VariationalRegistrationDemonsFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
 {
   // Call superclass method
   Superclass::InitializeIteration();
 
   // cache fixed image information
-  m_ZeroUpdateReturn.Fill( 0.0 );
+  m_ZeroUpdateReturn.Fill(0.0);
 
   // compute the normalizer
   m_Normalizer = 0.0;
   SpacingType fixedImageSpacing = this->GetFixedImage()->GetSpacing();
-  for( unsigned int k = 0; k < ImageDimension; k++ )
-    {
+  for (unsigned int k = 0; k < ImageDimension; k++)
+  {
     m_Normalizer += fixedImageSpacing[k] * fixedImageSpacing[k];
-    }
-  m_Normalizer /= static_cast< double >( ImageDimension );
+  }
+  m_Normalizer /= static_cast<double>(ImageDimension);
 
   // setup gradient calculator
-  m_WarpedImageGradientCalculator->SetInputImage( this->GetWarpedImage() );
-  m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
+  m_WarpedImageGradientCalculator->SetInputImage(this->GetWarpedImage());
+  m_FixedImageGradientCalculator->SetInputImage(this->GetFixedImage());
 }
 
 /**
  * Compute update at a specific neighborhood
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-typename VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
-::PixelType
-VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementField >
-::ComputeUpdate( const NeighborhoodType &it, void * gd,
-    const FloatOffsetType& itkNotUsed( offset ) )
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+typename VariationalRegistrationDemonsFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+VariationalRegistrationDemonsFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
+  const NeighborhoodType & it,
+  void *                   gd,
+  const FloatOffsetType &  itkNotUsed(offset))
 {
   // Get fixed image related information
   // Note: no need to check the index is within
@@ -111,37 +110,35 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
 
   // Check if index lies inside mask
   const MaskImageType * mask = this->GetMaskImage();
-  if( mask && (mask->GetPixel( index ) <= this->GetMaskBackgroundThreshold()) )
-    {
+  if (mask && (mask->GetPixel(index) <= this->GetMaskBackgroundThreshold()))
+  {
     return m_ZeroUpdateReturn;
-    }
+  }
 
-  const auto warpedValue = (double) this->GetWarpedImage()->GetPixel( index );
-  const auto fixedValue = (double) this->GetFixedImage()->GetPixel( index );
+  const auto warpedValue = (double)this->GetWarpedImage()->GetPixel(index);
+  const auto fixedValue = (double)this->GetFixedImage()->GetPixel(index);
 
   typename GradientCalculatorType::OutputType gradient;
 
   // Compute the gradient of either fixed or moving image
-  if( m_GradientType == GRADIENT_TYPE_WARPED )
-    {
-    gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex( index );
-    }
+  if (m_GradientType == GRADIENT_TYPE_WARPED)
+  {
+    gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex(index);
+  }
+  else if (m_GradientType == GRADIENT_TYPE_FIXED)
+  {
+    gradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
+  }
+  else if (m_GradientType == GRADIENT_TYPE_SYMMETRIC)
+  {
+    // Does not have to be divided by 2, normalization is done afterwards
+    gradient =
+      m_WarpedImageGradientCalculator->EvaluateAtIndex(index) + m_FixedImageGradientCalculator->EvaluateAtIndex(index);
+  }
   else
-    if( m_GradientType == GRADIENT_TYPE_FIXED )
-      {
-      gradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-      }
-    else
-      if( m_GradientType == GRADIENT_TYPE_SYMMETRIC )
-        {
-        // Does not have to be divided by 2, normalization is done afterwards
-        gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex( index )
-            + m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-        }
-      else
-        {
-        itkExceptionMacro( << "Unknown gradient type!" );
-        }
+  {
+    itkExceptionMacro(<< "Unknown gradient type!");
+  }
 
   // Compute Update.
   // In the original equation the denominator is defined as (g-f)^2 + grad_mag^2.
@@ -158,36 +155,36 @@ VariationalRegistrationDemonsFunction< TFixedImage, TMovingImage, TDisplacementF
 
   // Calculate spped value
   const double speedValue = fixedValue - warpedValue;
-  const double sqr_speedValue = itk::Math::sqr( speedValue );
+  const double sqr_speedValue = itk::Math::sqr(speedValue);
 
   // Calculate update
   PixelType update;
-  if( itk::Math::abs( speedValue ) < m_IntensityDifferenceThreshold )
-    {
+  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold)
+  {
     update = m_ZeroUpdateReturn;
-    }
+  }
   else
-    {
+  {
     // Calculate the denominator
     const double denominator = sqr_speedValue / m_Normalizer + gradientSquaredMagnitude;
 
-    if( denominator < m_DenominatorThreshold )
+    if (denominator < m_DenominatorThreshold)
       update = m_ZeroUpdateReturn;
     else
-      for( unsigned int j = 0; j < ImageDimension; j++ )
-        {
+      for (unsigned int j = 0; j < ImageDimension; j++)
+      {
         update[j] = speedValue * gradient[j] / denominator;
-        }
-    }
+      }
+  }
 
   // Update the global data (metric etc.)
-  auto *globalData = (GlobalDataStruct *) gd;
-  if( globalData )
-    {
+  auto * globalData = (GlobalDataStruct *)gd;
+  if (globalData)
+  {
     globalData->m_NumberOfPixelsProcessed += 1;
     globalData->m_SumOfMetricValues += sqr_speedValue;
     globalData->m_SumOfSquaredChange += update.GetSquaredNorm();
-    }
+  }
 
   return update;
 }

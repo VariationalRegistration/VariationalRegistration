@@ -24,7 +24,8 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class VariationalRegistrationFastNCCFunction
  *
@@ -60,25 +61,25 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class VariationalRegistrationFastNCCFunction :
-  public VariationalRegistrationNCCFunction< TFixedImage,  TMovingImage, TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class VariationalRegistrationFastNCCFunction
+  : public VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFastNCCFunction);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationFastNCCFunction;
-  using Superclass = VariationalRegistrationNCCFunction< TFixedImage,  TMovingImage, TDisplacementField >;
-                                                 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>;
+
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VariationalRegistrationFastNCCFunction, VariationalRegistrationNCCFunction );
+  itkTypeMacro(VariationalRegistrationFastNCCFunction, VariationalRegistrationNCCFunction);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -101,10 +102,9 @@ public:
 
   /** Deformation field type. */
   using DisplacementFieldType = typename Superclass::DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldTypePointer
-                                                     DisplacementFieldTypePointer;
+  typedef typename Superclass::DisplacementFieldTypePointer DisplacementFieldTypePointer;
 
-   /** Inherit some types from the superclass. */
+  /** Inherit some types from the superclass. */
   using PixelType = typename Superclass::PixelType;
   using RadiusType = typename Superclass::RadiusType;
   using NeighborhoodType = typename Superclass::NeighborhoodType;
@@ -116,54 +116,58 @@ public:
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  PixelType ComputeUpdate( const NeighborhoodType &neighborhood,
-                    void *globalData,
-                    const FloatOffsetType &offset = FloatOffsetType(0.0) ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
-   /** Return a pointer to a global data structure that is passed to
-    * this object from the solver at each calculation.  */
-   void *GetGlobalDataPointer() const override;
+  /** Return a pointer to a global data structure that is passed to
+   * this object from the solver at each calculation.  */
+  void *
+  GetGlobalDataPointer() const override;
 
-   /** Release memory for global data structure. */
-   void ReleaseGlobalDataPointer(void *GlobalData) const override;
+  /** Release memory for global data structure. */
+  void
+  ReleaseGlobalDataPointer(void * GlobalData) const override;
 
 protected:
   VariationalRegistrationFastNCCFunction();
   ~VariationalRegistrationFastNCCFunction() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 
   /** A global data type for this class of equation. Used to store
    * information for computing the metric. */
   struct NCCGlobalDataStruct
-    {
-    double          m_SumOfMetricValues;
-    SizeValueType   m_NumberOfPixelsProcessed;
-    double          m_SumOfSquaredChange;
-    IndexType       m_LastIndex;
-    bool bValuesAreValid;
-    unsigned int lastSliceIndex;
+  {
+    double              m_SumOfMetricValues;
+    SizeValueType       m_NumberOfPixelsProcessed;
+    double              m_SumOfSquaredChange;
+    IndexType           m_LastIndex;
+    bool                bValuesAreValid;
+    unsigned int        lastSliceIndex;
     std::vector<double> sfSliceValueList;
     std::vector<double> smSliceValueList;
     std::vector<double> sffSliceValueList;
     std::vector<double> smmSliceValueList;
     std::vector<double> sfmSliceValueList;
-    double sfLastValue;
-    double smLastValue;
-    double sffLastValue;
-    double smmLastValue;
-    double sfmLastValue;
-    };
+    double              sfLastValue;
+    double              smLastValue;
+    double              sffLastValue;
+    double              smmLastValue;
+    double              sfmLastValue;
+  };
 };
 
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVariationalRegistrationFastNCCFunction.hxx"
+#  include "itkVariationalRegistrationFastNCCFunction.hxx"
 #endif
 
 #endif

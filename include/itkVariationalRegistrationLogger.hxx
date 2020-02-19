@@ -30,79 +30,71 @@ namespace itk
 /**
  * Default constructor
  */
-template< typename TRegistrationFilter, typename TMRFilter >
-VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
-::VariationalRegistrationLogger()
-{
-}
+template <typename TRegistrationFilter, typename TMRFilter>
+VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::VariationalRegistrationLogger()
+{}
 
 /**
  * Default destructor
  */
-template< typename TRegistrationFilter, typename TMRFilter >
-VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
-::~VariationalRegistrationLogger()
-{
-}
+template <typename TRegistrationFilter, typename TMRFilter>
+VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::~VariationalRegistrationLogger()
+{}
 
 /**
  *
  */
-template< typename TRegistrationFilter, typename TMRFilter >
+template <typename TRegistrationFilter, typename TMRFilter>
 void
-VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
-::Execute( const itk::Object *caller, const itk::EventObject & event )
+VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::Execute(const itk::Object *      caller,
+                                                                       const itk::EventObject & event)
 {
   // If event is an iteration event, check if thrown by registration
   // or multi resolution filter
-  if( itk::IterationEvent().CheckEvent( &event ) )
-    {
+  if (itk::IterationEvent().CheckEvent(&event))
+  {
     // Cast caller for subsequent check
-    const auto* regFilter = dynamic_cast< const RegistrationFilterType* >( caller );
+    const auto * regFilter = dynamic_cast<const RegistrationFilterType *>(caller);
 
-    const auto* mrFilter = dynamic_cast< const MRFilterType* >( caller );
+    const auto * mrFilter = dynamic_cast<const MRFilterType *>(caller);
 
     // If caller is MR filter, set mode for next level according to
     // MR policy
-    if( mrFilter )
-      {
+    if (mrFilter)
+    {
       std::cout << "Finished level " << mrFilter->GetElapsedLevels() << std::endl;
-      }
+    }
 
     // If caller is registration filter, log metric of last iteration
     // and check, if stop criterion is fulfilled
-    else
-      if( regFilter )
-        {
-        std::cout << "  " << regFilter->GetElapsedIterations()
-            << " - Metric: " << regFilter->GetMetric()
-            << " - RMS-Change: " << regFilter->GetRMSChange() << std::endl;
-        }
+    else if (regFilter)
+    {
+      std::cout << "  " << regFilter->GetElapsedIterations() << " - Metric: " << regFilter->GetMetric()
+                << " - RMS-Change: " << regFilter->GetRMSChange() << std::endl;
     }
+  }
 
   // If initialize event called by MR filter, set MR mode for first
   // level according to MR policy
-  else
-    if( itk::InitializeEvent().CheckEvent( &event ) )
-      {
-      const auto* mrFilter = dynamic_cast< const MRFilterType* >( caller );
+  else if (itk::InitializeEvent().CheckEvent(&event))
+  {
+    const auto * mrFilter = dynamic_cast<const MRFilterType *>(caller);
 
-      if( mrFilter )
-        {
-        // TODO what should happen here?
-        }
-      }
+    if (mrFilter)
+    {
+      // TODO what should happen here?
+    }
+  }
 }
 
 /**
  * Standard "PrintSelf" method.
  */
-template< typename TRegistrationFilter, typename TMRFilter >
+template <typename TRegistrationFilter, typename TMRFilter>
 void
-VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
-::PrintSelf( std::ostream& os, Indent indent ) const
+VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 }
 
 } // end namespace itk

@@ -21,7 +21,8 @@
 #include "itkCommand.h"
 #include "itkEventObject.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalRegistrationLogger
  *  \brief A simple callback/observer class to print information during the registration process.
@@ -42,9 +43,8 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TRegistrationFilter, typename TMRFilter >
-class VariationalRegistrationLogger
-  : public Command
+template <typename TRegistrationFilter, typename TMRFilter>
+class VariationalRegistrationLogger : public Command
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationLogger);
@@ -52,8 +52,8 @@ public:
   /** Standard class type alias. */
   using Self = VariationalRegistrationLogger;
   using Superclass = Command;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Registration and MR filter types */
   using RegistrationFilterType = TRegistrationFilter;
@@ -63,26 +63,29 @@ public:
   itkNewMacro(Self);
 
   /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
-  void Execute( itk::Object *caller, const itk::EventObject & event ) override
-    {
-      Execute( (const itk::Object *)caller, event);
-    }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
 
   /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
-  void Execute( const itk::Object *caller, const itk::EventObject & event ) override;
+  void
+  Execute(const itk::Object * caller, const itk::EventObject & event) override;
 
 protected:
   VariationalRegistrationLogger();
   ~VariationalRegistrationLogger() override;
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVariationalRegistrationLogger.hxx"
+#  include "itkVariationalRegistrationLogger.hxx"
 #endif
 
 #endif

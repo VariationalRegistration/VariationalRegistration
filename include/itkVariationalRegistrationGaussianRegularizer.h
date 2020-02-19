@@ -20,7 +20,8 @@
 
 #include "itkVariationalRegistrationRegularizer.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalRegistrationGaussianRegularizer
  *
@@ -42,26 +43,23 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TDisplacementField >
-class VariationalRegistrationGaussianRegularizer
-  : public VariationalRegistrationRegularizer< TDisplacementField >
+template <typename TDisplacementField>
+class VariationalRegistrationGaussianRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationGaussianRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationGaussianRegularizer;
-  using Superclass = VariationalRegistrationRegularizer<
-      TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VariationalRegistrationRegularizer<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( VariationalRegistrationGaussianRegularizer, 
-    VariationalRegistrationRegularizer);
+  itkTypeMacro(VariationalRegistrationGaussianRegularizer, VariationalRegistrationRegularizer);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
@@ -75,18 +73,19 @@ public:
   using ValueType = typename Superclass::ValueType;
 
   /** Types for buffer image. */
-  using BufferImageType = Image< ValueType, ImageDimension >;
+  using BufferImageType = Image<ValueType, ImageDimension>;
   using BufferImagePointer = typename BufferImageType::Pointer;
   using BufferImageRegionType = typename BufferImageType::RegionType;
 
   /** Array containing standard deviations in each direction. */
-  using StandardDeviationsType = FixedArray< double, ImageDimension >;
+  using StandardDeviationsType = FixedArray<double, ImageDimension>;
 
   /** Set the Gaussian smoothing standard deviations for the
    * displacement field. The values are set with respect to pixel
    * coordinates. */
-  itkSetMacro( StandardDeviations, StandardDeviationsType );
-  virtual void SetStandardDeviations( double value );
+  itkSetMacro(StandardDeviations, StandardDeviationsType);
+  virtual void
+  SetStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations use for smoothing
    * the displacement field. */
@@ -94,50 +93,53 @@ public:
 
   /** Set the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
-  itkSetMacro( MaximumError, double );
+  itkSetMacro(MaximumError, double);
 
   /** Get the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
-  itkGetConstMacro( MaximumError, double );
+  itkGetConstMacro(MaximumError, double);
 
   /** Set the desired limits of the Gaussian kernel width.
    * \sa GaussianOperator. */
-  itkSetMacro( MaximumKernelWidth, unsigned int );
+  itkSetMacro(MaximumKernelWidth, unsigned int);
 
   /** Get the desired limits of the Gaussian kernel width.
    * \sa GaussianOperator. */
-  itkGetConstMacro( MaximumKernelWidth, unsigned int );
+  itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
 protected:
   VariationalRegistrationGaussianRegularizer();
   ~VariationalRegistrationGaussianRegularizer() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
 private:
   /** Standard deviation for Gaussian smoothing */
   StandardDeviationsType m_StandardDeviations;
 
   /** Maximum error for Gaussian operator approximation. */
-  double         m_MaximumError;
+  double m_MaximumError;
 
   /** Limits of Gaussian kernel width. */
-  unsigned int   m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth;
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkVariationalRegistrationGaussianRegularizer.hxx"
+#  include "itkVariationalRegistrationGaussianRegularizer.hxx"
 #endif
 
 #endif

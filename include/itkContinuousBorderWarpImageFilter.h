@@ -55,20 +55,15 @@ namespace itk
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template <
-  typename TInputImage,
-  typename TOutputImage,
-  typename TDisplacementField
-  >
-class ContinuousBorderWarpImageFilter :
-    public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
+class ContinuousBorderWarpImageFilter : public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContinuousBorderWarpImageFilter);
 
   /** Standard class type alias. */
   using Self = ContinuousBorderWarpImageFilter;
-  using Superclass = WarpImageFilter<TInputImage,TOutputImage, TDisplacementField>;
+  using Superclass = WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -76,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ContinuousBorderWarpImageFilter, WarpImageFilter );
+  itkTypeMacro(ContinuousBorderWarpImageFilter, WarpImageFilter);
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
@@ -113,13 +108,14 @@ protected:
   ~ContinuousBorderWarpImageFilter() override = default;
 
   /** WarpImageFilter is implemented as a multi-threaded filter. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkContinuousBorderWarpImageFilter.hxx"
+#  include "itkContinuousBorderWarpImageFilter.hxx"
 #endif
 
 #endif

@@ -21,12 +21,13 @@
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreaderBase.h"
 
-#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 
 // other includes:
-#include "itkFFTWCommon.h"
+#  include "itkFFTWCommon.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalRegistrationCurvatureRegularizer
  *
@@ -58,24 +59,23 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TDisplacementField >
-class VariationalRegistrationCurvatureRegularizer
-  : public VariationalRegistrationRegularizer< TDisplacementField >
+template <typename TDisplacementField>
+class VariationalRegistrationCurvatureRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationCurvatureRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationCurvatureRegularizer;
-  using Superclass = VariationalRegistrationRegularizer<TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VariationalRegistrationRegularizer<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( VariationalRegistrationCurvatureRegularizer, VariationalRegistrationRegularizer);
+  itkTypeMacro(VariationalRegistrationCurvatureRegularizer, VariationalRegistrationRegularizer);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
@@ -86,63 +86,70 @@ public:
   using DisplacementFieldConstPointer = typename Superclass::DisplacementFieldConstPointer;
   using PixelType = typename Superclass::PixelType;
   using ValueType = typename Superclass::ValueType;
-  typedef typename DisplacementFieldType::SizeType::SizeValueType
-                                                             OffsetValueType;
+  typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
   /** Types for FFTW proxy */
 
-  #if defined( ITK_USE_FFTWD )
-  //Prefer to use double precision
+#  if defined(ITK_USE_FFTWD)
+  // Prefer to use double precision
   using RealTypeFFT = double;
-  #else
-    #if defined( ITK_USE_FFTWF )
-      //Allow to use single precision
-      #warning "Using single precision for FFT computations!"
+#  else
+#    if defined(ITK_USE_FFTWF)
+// Allow to use single precision
+#      warning "Using single precision for FFT computations!"
   using RealTypeFFT = float;
-    #endif
-  #endif
+#    endif
+#  endif
 
   using FFTWProxyType = typename fftw::Proxy<RealTypeFFT>;
 
   /** Set the regularization weight alpha */
-  itkSetMacro( Alpha, ValueType );
+  itkSetMacro(Alpha, ValueType);
 
   /** Get the regularization weight alpha */
-  itkGetConstMacro( Alpha, ValueType );
+  itkGetConstMacro(Alpha, ValueType);
 
 protected:
   VariationalRegistrationCurvatureRegularizer();
   ~VariationalRegistrationCurvatureRegularizer() override;
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Initialize FFTW plans and multi-threading, allocate arrays for FFT */
-  virtual bool InitializeCurvatureFFTPlans();
+  virtual bool
+  InitializeCurvatureFFTPlans();
 
   /** Precompute sine and cosine values for solving the LES */
-  virtual bool InitializeCurvatureDiagonalMatrix();
+  virtual bool
+  InitializeCurvatureDiagonalMatrix();
 
   /** Regularize the deformation field. This is called by GenerateData(). */
-  virtual void Regularize();
+  virtual void
+  Regularize();
 
   /** solve the LES after forward FFTs (before backward FFTs) */
-  virtual void SolveCurvatureLES(unsigned int currentDimension);
+  virtual void
+  SolveCurvatureLES(unsigned int currentDimension);
 
   /** solve the LES after forward FFTs (and before backward FFTs). Multithreaded method. */
-  virtual void ThreadedSolveCurvatureLES(unsigned int currentDimension, OffsetValueType from, OffsetValueType to );
+  virtual void
+  ThreadedSolveCurvatureLES(unsigned int currentDimension, OffsetValueType from, OffsetValueType to);
 
   /** Calculate the index in the complex image for a given offset. */
-  typename DisplacementFieldType::IndexType CalculateImageIndex(
-      OffsetValueType offset );
+  typename DisplacementFieldType::IndexType
+  CalculateImageIndex(OffsetValueType offset);
 
 private:
   /** Weight of the regularization term. */
@@ -152,7 +159,7 @@ private:
   typename DisplacementFieldType::SpacingType m_Spacing;
 
   /** The size of the displacement field. */
-  typename DisplacementFieldType::SizeType    m_Size;
+  typename DisplacementFieldType::SizeType m_Size;
 
   /** Number of pixels of the displacement field. */
   OffsetValueType m_TotalSize;
@@ -164,26 +171,29 @@ private:
   RealTypeFFT * m_DiagonalMatrix[ImageDimension];
 
   /** FFT plans and buffers */
-  typename FFTWProxyType::PlanType     m_PlanForward;   /** FFT forward plan  */
-  typename FFTWProxyType::PlanType     m_PlanBackward;  /** FFT backward plan */
-  typename FFTWProxyType::PixelType*   m_VectorFieldComponentBuffer;   /** FFT memory space for input/output spatial data */
-  typename FFTWProxyType::PixelType*   m_DCTVectorFieldComponentBuffer;  /** FFT memory space for output/input frequency data */
+  typename FFTWProxyType::PlanType m_PlanForward;  /** FFT forward plan  */
+  typename FFTWProxyType::PlanType m_PlanBackward; /** FFT backward plan */
+  typename FFTWProxyType::PixelType *
+    m_VectorFieldComponentBuffer; /** FFT memory space for input/output spatial data */
+  typename FFTWProxyType::PixelType *
+    m_DCTVectorFieldComponentBuffer; /** FFT memory space for output/input frequency data */
 
   struct CurvatureFFTThreadStruct
-    {
-    VariationalRegistrationCurvatureRegularizer *Filter;
-    OffsetValueType totalSize;
-    unsigned int currentDimension;
-    };
+  {
+    VariationalRegistrationCurvatureRegularizer * Filter;
+    OffsetValueType                               totalSize;
+    unsigned int                                  currentDimension;
+  };
 
-  static ITK_THREAD_RETURN_TYPE SolveCurvatureLESThreaderCallback(void *vargs);
+  static ITK_THREAD_RETURN_TYPE
+  SolveCurvatureLESThreaderCallback(void * vargs);
 };
 
-}
+} // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-# include "itkVariationalRegistrationCurvatureRegularizer.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkVariationalRegistrationCurvatureRegularizer.hxx"
+#  endif
 
 #endif
 #endif

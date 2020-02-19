@@ -28,9 +28,9 @@ namespace itk
 /**
  * Default constructor
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::VariationalDiffeomorphicRegistrationFilter()
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
+  VariationalDiffeomorphicRegistrationFilter()
 {
   // Create new exponential field calculator.
   m_Exponentiator = FieldExponentiatorType::New();
@@ -42,56 +42,54 @@ VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplace
 /*
  * Set the mask image.
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::SetInitialDisplacementField( DisplacementFieldType * /*ptr*/ )
+VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SetInitialDisplacementField(
+  DisplacementFieldType * /*ptr*/)
 {
   // TODO Calculate logarithm from initial deformation field?
 
-  itkWarningMacro( << "Initial deformation field cannot be set to "
-      << "itk::VariationalDiffeomorphicRegistrationFilter. "
-      << "Use SetInitialVelocityField() instead!" );
+  itkWarningMacro(<< "Initial deformation field cannot be set to "
+                  << "itk::VariationalDiffeomorphicRegistrationFilter. "
+                  << "Use SetInitialVelocityField() instead!");
 }
 
 /*
  * Initialize flags
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::Initialize()
+VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::Initialize()
 {
   // Allocate deformation field.
   m_DisplacementField = DisplacementFieldType::New();
-  m_DisplacementField->CopyInformation( this->GetVelocityField() );
-  m_DisplacementField->SetRequestedRegion( this->GetVelocityField()->GetRequestedRegion() );
-  m_DisplacementField->SetBufferedRegion( this->GetVelocityField()->GetBufferedRegion() );
+  m_DisplacementField->CopyInformation(this->GetVelocityField());
+  m_DisplacementField->SetRequestedRegion(this->GetVelocityField()->GetRequestedRegion());
+  m_DisplacementField->SetBufferedRegion(this->GetVelocityField()->GetBufferedRegion());
   m_DisplacementField->Allocate();
 
-  if( this->GetInput() )
-    {
+  if (this->GetInput())
+  {
     // Calculate velocity field exponential.
-    this->CalcDeformationFromVelocityField( this->GetInput() );
-    }
+    this->CalcDeformationFromVelocityField(this->GetInput());
+  }
   else
-    {
+  {
     // Initialize deformation field with zero vectors.
     typename TDisplacementField::PixelType zeros;
-    for( unsigned int j = 0; j < ImageDimension; j++ )
-      {
+    for (unsigned int j = 0; j < ImageDimension; j++)
+    {
       zeros[j] = 0;
-      }
+    }
 
-    ImageRegionIterator< OutputImageType > defIterator(
-        m_DisplacementField, m_DisplacementField->GetRequestedRegion() );
+    ImageRegionIterator<OutputImageType> defIterator(m_DisplacementField, m_DisplacementField->GetRequestedRegion());
 
-    while( !defIterator.IsAtEnd() )
-      {
+    while (!defIterator.IsAtEnd())
+    {
       defIterator.Value() = zeros;
       ++defIterator;
-      }
     }
+  }
 
   this->Superclass::Initialize();
 }
@@ -99,34 +97,34 @@ VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplace
 /**
  * Get the metric value from the difference function
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::ApplyUpdate( const TimeStepType& dt )
+VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::ApplyUpdate(
+  const TimeStepType & dt)
 {
   // Calculate velocity field
-  this->Superclass::ApplyUpdate( dt );
+  this->Superclass::ApplyUpdate(dt);
   this->GetVelocityField()->Modified();
 
   // Calculate deformation field from velocity field exponential
-  this->CalcDeformationFromVelocityField( this->GetVelocityField() );
+  this->CalcDeformationFromVelocityField(this->GetVelocityField());
 }
 
 /*
  * Calculates the deformation field by calculating the exponential
  * of the velocity field
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::CalcDeformationFromVelocityField( const DisplacementFieldType * velocityField )
+VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
+  CalcDeformationFromVelocityField(const DisplacementFieldType * velocityField)
 {
-  m_Exponentiator->SetInput( velocityField );
+  m_Exponentiator->SetInput(velocityField);
   m_Exponentiator->AutomaticNumberOfIterationsOff();
-  m_Exponentiator->SetMaximumNumberOfIterations( this->GetNumberOfExponentiatorIterations() );
+  m_Exponentiator->SetMaximumNumberOfIterations(this->GetNumberOfExponentiatorIterations());
 
   // Graft output of exponentiator.
-  m_Exponentiator->GraftOutput( m_DisplacementField );
+  m_Exponentiator->GraftOutput(m_DisplacementField);
 
   // Update and mark as modified.
   m_Exponentiator->Update();
@@ -136,14 +134,15 @@ VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplace
 /*
  * Print status information
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalDiffeomorphicRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::PrintSelf( std::ostream& os, Indent indent ) const
+VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 }
 
-}  // end namespace itk
+} // end namespace itk
 
 #endif

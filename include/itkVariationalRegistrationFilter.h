@@ -25,7 +25,8 @@
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkVariationalRegistrationDiffusionRegularizer.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalRegistrationFilter
  *
@@ -39,19 +40,16 @@ namespace itk {
  *  \f[
  *    f(x, u(x)) + \alpha A[u](x)=0,\quad x\in\Omega
  *  \f]
- *  \f$ f \f$ denotes the force term corresponding to the similarity measure \f$ D\f$ and \f$ A\f$ is a linear differential
- *  operator associated with the regularization term \f$ S \f$. The ELE is solved using gradient descent with
- *  a semi-implicite update scheme and step size \f$ \tau \f$:
- *  \f[
- *    (2)\quad u^{k+1} = (Id - \tau\alpha A)^{-1}(u^k + \tau f^k).
- *  \f]
- *  VariationalRegistrationFilter has two images as input (fixed image \f$ R \f$, and moving image \f$ T \f$)
- *  and computes the displacement field \f$ u \f$ as output.
+ *  \f$ f \f$ denotes the force term corresponding to the similarity measure \f$ D\f$ and \f$ A\f$ is a linear
+ * differential operator associated with the regularization term \f$ S \f$. The ELE is solved using gradient descent
+ * with a semi-implicite update scheme and step size \f$ \tau \f$: \f[ (2)\quad u^{k+1} = (Id - \tau\alpha A)^{-1}(u^k +
+ * \tau f^k). \f] VariationalRegistrationFilter has two images as input (fixed image \f$ R \f$, and moving image \f$ T
+ * \f$) and computes the displacement field \f$ u \f$ as output.
  *
  *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction. The computation
- *  of the regularization with \f$ (Id - \tau A)^{-1}\f$ is implemented in a subclass of VariationalRegistrationRegularizer.
- *  Different force terms and regularization methods can be combined by using the methods SetDifferenceFunction() and
- *  SetRegularizer().
+ *  of the regularization with \f$ (Id - \tau A)^{-1}\f$ is implemented in a subclass of
+ * VariationalRegistrationRegularizer. Different force terms and regularization methods can be combined by using the
+ * methods SetDifferenceFunction() and SetRegularizer().
  *
  *  The implemented method can be summarized as follows:
  *    - initialize \f$ u \f$ (default \f$ u=0 \f$)
@@ -97,25 +95,23 @@ namespace itk {
  *     <i>Statistical modeling of 4D respiratory lung motion using diffeomorphic
  *     image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class VariationalRegistrationFilter
-  : public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class VariationalRegistrationFilter : public DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFilter);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationFilter;
-  using Superclass = DenseFiniteDifferenceImageFilter<
-    TDisplacementField, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( VariationalRegistrationFilter, DenseFiniteDifferenceImageFilter );
+  itkTypeMacro(VariationalRegistrationFilter, DenseFiniteDifferenceImageFilter);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -136,7 +132,7 @@ public:
 
   /** MovingImage image type. */
   using MaskImagePixelType = unsigned char;
-  using MaskImageType = Image< MaskImagePixelType, ImageDimension >;
+  using MaskImageType = Image<MaskImagePixelType, ImageDimension>;
   using MaskImagePointer = typename MaskImageType::Pointer;
   using MaskImageConstPointer = typename MaskImageType::ConstPointer;
 
@@ -147,101 +143,121 @@ public:
   using TimeStepType = typename Superclass::TimeStepType;
 
   /** VariationalRegistrationFunction type. */
-  using RegistrationFunctionType = VariationalRegistrationFunction< FixedImageType, MovingImageType, DisplacementFieldType >;
-  using DefaultRegistrationFunctionType = VariationalRegistrationDemonsFunction< FixedImageType, MovingImageType, DisplacementFieldType >;
+  using RegistrationFunctionType =
+    VariationalRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
+  using DefaultRegistrationFunctionType =
+    VariationalRegistrationDemonsFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   /** Regularizer type. */
-  using RegularizerType = VariationalRegistrationRegularizer< DisplacementFieldType >;
+  using RegularizerType = VariationalRegistrationRegularizer<DisplacementFieldType>;
   using RegularizerPointer = typename RegularizerType::Pointer;
-  using DefaultRegularizerType = VariationalRegistrationDiffusionRegularizer< DisplacementFieldType >;
+  using DefaultRegularizerType = VariationalRegistrationDiffusionRegularizer<DisplacementFieldType>;
 
   /** Set the regularizer. */
-  itkSetObjectMacro( Regularizer, RegularizerType );
+  itkSetObjectMacro(Regularizer, RegularizerType);
 
   /** Get the regularizer. */
-  itkGetConstReferenceObjectMacro( Regularizer, RegularizerType );
+  itkGetConstReferenceObjectMacro(Regularizer, RegularizerType);
 
   /** Set the fixed image. */
-  virtual void SetFixedImage( const FixedImageType * ptr );
+  virtual void
+  SetFixedImage(const FixedImageType * ptr);
 
   /** Get the fixed image. */
-  virtual const FixedImageType * GetFixedImage(void) const;
+  virtual const FixedImageType *
+  GetFixedImage(void) const;
 
   /** Set the moving image. */
-  virtual void SetMovingImage( const MovingImageType * ptr );
+  virtual void
+  SetMovingImage(const MovingImageType * ptr);
 
   /** Get the moving image. */
-  virtual const MovingImageType * GetMovingImage(void) const;
+  virtual const MovingImageType *
+  GetMovingImage(void) const;
 
   /** Set the mask image. */
-  virtual void SetMaskImage( const MaskImageType * ptr );
+  virtual void
+  SetMaskImage(const MaskImageType * ptr);
 
   /** Get the mask image. */
-  virtual const MaskImageType * GetMaskImage(void) const;
+  virtual const MaskImageType *
+  GetMaskImage(void) const;
 
   /** Set initial deformation field. */
-  virtual void SetInitialDisplacementField( DisplacementFieldType * ptr )
-    { this->SetInput( ptr ); }
+  virtual void
+  SetInitialDisplacementField(DisplacementFieldType * ptr)
+  {
+    this->SetInput(ptr);
+  }
 
   /** Get output deformation field. */
-  virtual DisplacementFieldType * GetDisplacementField()
-    { return this->GetOutput(); }
+  virtual DisplacementFieldType *
+  GetDisplacementField()
+  {
+    return this->GetOutput();
+  }
 
   /** Get the number of valid inputs. For DenseRegistration,
    * this checks whether the fixed and moving images have been
    * set. While DenseRegistration can take a third input as an
    * initial deformation field, this input is not a required input. */
-  std::vector<SmartPointer<DataObject> >::size_type GetNumberOfValidRequiredInputs() const override;
+  std::vector<SmartPointer<DataObject>>::size_type
+  GetNumberOfValidRequiredInputs() const override;
 
   /** Set that the deformation field is smoothed
    * (regularized). Smoothing the deformation yields a solution
    * elastic in nature. If SmoothDisplacementField is on, then the
    * deformation field is smoothed using the VariationalRegistrationRegularizer. */
-  itkBooleanMacro( SmoothDisplacementField );
+  itkBooleanMacro(SmoothDisplacementField);
 
   /** Set whether the deformation field is smoothed
    * (regularized). Smoothing the deformation yields a solution
    * elastic in nature. If SmoothDisplacementField is on, then the
    * deformation field is smoothed using the VariationalRegistrationRegularizer. */
-  itkSetMacro( SmoothDisplacementField, bool );
+  itkSetMacro(SmoothDisplacementField, bool);
 
   /** Set that the update field is smoothed (regularized). Smoothing the
    * update field yields a solution viscous in nature. If SmoothUpdateField is
    * on, then the update field is smoothed using the VariationalRegistrationRegularizer. */
-  itkGetConstMacro( SmoothDisplacementField, bool );
+  itkGetConstMacro(SmoothDisplacementField, bool);
 
   /** Set whether the update field is smoothed (regularized). Smoothing the
    * update field yields a solution viscous in nature. If SmoothUpdateField is
    * on, then the update field is smoothed using the VariationalRegistrationRegularizer. */
-  itkSetMacro( SmoothUpdateField, bool );
+  itkSetMacro(SmoothUpdateField, bool);
 
   /** Set/Get whether the update field is smoothed
    * (regularized). Smoothing the update field yields a solution
    * viscous in nature. If SmoothUpdateField is on, then the
    * update field is smoothed using the VariationalRegistrationRegularizer. */
-  itkGetConstMacro( SmoothUpdateField, bool );
+  itkGetConstMacro(SmoothUpdateField, bool);
 
   /** Get whether the update field is smoothed (regularized). Smoothing the
    * update field yields a solution viscous in nature. If SmoothUpdateField is
    * on, then the update field is smoothed using the VariationalRegistrationRegularizer. */
-  itkBooleanMacro( SmoothUpdateField );
+  itkBooleanMacro(SmoothUpdateField);
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images.
    * This value is calculated for the current iteration */
-  virtual double GetMetric() const;
+  virtual double
+  GetMetric() const;
 
   /** Stop the registration after the current iteration. */
-  virtual void StopRegistration()
-    { m_StopRegistrationFlag = true; }
+  virtual void
+  StopRegistration()
+  {
+    m_StopRegistrationFlag = true;
+  }
 
 protected:
   VariationalRegistrationFilter();
   ~VariationalRegistrationFilter() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -249,63 +265,75 @@ protected:
    *
    * For the fixed image and deformation field, the input requested region
    * set to be the same as that of the output requested region. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If
    * the initial deformation field is not set, the output information is
    * copied from the fixed image. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
   /** This method is called before iterating the solution. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feedback is implemented as part of this method. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** Apply update. */
-  void ApplyUpdate( const TimeStepType& dt ) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
    * not need to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() const override {}
+  void
+  VerifyInputInformation() const override
+  {}
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving. */
-  bool Halt() override
-    {  return (Superclass::Halt() || m_StopRegistrationFlag); }
+  bool
+  Halt() override
+  {
+    return (Superclass::Halt() || m_StopRegistrationFlag);
+  }
 
   /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is
    * of the correct type. This method will throw an exception if the function
    * is not of the expected type. */
-  RegistrationFunctionType * DownCastDifferenceFunctionType();
-  const RegistrationFunctionType * DownCastDifferenceFunctionType() const;
+  RegistrationFunctionType *
+  DownCastDifferenceFunctionType();
+  const RegistrationFunctionType *
+  DownCastDifferenceFunctionType() const;
 
 private:
   /** Regularizer for the smoothing of the displacement field. */
   RegularizerPointer m_Regularizer;
 
   /** Flag to indicate user stop registration request. */
-  bool               m_StopRegistrationFlag;
+  bool m_StopRegistrationFlag;
 
   /** Modes to control smoothing of the update and deformation fields */
-  bool               m_SmoothDisplacementField;
-  bool               m_SmoothUpdateField;
-
+  bool m_SmoothDisplacementField;
+  bool m_SmoothUpdateField;
 };
 
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkVariationalRegistrationFilter.hxx"
+#  include "itkVariationalRegistrationFilter.hxx"
 #endif
 
 #endif

@@ -24,7 +24,8 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class VariationalRegistrationNCCFunction
  *
@@ -60,24 +61,24 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class VariationalRegistrationNCCFunction :
-  public VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class VariationalRegistrationNCCFunction
+  : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationNCCFunction);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationNCCFunction;
-  using Superclass = VariationalRegistrationFunction< TFixedImage,  TMovingImage, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VariationalRegistrationNCCFunction, VariationalRegistrationFunction );
+  itkTypeMacro(VariationalRegistrationNCCFunction, VariationalRegistrationFunction);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -102,7 +103,7 @@ public:
   using DisplacementFieldType = typename Superclass::DisplacementFieldType;
   using DisplacementFieldTypePointer = typename Superclass::DisplacementFieldTypePointer;
 
-   /** Inherit some types from the superclass. */
+  /** Inherit some types from the superclass. */
   using PixelType = typename Superclass::PixelType;
   using RadiusType = typename Superclass::RadiusType;
   using NeighborhoodType = typename Superclass::NeighborhoodType;
@@ -113,39 +114,54 @@ public:
   using GradientCalculatorPointer = typename GradientCalculatorType::Pointer;
 
   /** Set the object's state before each iteration. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  PixelType ComputeUpdate( const NeighborhoodType &neighborhood,
-                    void *globalData,
-                    const FloatOffsetType &offset = FloatOffsetType(0.0) ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
   /** Select that the fixed image gradient is used for computing the forces. */
-  virtual void SetGradientTypeToFixedImage()
-    { m_GradientType = GRADIENT_TYPE_FIXED; }
+  virtual void
+  SetGradientTypeToFixedImage()
+  {
+    m_GradientType = GRADIENT_TYPE_FIXED;
+  }
 
   /** Select that the warped image gradient is used for computing the forces. */
-  virtual void SetGradientTypeToWarpedMovingImage()
-    { m_GradientType = GRADIENT_TYPE_WARPED; }
+  virtual void
+  SetGradientTypeToWarpedMovingImage()
+  {
+    m_GradientType = GRADIENT_TYPE_WARPED;
+  }
 
   /** Select that fixed and warped image gradients are used for computing the
    *  forces. */
-  virtual void SetGradientTypeToSymmetric()
-    { m_GradientType = GRADIENT_TYPE_SYMMETRIC; }
+  virtual void
+  SetGradientTypeToSymmetric()
+  {
+    m_GradientType = GRADIENT_TYPE_SYMMETRIC;
+  }
 
-   /** Computes the time step for an update.
+  /** Computes the time step for an update.
    * Returns the constant time step scaled with the mean squared spacing.
    * \sa SetTimeStep() */
-  typename Superclass::TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
-    { return this->GetTimeStep() * m_Normalizer; }
+  typename Superclass::TimeStepType
+  ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
+  {
+    return this->GetTimeStep() * m_Normalizer;
+  }
 
 protected:
   VariationalRegistrationNCCFunction();
   ~VariationalRegistrationNCCFunction() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
   using FixedImageNeighborhoodIteratorType = ConstNeighborhoodIterator<FixedImageType>;
@@ -153,30 +169,31 @@ protected:
   using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 
   /** Type of available image forces */
-  enum GradientType {
+  enum GradientType
+  {
     GRADIENT_TYPE_WARPED = 0,
     GRADIENT_TYPE_FIXED = 1,
     GRADIENT_TYPE_SYMMETRIC = 2
   };
 
   /** Function to compute derivatives of the fixed image. */
-  GradientCalculatorPointer       m_FixedImageGradientCalculator;
+  GradientCalculatorPointer m_FixedImageGradientCalculator;
 
   /** Function to compute derivatives of the warped image. */
-  GradientCalculatorPointer       m_WarpedImageGradientCalculator;
+  GradientCalculatorPointer m_WarpedImageGradientCalculator;
 
   /** Set if warped or fixed image gradient is used for force computation. */
-  GradientType                    m_GradientType;
+  GradientType m_GradientType;
 
   /** Precalculated normalizer for spacing consideration. */
-  double                          m_Normalizer;
+  double m_Normalizer;
 };
 
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVariationalRegistrationNCCFunction.hxx"
+#  include "itkVariationalRegistrationNCCFunction.hxx"
 #endif
 
 #endif

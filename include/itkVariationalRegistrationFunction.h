@@ -23,7 +23,8 @@
 #include "itkContinuousBorderWarpImageFilter.h"
 #include <mutex>
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalRegistrationFunction
  *
@@ -47,18 +48,17 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-class VariationalRegistrationFunction :
-  public FiniteDifferenceFunction< TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class VariationalRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFunction);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationFunction;
-  using Superclass = FiniteDifferenceFunction< TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FiniteDifferenceFunction<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using TimeStepType = typename Superclass::TimeStepType;
 
@@ -86,164 +86,222 @@ public:
 
   /** MovingImage image type. */
   using MaskImagePixelType = unsigned char;
-  using MaskImageType = Image< MaskImagePixelType, ImageDimension >;
+  using MaskImageType = Image<MaskImagePixelType, ImageDimension>;
   using MaskImagePointer = typename MaskImageType::ConstPointer;
 
   // uncomment the following line to use the standard ITK warper (not recommended)
-  //typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
+  // typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
   /** Typedef of the warp image filter. */
-  using MovingImageWarperType = itk::ContinuousBorderWarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >;
+  using MovingImageWarperType =
+    itk::ContinuousBorderWarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>;
   using MovingImageWarperPointer = typename MovingImageWarperType::Pointer;
 
 
   /** Set the Moving image.  */
-  virtual void SetMovingImage( const MovingImageType * ptr )
-    { m_MovingImage = ptr; }
+  virtual void
+  SetMovingImage(const MovingImageType * ptr)
+  {
+    m_MovingImage = ptr;
+  }
 
   /** Get the Moving image. */
-  virtual const MovingImageType * GetMovingImage(void) const
-    { return m_MovingImage; }
+  virtual const MovingImageType *
+  GetMovingImage(void) const
+  {
+    return m_MovingImage;
+  }
 
   /** Set the fixed image. */
-  virtual void SetFixedImage( const FixedImageType * ptr )
-    { m_FixedImage = ptr; }
+  virtual void
+  SetFixedImage(const FixedImageType * ptr)
+  {
+    m_FixedImage = ptr;
+  }
 
   /** Get the fixed image. */
-  virtual const FixedImageType * GetFixedImage(void) const
-    { return m_FixedImage; }
+  virtual const FixedImageType *
+  GetFixedImage(void) const
+  {
+    return m_FixedImage;
+  }
 
   /** Set the deformation field. */
-  virtual void SetDisplacementField(  DisplacementFieldType * ptr )
-    { m_DisplacementField = ptr; }
+  virtual void
+  SetDisplacementField(DisplacementFieldType * ptr)
+  {
+    m_DisplacementField = ptr;
+  }
 
   /** Get the deformation field. */
-  virtual const DisplacementFieldType * GetDisplacementField(void) const
-    { return m_DisplacementField; }
+  virtual const DisplacementFieldType *
+  GetDisplacementField(void) const
+  {
+    return m_DisplacementField;
+  }
 
   /** Set the mask image. */
-  virtual void SetMaskImage( const MaskImageType * ptr )
-    { m_MaskImage  = ptr; }
+  virtual void
+  SetMaskImage(const MaskImageType * ptr)
+  {
+    m_MaskImage = ptr;
+  }
 
   /** Get the mask image. */
-  virtual const MaskImageType * GetMaskImage(void) const
-    { return m_MaskImage; }
+  virtual const MaskImageType *
+  GetMaskImage(void) const
+  {
+    return m_MaskImage;
+  }
 
   /** Set the moving image warper. */
-  virtual void SetMovingImageWarper( MovingImageWarperType * ptr )
-    { m_MovingImageWarper  = ptr; }
+  virtual void
+  SetMovingImageWarper(MovingImageWarperType * ptr)
+  {
+    m_MovingImageWarper = ptr;
+  }
 
   /** Get the moving image warper. */
-  virtual const MovingImageWarperType * GetMovingImageWarper(void) const
-    { return m_MovingImageWarper; }
+  virtual const MovingImageWarperType *
+  GetMovingImageWarper(void) const
+  {
+    return m_MovingImageWarper;
+  }
 
   /** Set the time step. This time step will be used by ComputeGlobalTimeStep(). */
-  virtual void SetTimeStep(  TimeStepType timeStep )
-    { m_TimeStep = timeStep; }
+  virtual void
+  SetTimeStep(TimeStepType timeStep)
+  {
+    m_TimeStep = timeStep;
+  }
 
   /** Get the time step. */
-  virtual const TimeStepType GetTimeStep(void) const
-    { return m_TimeStep; }
+  virtual const TimeStepType
+  GetTimeStep(void) const
+  {
+    return m_TimeStep;
+  }
 
   /** Set the MaskBackgroundThreshold. All Pixels of the mask image will be
    *  treated as background if the are <= this threshold. */
-  virtual void SetMaskBackgroundThreshold(  MaskImagePixelType threshold )
-    { m_MaskBackgroundThreshold = threshold; }
+  virtual void
+  SetMaskBackgroundThreshold(MaskImagePixelType threshold)
+  {
+    m_MaskBackgroundThreshold = threshold;
+  }
 
   /** Get the MaskBackgroundThreshold. All Pixels of the mask image will be
    *  treated as background if the are <= this threshold. */
-  virtual MaskImagePixelType GetMaskBackgroundThreshold(void) const
-    { return m_MaskBackgroundThreshold; }
+  virtual MaskImagePixelType
+  GetMaskBackgroundThreshold(void) const
+  {
+    return m_MaskBackgroundThreshold;
+  }
 
   /** Set the object's state before each iteration. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** Computes the time step for an update.
    * Returns the constant time step.
    * \sa SetTimeStep() */
-  TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
-    { return m_TimeStep; }
+  TimeStepType
+  ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
+  {
+    return m_TimeStep;
+  }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  void *GetGlobalDataPointer() const override;
+  void *
+  GetGlobalDataPointer() const override;
 
   /** Release memory for global data structure. */
-  void ReleaseGlobalDataPointer(void *GlobalData) const override;
+  void
+  ReleaseGlobalDataPointer(void * GlobalData) const override;
 
   //
   // Metric accessor methods
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images. */
-  virtual double GetMetric() const
-    { return m_Metric; }
+  virtual double
+  GetMetric() const
+  {
+    return m_Metric;
+  }
 
   /** Get the rms change in deformation field. */
-  virtual double GetRMSChange() const
-    { return m_RMSChange; }
+  virtual double
+  GetRMSChange() const
+  {
+    return m_RMSChange;
+  }
 
 protected:
   VariationalRegistrationFunction();
   ~VariationalRegistrationFunction() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Warp the moving image into the domain of the fixed image using the
    * deformation field. */
-  virtual void WarpMovingImage(void);
+  virtual void
+  WarpMovingImage(void);
 
   /** Get the warped image. */
-  virtual const WarpedImagePointer GetWarpedImage(void) const;
+  virtual const WarpedImagePointer
+  GetWarpedImage(void) const;
 
   /** A global data type for this class of equation. Used to store
    * information for computing the metric. */
   struct GlobalDataStruct
-    {
-    double          m_SumOfMetricValues;
-    SizeValueType   m_NumberOfPixelsProcessed;
-    double          m_SumOfSquaredChange;
-    };
+  {
+    double        m_SumOfMetricValues;
+    SizeValueType m_NumberOfPixelsProcessed;
+    double        m_SumOfSquaredChange;
+  };
 
 private:
   /** The Moving image. */
-  MovingImagePointer              m_MovingImage;
+  MovingImagePointer m_MovingImage;
 
   /** The fixed image. */
-  FixedImagePointer               m_FixedImage;
+  FixedImagePointer m_FixedImage;
 
   /** The deformation field. */
-  DisplacementFieldTypePointer    m_DisplacementField;
+  DisplacementFieldTypePointer m_DisplacementField;
 
   /** The deformation field. */
-  MaskImagePointer                m_MaskImage;
+  MaskImagePointer m_MaskImage;
 
   /** A class to warp the moving image into the domain of the fixed image. */
-  MovingImageWarperPointer        m_MovingImageWarper;
+  MovingImageWarperPointer m_MovingImageWarper;
 
   /** The global timestep. */
-  TimeStepType                    m_TimeStep;
+  TimeStepType m_TimeStep;
 
   /** Threshold to define the background in the mask image. */
-  MaskImagePixelType              m_MaskBackgroundThreshold;
+  MaskImagePixelType m_MaskBackgroundThreshold;
 
   /** The metric value is the mean square difference in intensity between
    * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
-  mutable double                  m_Metric;
-  mutable double                  m_SumOfMetricValues;
-  mutable SizeValueType           m_NumberOfPixelsProcessed;
-  mutable double                  m_RMSChange;
-  mutable double                  m_SumOfSquaredChange;
+  mutable double        m_Metric;
+  mutable double        m_SumOfMetricValues;
+  mutable SizeValueType m_NumberOfPixelsProcessed;
+  mutable double        m_RMSChange;
+  mutable double        m_SumOfSquaredChange;
 
   /** Mutex lock to protect modification to metric. */
-  mutable std::mutex              m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVariationalRegistrationFunction.hxx"
+#  include "itkVariationalRegistrationFunction.hxx"
 #endif
 
 #endif

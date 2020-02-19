@@ -26,116 +26,116 @@ namespace itk
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template<typename TInputImage, typename TOutputImage, typename TDisplacementField>
-void ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
-::DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread )
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
+void
+ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  InputImageConstPointer inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  InputImageConstPointer     inputPtr = this->GetInput();
+  OutputImagePointer         outputPtr = this->GetOutput();
   const TDisplacementField * fieldPtr = this->GetDisplacementField();
 
   // iterator for the output image
-  ImageRegionIteratorWithIndex<OutputImageType> outputIt( outputPtr, outputRegionForThread );
+  ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
 
   using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
-  IndexType index;
-  PointType point;
-  DisplacementType displacement;
+  IndexType           index;
+  PointType           point;
+  DisplacementType    displacement;
   ContinuousIndexType contIndex;
 
   IndexType startIndex = this->GetInterpolator()->GetStartIndex();
   IndexType endIndex = this->GetInterpolator()->GetEndIndex();
 
-  NumericTraits<DisplacementType>::SetLength(displacement,ImageDimension);
+  NumericTraits<DisplacementType>::SetLength(displacement, ImageDimension);
 
   // Hack because m_DefFieldSizeSame cannot be accessed.
-  if( fieldPtr->GetLargestPossibleRegion() == outputPtr->GetLargestPossibleRegion() )
-    {
+  if (fieldPtr->GetLargestPossibleRegion() == outputPtr->GetLargestPossibleRegion())
+  {
     // iterator for the deformation field
-    ImageRegionConstIterator<DisplacementFieldType>
-      fieldIt( fieldPtr, outputRegionForThread );
+    ImageRegionConstIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
 
-    while( !outputIt.IsAtEnd() )
-      {
+    while (!outputIt.IsAtEnd())
+    {
       // get the output image index
       index = outputIt.GetIndex();
-      outputPtr->TransformIndexToPhysicalPoint( index, point );
+      outputPtr->TransformIndexToPhysicalPoint(index, point);
 
       // get the required displacement
       displacement = fieldIt.Get();
 
       // compute the required input image point
-      for( unsigned int j = 0; j < ImageDimension; j++ )
-        {
+      for (unsigned int j = 0; j < ImageDimension; j++)
+      {
         point[j] += displacement[j];
-        }
+      }
 
       // project point into image region
-      inputPtr->TransformPhysicalPointToContinuousIndex( point, contIndex );
+      inputPtr->TransformPhysicalPointToContinuousIndex(point, contIndex);
 
-      for( unsigned int j = 0; j < ImageDimension; j++ )
+      for (unsigned int j = 0; j < ImageDimension; j++)
+      {
+        if (contIndex[j] < startIndex[j])
         {
-        if( contIndex[j] < startIndex[j] )
-          {
           contIndex[j] = startIndex[j];
-          }
-        if( contIndex[j] > endIndex[j] )
-          {
-          contIndex[j] = endIndex[j];
-          }
         }
+        if (contIndex[j] > endIndex[j])
+        {
+          contIndex[j] = endIndex[j];
+        }
+      }
 
-      auto value = static_cast< PixelType > ( this->GetInterpolator()->EvaluateAtContinuousIndex( contIndex ) );
-      outputIt.Set( value );
+      auto value = static_cast<PixelType>(this->GetInterpolator()->EvaluateAtContinuousIndex(contIndex));
+      outputIt.Set(value);
 
       ++outputIt;
       ++fieldIt;
-      }
     }
+  }
   else
-    {
-    itkExceptionMacro( << "Not implemented" );
-//    // get the output image index
-//    index = outputIt.GetIndex();
-//    outputPtr->TransformIndexToPhysicalPoint( index, point );
-//
-//    // get the required displacement
-//    displacement = this->EvaluateDeformationAtPhysicalPoint( point );
-//
-//    // compute the required input image point
-//    for( unsigned int j = 0; j < ImageDimension; j++ )
-//      {
-//      point[j] += displacement[j];
-//      }
-//
-//    // project point into image region
-//    fieldPtr->TransformPhysicalPointToContinuousIndex( point, contIndex );
-//    bool changedIndex = false;
-//    for( unsigned int j = 0; j < ImageDimension; j++ )
-//      {
-//      if( contIndex[j] < startContIndex[j] )
-//        {
-//        contIndex[j] = startContIndex[j];
-//        changedIndex = true;
-//        }
-//      if( contIndex[j] > endContIndex[j] )
-//        {
-//        contIndex[j] = endContIndex[j];
-//        changedIndex = true;
-//        }
-//      }
-//    if( changedIndex )
-//      {
-//      fieldPtr->TransformContinuousIndexToPhysicalPoint( contIndex, point );
-//      }
-//
-//    // get the interpolated value
-//    PixelType value = static_cast< PixelType > ( this->GetInterpolator()->Evaluate( point ) );
-//    outputIt.Set( value );
-//
-//    ++outputIt;
-    }
+  {
+    itkExceptionMacro(<< "Not implemented");
+    //    // get the output image index
+    //    index = outputIt.GetIndex();
+    //    outputPtr->TransformIndexToPhysicalPoint( index, point );
+    //
+    //    // get the required displacement
+    //    displacement = this->EvaluateDeformationAtPhysicalPoint( point );
+    //
+    //    // compute the required input image point
+    //    for( unsigned int j = 0; j < ImageDimension; j++ )
+    //      {
+    //      point[j] += displacement[j];
+    //      }
+    //
+    //    // project point into image region
+    //    fieldPtr->TransformPhysicalPointToContinuousIndex( point, contIndex );
+    //    bool changedIndex = false;
+    //    for( unsigned int j = 0; j < ImageDimension; j++ )
+    //      {
+    //      if( contIndex[j] < startContIndex[j] )
+    //        {
+    //        contIndex[j] = startContIndex[j];
+    //        changedIndex = true;
+    //        }
+    //      if( contIndex[j] > endContIndex[j] )
+    //        {
+    //        contIndex[j] = endContIndex[j];
+    //        changedIndex = true;
+    //        }
+    //      }
+    //    if( changedIndex )
+    //      {
+    //      fieldPtr->TransformContinuousIndexToPhysicalPoint( contIndex, point );
+    //      }
+    //
+    //    // get the interpolated value
+    //    PixelType value = static_cast< PixelType > ( this->GetInterpolator()->Evaluate( point ) );
+    //    outputIt.Set( value );
+    //
+    //    ++outputIt;
+  }
 }
 
 } // end namespace itk

@@ -20,7 +20,8 @@
 
 #include "itkVariationalRegistrationRegularizer.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class itk::VariationalRegistrationDiffusionRegularizer
  *
@@ -46,26 +47,23 @@ namespace itk {
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
-template< typename TDisplacementField >
-class VariationalRegistrationDiffusionRegularizer
-  : public VariationalRegistrationRegularizer< TDisplacementField >
+template <typename TDisplacementField>
+class VariationalRegistrationDiffusionRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationDiffusionRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationDiffusionRegularizer;
-  using Superclass = VariationalRegistrationRegularizer<
-      TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VariationalRegistrationRegularizer<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( VariationalRegistrationDiffusionRegularizer, 
-    VariationalRegistrationRegularizer);
+  itkTypeMacro(VariationalRegistrationDiffusionRegularizer, VariationalRegistrationRegularizer);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
@@ -83,79 +81,86 @@ public:
   using BufferImageRegionType = typename BufferImageType::RegionType;
 
   /** Set the regularization weight alpha */
-  itkSetMacro( Alpha, ValueType );
+  itkSetMacro(Alpha, ValueType);
 
   /** Get the regularization weight alpha */
-  itkGetConstMacro( Alpha, ValueType );
+  itkGetConstMacro(Alpha, ValueType);
 
 protected:
   VariationalRegistrationDiffusionRegularizer();
   ~VariationalRegistrationDiffusionRegularizer() override {}
 
   /** Print information about the filter. */
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Calculation and LU decomposition of the tridiagonal matrices
    * using the Thomas algorithm (TDMA). */
-  virtual void InitLUMatrices( ValueType** alpha, ValueType** beta,
-      ValueType** gamma, int n, int dim );
+  virtual void
+  InitLUMatrices(ValueType ** alpha, ValueType ** beta, ValueType ** gamma, int n, int dim);
 
   /** Regularize a given component (dimension) of the deformation field. This
    *  is called for each ImageDimension by GenerateData(). */
-  virtual void RegularizeComponent( const int component );
+  virtual void
+  RegularizeComponent(const int component);
 
   /** A struct to store parameters for multithreaded function call. */
   struct CalcBufferThreadStruct
   {
-    VariationalRegistrationDiffusionRegularizer *Filter;
-    unsigned int component;        // The current dimension.
-    BufferImagePointer bPtr;       // Pointer to the image buffer.
+    VariationalRegistrationDiffusionRegularizer * Filter;
+    unsigned int                                  component; // The current dimension.
+    BufferImagePointer                            bPtr;      // Pointer to the image buffer.
   };
 
   /** A struct to store parameters for multithreaded function call. */
   struct RegularizeThreadStruct
   {
-    VariationalRegistrationDiffusionRegularizer *Filter;
-    unsigned int direction;        // Current direction.
-    ValueType* alpha;              // Pointer to matrix diagonal.
-    ValueType* beta;               // Pointer to matrix subdiagonal.
-    ValueType* gamma;              // Pointer to matrix superdiagonal.
-    BufferImagePointer bPtr;       // Pointer to force field image buffer.
-    BufferImagePointer vPtr;       // Pointer to temporal result image buffer.
+    VariationalRegistrationDiffusionRegularizer * Filter;
+    unsigned int                                  direction; // Current direction.
+    ValueType *                                   alpha;     // Pointer to matrix diagonal.
+    ValueType *                                   beta;      // Pointer to matrix subdiagonal.
+    ValueType *                                   gamma;     // Pointer to matrix superdiagonal.
+    BufferImagePointer                            bPtr;      // Pointer to force field image buffer.
+    BufferImagePointer                            vPtr;      // Pointer to temporal result image buffer.
   };
 
   /** A struct to store parameters for multithreaded function call. */
   struct MergeDirectionsThreadStruct
   {
-    VariationalRegistrationDiffusionRegularizer *Filter;
-    unsigned int component;        // The current dimension.
-    BufferImagePointer* vPtr;      // Pointer to temporal image buffers.
+    VariationalRegistrationDiffusionRegularizer * Filter;
+    unsigned int                                  component; // The current dimension.
+    BufferImagePointer *                          vPtr;      // Pointer to temporal image buffers.
   };
 
   /** Method for multi-threaded calculation of the image buffer. */
-  static ITK_THREAD_RETURN_TYPE CalcBufferCallback( void *arg );
+  static ITK_THREAD_RETURN_TYPE
+  CalcBufferCallback(void * arg);
 
   /** Method for multi-threaded regularization of the image buffer. */
-  static ITK_THREAD_RETURN_TYPE RegularizeDirectionCallback( void *arg );
+  static ITK_THREAD_RETURN_TYPE
+  RegularizeDirectionCallback(void * arg);
 
   /** Method for multi-threaded calculation of the final field. */
-  static ITK_THREAD_RETURN_TYPE MergeDirectionsCallback( void *arg );
+  static ITK_THREAD_RETURN_TYPE
+  MergeDirectionsCallback(void * arg);
 
   /** Split the boundary face orthogonal to "inDir" into "num" pieces, returning
    * region "i" as "splitRegion". This method is called "num" times. The
    * regions must not overlap. The method returns the number of pieces that
    * the routine is capable of splitting the output RequestedRegion,
    * i.e. return value is less than or equal to "num". */
-  virtual int SplitBoundaryFaceRegion( int i, int num, int inDir,
-      BufferImageRegionType& splitRegion );
+  virtual int
+  SplitBoundaryFaceRegion(int i, int num, int inDir, BufferImageRegionType & splitRegion);
 
 private:
   /** Weight of the regularization term. */
@@ -176,19 +181,19 @@ private:
   BufferImagePointer m_V[ImageDimension];
 
   /** Array for the diagonals of the factorized matrices for each dimension */
-  ValueType* m_MatrixAlpha[ImageDimension];
+  ValueType * m_MatrixAlpha[ImageDimension];
 
   /** Array for the subdiagonals of the factorized matrices for each dimension */
-  ValueType* m_MatrixBeta[ImageDimension];
+  ValueType * m_MatrixBeta[ImageDimension];
 
   /** Array for the superdiagonals of the factorized matrices for each dimension */
-  ValueType* m_MatrixGamma[ImageDimension];
+  ValueType * m_MatrixGamma[ImageDimension];
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkVariationalRegistrationDiffusionRegularizer.hxx"
+#  include "itkVariationalRegistrationDiffusionRegularizer.hxx"
 #endif
 
 #endif

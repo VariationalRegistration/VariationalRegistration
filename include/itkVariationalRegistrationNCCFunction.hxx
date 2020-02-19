@@ -28,16 +28,16 @@ namespace itk
 /**
  * Default constructor
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >::VariationalRegistrationNCCFunction()
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::VariationalRegistrationNCCFunction()
 {
   RadiusType r;
   // set default radius to : 2
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-    {
+  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  {
     r[dim] = 2;
-    }
-  this->SetRadius( r );
+  }
+  this->SetRadius(r);
 
   m_Normalizer = 1.0;
 
@@ -49,12 +49,13 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /*
  * Standard "PrintSelf" method.
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-void VariationalRegistrationNCCFunction< TFixedImage, TMovingImage,
-    TDisplacementField >::PrintSelf( std::ostream& os, Indent indent ) const
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+void
+VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
+                                                                                             Indent indent) const
 {
 
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Normalizer: ";
   os << m_Normalizer << std::endl;
@@ -69,60 +70,57 @@ void VariationalRegistrationNCCFunction< TFixedImage, TMovingImage,
 /*
  * Set the function state values before each iteration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
-VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
-::InitializeIteration()
+VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
 {
   Superclass::InitializeIteration();
 
-  if( !this->GetMovingImage() || !this->GetFixedImage() ) //|| !m_MovingImageInterpolator )
-    {
-    itkExceptionMacro(
-        << "MovingImage, FixedImage and/or Interpolator not set" );
-    }
+  if (!this->GetMovingImage() || !this->GetFixedImage()) //|| !m_MovingImageInterpolator )
+  {
+    itkExceptionMacro(<< "MovingImage, FixedImage and/or Interpolator not set");
+  }
 
   // cache fixed image information
   SpacingType fixedImageSpacing = this->GetFixedImage()->GetSpacing();
 
   // compute the normalizer
   m_Normalizer = 0.0;
-  for( unsigned int k = 0; k < ImageDimension; k++ )
-    {
+  for (unsigned int k = 0; k < ImageDimension; k++)
+  {
     m_Normalizer += fixedImageSpacing[k] * fixedImageSpacing[k];
-    }
-  m_Normalizer /= static_cast< double >( ImageDimension );
+  }
+  m_Normalizer /= static_cast<double>(ImageDimension);
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
-  m_WarpedImageGradientCalculator->SetInputImage( this->GetWarpedImage() );
-
+  m_FixedImageGradientCalculator->SetInputImage(this->GetFixedImage());
+  m_WarpedImageGradientCalculator->SetInputImage(this->GetWarpedImage());
 }
 
 /*
  * Compute update at a non boundary neighbourhood
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-typename VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >::PixelType
-VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementField >
-::ComputeUpdate(
-    const NeighborhoodType &it, void *gd,
-    const FloatOffsetType& itkNotUsed(offset) )
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+typename VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
+  const NeighborhoodType & it,
+  void *                   gd,
+  const FloatOffsetType &  itkNotUsed(offset))
 {
   // initialize update value to compute with zero
   PixelType update;
-  update.Fill( 0.0 );
+  update.Fill(0.0);
 
   // Get the index at current location
   const IndexType index = it.GetIndex();
 
   // Check if index lies inside mask
   const MaskImageType * mask = this->GetMaskImage();
-  if( mask )
-    if( mask->GetPixel( index ) <= this->GetMaskBackgroundThreshold() )
-      {
+  if (mask)
+    if (mask->GetPixel(index) <= this->GetMaskBackgroundThreshold())
+    {
       return update;
-      }
+    }
 
   // We compute the CC on the fixed and warped moving image
   // VariationalRegistrationFunction::WarpMovingImage() has to be called before
@@ -138,20 +136,20 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
   // Iterate in current neighborhood to compute the following values:
   // mean of fixed (f) and warped moving (m) image
   // Sum f*f, Sum m*m, Sum m*f
-  double sf = 0.0;
-  double sm = 0.0;
-  double sff = 0.0;
-  double smm = 0.0;
-  double sfm = 0.0;
-  unsigned int pixelCounter = 0;
+  double             sf = 0.0;
+  double             sm = 0.0;
+  double             sff = 0.0;
+  double             smm = 0.0;
+  double             sfm = 0.0;
+  unsigned int       pixelCounter = 0;
   const unsigned int hoodSize = it.Size();
-  for( unsigned int indct = 0; indct < hoodSize; indct++ )
+  for (unsigned int indct = 0; indct < hoodSize; indct++)
+  {
+    const IndexType neighIndex = it.GetIndex(indct);
+    if (fixedImage->GetLargestPossibleRegion().IsInside(neighIndex))
     {
-    const IndexType neighIndex = it.GetIndex( indct );
-    if( fixedImage->GetLargestPossibleRegion().IsInside( neighIndex ) )
-      {
-      const auto fixedNeighValue = static_cast< double >( fixedImage->GetPixel( neighIndex ) );
-      const auto movingNeighValue = static_cast< double >( warpedImage->GetPixel( neighIndex ) );
+      const auto fixedNeighValue = static_cast<double>(fixedImage->GetPixel(neighIndex));
+      const auto movingNeighValue = static_cast<double>(warpedImage->GetPixel(neighIndex));
 
       sf += fixedNeighValue;
       sm += movingNeighValue;
@@ -159,10 +157,10 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
       smm += movingNeighValue * movingNeighValue;
       sfm += fixedNeighValue * movingNeighValue;
       pixelCounter++;
-      }
     }
-  const double fixedMean = sf / static_cast< double >( pixelCounter );
-  const double movingMean = sm / static_cast< double >( pixelCounter );
+  }
+  const double fixedMean = sf / static_cast<double>(pixelCounter);
+  const double movingMean = sm / static_cast<double>(pixelCounter);
 
   // Compute Sum_i (f-meanF)^2 , Sum_i (m-meanM)^2, Sum_i (f-meanF)(m-meanM)
   // Sum_i (f-meanF)^2 = Sum_i f*f - 2* meanF*Sum_i f + Sum_i meanF*meanF
@@ -177,15 +175,15 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
 
   // check for homogeneous region
   const double SumFFMultSumMM = SumFF * SumMM;
-  //if(SumFF != 0.0 && SumMM != 0.0)
-  if( SumFFMultSumMM > 1.e-5 )
-    {
+  // if(SumFF != 0.0 && SumMM != 0.0)
+  if (SumFFMultSumMM > 1.e-5)
+  {
     // compute local cross correlation
     localCrossCorrelation = SumFM * SumFM / SumFFMultSumMM;
 
     // Get grayvalues for fixed and warped images
-    const auto warpedValue = static_cast< double >( warpedImage->GetPixel( index ) );
-    const auto fixedValue = static_cast< double >( fixedImage->GetPixel( index ) );
+    const auto warpedValue = static_cast<double>(warpedImage->GetPixel(index));
+    const auto fixedValue = static_cast<double>(fixedImage->GetPixel(index));
 
     const double centerWarpedValue = warpedValue - movingMean;
     const double centerFixedValue = fixedValue - fixedMean;
@@ -193,28 +191,26 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
     typename GradientCalculatorType::OutputType gradient;
 
     // Compute the gradient of either fixed or warped moving image or as the mean of both (symmetric)
-    if( m_GradientType == GRADIENT_TYPE_WARPED )
-      {
-      gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex( index );
-      }
+    if (m_GradientType == GRADIENT_TYPE_WARPED)
+    {
+      gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex(index);
+    }
+    else if (m_GradientType == GRADIENT_TYPE_FIXED)
+    {
+      gradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
+    }
+    else if (m_GradientType == GRADIENT_TYPE_SYMMETRIC)
+    {
+      gradient = 0.5 * (m_WarpedImageGradientCalculator->EvaluateAtIndex(index) +
+                        m_FixedImageGradientCalculator->EvaluateAtIndex(index));
+    }
     else
-      if( m_GradientType == GRADIENT_TYPE_FIXED )
-        {
-        gradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-        }
-      else
-        if( m_GradientType == GRADIENT_TYPE_SYMMETRIC )
-          {
-          gradient = 0.5 * ( m_WarpedImageGradientCalculator->EvaluateAtIndex( index )
-              + m_FixedImageGradientCalculator->EvaluateAtIndex( index ) );
-          }
-        else
-          {
-          itkExceptionMacro( << "Unknown gradient type!" );
-          }
+    {
+      itkExceptionMacro(<< "Unknown gradient type!");
+    }
 
     // compute the gradient magnitude
-    //const double gradientMagnitude = gradient.GetSquaredNorm();
+    // const double gradientMagnitude = gradient.GetSquaredNorm();
 
     // Compute the derivative of LCC as given in Hermosillo et al., IJCV 50(3), 2002
     // and Avants et al., Med Image Anal 12(1), 2008 (except Jacobian term):
@@ -223,23 +219,24 @@ VariationalRegistrationNCCFunction< TFixedImage, TMovingImage, TDisplacementFiel
     //    -------------------------------------*( (m-meanM) - ------------------------*(f-meanF)) * gradient f
     //    Sum_i (f-meanF)^2 * Sum_i (m-meanM)^2 (             Sum_i (f-meanF)^2                 )
     //
-    const double preComputeFactor = (2.0 * SumFM / SumFFMultSumMM) * (centerWarpedValue - SumFM / SumFF * centerFixedValue);
+    const double preComputeFactor =
+      (2.0 * SumFM / SumFFMultSumMM) * (centerWarpedValue - SumFM / SumFF * centerFixedValue);
 
-    for( unsigned int dim = 0; dim < ImageDimension; dim++ )
-      {
+    for (unsigned int dim = 0; dim < ImageDimension; dim++)
+    {
       update[dim] = (-1) * preComputeFactor * gradient[dim];
-      }
     }
+  }
 
   // Update the global data (metric etc.)
-  auto *globalData = (GlobalDataStruct *) gd;
-  if( globalData )
-    {
+  auto * globalData = (GlobalDataStruct *)gd;
+  if (globalData)
+  {
     globalData->m_NumberOfPixelsProcessed += 1;
     // use 1 - CC to get a decreasing metric value
     globalData->m_SumOfMetricValues += 1.0 - localCrossCorrelation;
     globalData->m_SumOfSquaredChange += update.GetSquaredNorm();
-    }
+  }
 
   return update;
 }

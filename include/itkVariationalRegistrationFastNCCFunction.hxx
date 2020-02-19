@@ -28,42 +28,46 @@ namespace itk
 /**
  * Default constructor
  */
-template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::VariationalRegistrationFastNCCFunction()
-{
-}
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::
+  VariationalRegistrationFastNCCFunction()
+{}
 
 /*
  * Standard "PrintSelf" method.
  */
-template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf( std::ostream& os, Indent indent ) const
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+void
+VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
+                                                                                                 Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 }
 
 /*
  * Compute update at a non boundary neighbourhood
  */
-template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
-VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
-::ComputeUpdate(const NeighborhoodType &it, void *gd, const FloatOffsetType& itkNotUsed(offset) )
+VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
+  const NeighborhoodType & it,
+  void *                   gd,
+  const FloatOffsetType &  itkNotUsed(offset))
 {
-  auto *globalData = (NCCGlobalDataStruct *) gd;
-  assert( globalData != NULL );
+  auto * globalData = (NCCGlobalDataStruct *)gd;
+  assert(globalData != NULL);
 
   // initialize update value to compute with zero
   PixelType update;
-  update.Fill( 0.0 );
+  update.Fill(0.0);
 
   // Get the index at current location
   const IndexType index = it.GetIndex();
 
   // Check if index lies inside mask
   const MaskImageType * mask = this->GetMaskImage();
-  if( mask )
-    if( mask->GetPixel( index ) <= this->GetMaskBackgroundThreshold() )
+  if (mask)
+    if (mask->GetPixel(index) <= this->GetMaskBackgroundThreshold())
     {
       globalData->bValuesAreValid = false;
       return update;
@@ -82,16 +86,16 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
   bool bProcessFollowingPixel = false;
 
   // never speed up in boundary regions
-  if( !bNeedToUseBoundaryCondition )
+  if (!bNeedToUseBoundaryCondition)
   {
     //
     // Check if we have processed the previous pixel in the last call
     //
-    if( index[0] == (globalData->m_LastIndex[0] + 1) )
+    if (index[0] == (globalData->m_LastIndex[0] + 1))
     {
       bProcessFollowingPixel = true;
-      for( unsigned int d = 1; d < FixedImageType::GetImageDimension(); d++ )
-        if( index[d] != (globalData->m_LastIndex[d]) )
+      for (unsigned int d = 1; d < FixedImageType::GetImageDimension(); d++)
+        if (index[d] != (globalData->m_LastIndex[d]))
           bProcessFollowingPixel = false;
     }
   }
@@ -112,27 +116,27 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
   // Iterate in current neighborhood to compute the following values:
   // mean of fixed (f) and warped moving (m) image
   // Sum f*f, Sum m*m, Sum m*f
-  double sf = 0.0;
-  double sm = 0.0;
-  double sff = 0.0;
-  double smm = 0.0;
-  double sfm = 0.0;
-  unsigned int pixelCounter = 0;
+  double             sf = 0.0;
+  double             sm = 0.0;
+  double             sff = 0.0;
+  double             smm = 0.0;
+  double             sfm = 0.0;
+  unsigned int       pixelCounter = 0;
   const unsigned int hoodSize = it.Size();
-  if( !bNeedToUseBoundaryCondition )
+  if (!bNeedToUseBoundaryCondition)
   {
-    if( !bProcessFollowingPixel || !globalData->bValuesAreValid )
+    if (!bProcessFollowingPixel || !globalData->bValuesAreValid)
     {
       //
       // Start a new line
       //
 
-      const unsigned int numNeighborhoodSlices = it.GetSize( 0 );
+      const unsigned int numNeighborhoodSlices = it.GetSize(0);
       const unsigned int neighborhoodSliceSize = it.Size() / numNeighborhoodSlices;
-      const unsigned int neighborhoodSliceStride = it.GetSize( 0 );
+      const unsigned int neighborhoodSliceStride = it.GetSize(0);
 
       // go over all slices
-      for( unsigned int slice = 0; slice < numNeighborhoodSlices; slice++ )
+      for (unsigned int slice = 0; slice < numNeighborhoodSlices; slice++)
       {
         // initialize values for this slice
         double sfTemp = 0.0;
@@ -143,11 +147,11 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
 
         // go over all pixels in this slice
         unsigned int indct = slice;
-        for( unsigned int i = 0; i < neighborhoodSliceSize; i++ )
+        for (unsigned int i = 0; i < neighborhoodSliceSize; i++)
         {
-          const IndexType neighIndex = it.GetIndex( indct );
-          const auto fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
-          const auto movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
+          const IndexType neighIndex = it.GetIndex(indct);
+          const auto      fixedNeighValue = static_cast<double>(fixedImage->GetPixel(neighIndex));
+          const auto      movingNeighValue = static_cast<double>(warpedImage->GetPixel(neighIndex));
 
           sfTemp += fixedNeighValue;
           smTemp += movingNeighValue;
@@ -197,9 +201,9 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
       smm = globalData->smmLastValue - globalData->smmSliceValueList[lastSliceIndex];
       sfm = globalData->sfmLastValue - globalData->sfmSliceValueList[lastSliceIndex];
 
-      const unsigned int numNeighborhoodSlices = it.GetSize( 0 );
+      const unsigned int numNeighborhoodSlices = it.GetSize(0);
       const unsigned int neighborhoodSliceSize = it.Size() / numNeighborhoodSlices;
-      const unsigned int neighborhoodSliceStride = it.GetSize( 0 );
+      const unsigned int neighborhoodSliceStride = it.GetSize(0);
 
       // initialize values for this slice
       double sfTemp = 0.0;
@@ -210,11 +214,11 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
 
       // go over all pixels in the last slice of the neighborhood
       unsigned int indct = numNeighborhoodSlices - 1;
-      for( unsigned int i = 0; i < neighborhoodSliceSize; i++ )
+      for (unsigned int i = 0; i < neighborhoodSliceSize; i++)
       {
-        const IndexType neighIndex = it.GetIndex( indct );
-        const auto fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
-        const auto movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
+        const IndexType neighIndex = it.GetIndex(indct);
+        const auto      fixedNeighValue = static_cast<double>(fixedImage->GetPixel(neighIndex));
+        const auto      movingNeighValue = static_cast<double>(warpedImage->GetPixel(neighIndex));
 
         sfTemp += fixedNeighValue;
         smTemp += movingNeighValue;
@@ -254,13 +258,13 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
     // We have to account for boundary conditions
     //
 
-    for( unsigned int indct = 0; indct < hoodSize; indct++ )
+    for (unsigned int indct = 0; indct < hoodSize; indct++)
     {
-      const IndexType neighIndex = it.GetIndex( indct );
-      if( fixedImage->GetBufferedRegion().IsInside( neighIndex ) )
+      const IndexType neighIndex = it.GetIndex(indct);
+      if (fixedImage->GetBufferedRegion().IsInside(neighIndex))
       {
-        const auto fixedNeighValue = static_cast<double>( fixedImage->GetPixel( neighIndex ) );
-        const auto movingNeighValue = static_cast<double>( warpedImage->GetPixel( neighIndex ) );
+        const auto fixedNeighValue = static_cast<double>(fixedImage->GetPixel(neighIndex));
+        const auto movingNeighValue = static_cast<double>(warpedImage->GetPixel(neighIndex));
 
         sf += fixedNeighValue;
         sm += movingNeighValue;
@@ -274,31 +278,31 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
     globalData->bValuesAreValid = false;
   }
 
-  const double fixedMean = sf / static_cast<double>( pixelCounter );
-  const double movingMean = sm / static_cast<double>( pixelCounter );
+  const double fixedMean = sf / static_cast<double>(pixelCounter);
+  const double movingMean = sm / static_cast<double>(pixelCounter);
 
-// Compute Sum_i (f-meanF)^2 , Sum_i (m-meanM)^2, Sum_i (f-meanF)(m-meanM)
-// Sum_i (f-meanF)^2 = Sum_i f*f - 2* meanF*Sum_i f + Sum_i meanF*meanF
-// Sum_i (f-meanF)(m-meanM) = Sum_i f*m - meanF*Sum_i m - meanM*Sum_i f + Sum_i meanF*meanM
+  // Compute Sum_i (f-meanF)^2 , Sum_i (m-meanM)^2, Sum_i (f-meanF)(m-meanM)
+  // Sum_i (f-meanF)^2 = Sum_i f*f - 2* meanF*Sum_i f + Sum_i meanF*meanF
+  // Sum_i (f-meanF)(m-meanM) = Sum_i f*m - meanF*Sum_i m - meanM*Sum_i f + Sum_i meanF*meanM
   const double SumFF = sff - 2 * fixedMean * sf + pixelCounter * fixedMean * fixedMean;
   const double SumMM = smm - 2 * movingMean * sm + pixelCounter * movingMean * movingMean;
   const double SumFM = sfm - fixedMean * sm - movingMean * sf + pixelCounter * movingMean * fixedMean;
 
-// Compute cross correlation and derivative only for non-homogeneous regions
-// cross correlation, if one region is homogeneous is here defined as 1
+  // Compute cross correlation and derivative only for non-homogeneous regions
+  // cross correlation, if one region is homogeneous is here defined as 1
   double localCrossCorrelation = 1.0;
 
-// check for homogeneous region
+  // check for homogeneous region
   const double SumFFMultSumMM = SumFF * SumMM;
-//if(SumFF != 0.0 && SumMM != 0.0)
-  if( SumFFMultSumMM > 1.e-5 )
+  // if(SumFF != 0.0 && SumMM != 0.0)
+  if (SumFFMultSumMM > 1.e-5)
   {
     // compute local cross correlation
     localCrossCorrelation = SumFM * SumFM / SumFFMultSumMM;
 
     // Get grayvalues for fixed and warped images
-    const auto warpedValue = static_cast<double>( warpedImage->GetPixel( index ) );
-    const auto fixedValue = static_cast<double>( fixedImage->GetPixel( index ) );
+    const auto warpedValue = static_cast<double>(warpedImage->GetPixel(index));
+    const auto fixedValue = static_cast<double>(fixedImage->GetPixel(index));
 
     const double centerWarpedValue = warpedValue - movingMean;
     const double centerFixedValue = fixedValue - fixedMean;
@@ -306,46 +310,51 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
     typename GradientCalculatorType::OutputType gradient;
 
     // Compute the gradient of either fixed or warped moving image or as the mean of both (symmetric)
-    if( this->m_GradientType == VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GRADIENT_TYPE_WARPED )
+    if (this->m_GradientType ==
+        VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GRADIENT_TYPE_WARPED)
     {
-      gradient = this->m_WarpedImageGradientCalculator->EvaluateAtIndex( index );
+      gradient = this->m_WarpedImageGradientCalculator->EvaluateAtIndex(index);
     }
-    else if( this->m_GradientType == VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GRADIENT_TYPE_FIXED )
+    else if (this->m_GradientType ==
+             VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GRADIENT_TYPE_FIXED)
     {
-      gradient = this->m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+      gradient = this->m_FixedImageGradientCalculator->EvaluateAtIndex(index);
     }
-    else if( this->m_GradientType == VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GRADIENT_TYPE_SYMMETRIC )
+    else if (this->m_GradientType ==
+             VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GRADIENT_TYPE_SYMMETRIC)
     {
-      gradient = 0.5 * (this->m_WarpedImageGradientCalculator->EvaluateAtIndex( index ) + this->m_FixedImageGradientCalculator->EvaluateAtIndex( index ));
+      gradient = 0.5 * (this->m_WarpedImageGradientCalculator->EvaluateAtIndex(index) +
+                        this->m_FixedImageGradientCalculator->EvaluateAtIndex(index));
     }
     else
     {
-      itkExceptionMacro( << "Unknown gradient type!" );
+      itkExceptionMacro(<< "Unknown gradient type!");
     }
 
-// compute the gradient magnitude
-//const double gradientMagnitude = gradient.GetSquaredNorm();
+    // compute the gradient magnitude
+    // const double gradientMagnitude = gradient.GetSquaredNorm();
 
-// Compute the derivative of LCC as given in Hermosillo et al., IJCV 50(3), 2002
-// and Avants et al., Med Image Anal 12(1), 2008 (except Jacobian term):
-//
-//       2* Sum_i (f-meanF)(m-meanM)        (             Sum_i (f-meanF)(m-meanM)          )
-//    -------------------------------------*( (m-meanM) - ------------------------*(f-meanF)) * gradient f
-//    Sum_i (f-meanF)^2 * Sum_i (m-meanM)^2 (             Sum_i (f-meanF)^2                 )
-//
-    const double preComputeFactor = (2.0 * SumFM / SumFFMultSumMM) * (centerWarpedValue - SumFM / SumFF * centerFixedValue);
+    // Compute the derivative of LCC as given in Hermosillo et al., IJCV 50(3), 2002
+    // and Avants et al., Med Image Anal 12(1), 2008 (except Jacobian term):
+    //
+    //       2* Sum_i (f-meanF)(m-meanM)        (             Sum_i (f-meanF)(m-meanM)          )
+    //    -------------------------------------*( (m-meanM) - ------------------------*(f-meanF)) * gradient f
+    //    Sum_i (f-meanF)^2 * Sum_i (m-meanM)^2 (             Sum_i (f-meanF)^2                 )
+    //
+    const double preComputeFactor =
+      (2.0 * SumFM / SumFFMultSumMM) * (centerWarpedValue - SumFM / SumFF * centerFixedValue);
 
-    for( unsigned int dim = 0; dim < ImageDimension; dim++ )
+    for (unsigned int dim = 0; dim < ImageDimension; dim++)
     {
       update[dim] = (-1) * preComputeFactor * gradient[dim];
     }
   }
 
   // Update the global data (metric etc.)
-  if( globalData )
+  if (globalData)
   {
     globalData->m_NumberOfPixelsProcessed += 1;
-// use 1 - CC to get a decreasing metric value
+    // use 1 - CC to get a decreasing metric value
     globalData->m_SumOfMetricValues += 1.0 - localCrossCorrelation;
     globalData->m_SumOfSquaredChange += update.GetSquaredNorm();
   }
@@ -357,17 +366,17 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
  * Returns an empty struct that is used by the threads to include the
  * required update information for each thread.
  */
-template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-void*
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+void *
 VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::GetGlobalDataPointer() const
 {
-  auto *globalData = new NCCGlobalDataStruct();
+  auto * globalData = new NCCGlobalDataStruct();
 
   globalData->m_SumOfMetricValues = 0.0;
   globalData->m_NumberOfPixelsProcessed = 0L;
   globalData->m_SumOfSquaredChange = 0;
 
-  unsigned int numSlices = this->GetRadius()[0] * 2 +1;
+  unsigned int numSlices = this->GetRadius()[0] * 2 + 1;
   globalData->sfSliceValueList.resize(numSlices);
   globalData->smSliceValueList.resize(numSlices);
   globalData->sffSliceValueList.resize(numSlices);
@@ -383,7 +392,7 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
   // set the last index to a value outside the image
   SizeType size = this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
   globalData->m_LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
-  for( unsigned int d = 0; d < FixedImageType::GetImageDimension(); d++ )
+  for (unsigned int d = 0; d < FixedImageType::GetImageDimension(); d++)
     globalData->m_LastIndex[d] += size[d];
 
   return globalData;
@@ -392,17 +401,20 @@ VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementF
 /**
  * Update the metric and release the per-thread-global data.
  */
-template<typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-void VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer( void *gd ) const
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+void
+VariationalRegistrationFastNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(
+  void * gd) const
 {
-  auto * globalData = (NCCGlobalDataStruct *) gd;
+  auto * globalData = (NCCGlobalDataStruct *)gd;
 
   auto * baseRegFunctionGlobalData = new GlobalDataStruct();
   baseRegFunctionGlobalData->m_SumOfMetricValues = globalData->m_SumOfMetricValues;
   baseRegFunctionGlobalData->m_NumberOfPixelsProcessed = globalData->m_NumberOfPixelsProcessed;
   baseRegFunctionGlobalData->m_SumOfSquaredChange = globalData->m_SumOfSquaredChange;
 
-  VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer( baseRegFunctionGlobalData );
+  VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(
+    baseRegFunctionGlobalData);
 
   globalData->sfSliceValueList.clear();
   globalData->smSliceValueList.clear();

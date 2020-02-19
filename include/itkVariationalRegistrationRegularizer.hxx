@@ -28,9 +28,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< typename TDisplacementField >
-VariationalRegistrationRegularizer< TDisplacementField >
-::VariationalRegistrationRegularizer()
+template <typename TDisplacementField>
+VariationalRegistrationRegularizer<TDisplacementField>::VariationalRegistrationRegularizer()
 {
   // Initialize default values.
   m_UseImageSpacing = true;
@@ -39,12 +38,11 @@ VariationalRegistrationRegularizer< TDisplacementField >
 /*
  * Print status information
  */
-template< typename TDisplacementField >
+template <typename TDisplacementField>
 void
-VariationalRegistrationRegularizer< TDisplacementField >
-::PrintSelf( std::ostream& os, Indent indent ) const
+VariationalRegistrationRegularizer<TDisplacementField>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "UseImageSpacing: ";
   os << m_UseImageSpacing << std::endl;
