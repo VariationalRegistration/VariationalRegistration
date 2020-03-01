@@ -33,9 +33,10 @@ itk_module(VariationalRegistration
     ITKIONIFTI
   TEST_DEPENDS
     ITKTestKernel
- EXCLUDE_FROM_DEFAULT
  DESCRIPTION
    "${DOCUMENTATION}"
+ EXCLUDE_FROM_DEFAULT
+ # Only use with libraries with compiled source ENABLE_SHARED
 )
 
 
