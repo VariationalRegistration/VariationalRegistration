@@ -444,7 +444,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
       detD = d11 * d22 * d33 - d11 * d23 * d23 - d12 * d12 * d33 + d12 * d13 * d23 + d12 * d13 * d23 - d13 * d13 * d22;
 
       // Calculate the inverse values
-      if (fabs(detD) < 1e-15)
+      if (itk::Math::abs(detD) < 1e-15)
       {
         // If determinant is (close to) zero, inverse is zero
         m_ComplexBuffer[0][i][0] = 0;
@@ -552,7 +552,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
       detD = d11 * d22 - d12 * d12;
 
       // Calculate the inverse values
-      if (fabs(detD) < 1e-15)
+      if (itk::Math::abs(detD) < 1e-15)
       {
         // If determinant is (close to) zero, inverse is zero
         m_ComplexBuffer[0][i][0] = 0;
