@@ -18,7 +18,6 @@
 #ifndef itkVariationalRegistrationStopCriterion_hxx
 #define itkVariationalRegistrationStopCriterion_hxx
 
-#include "itkVariationalRegistrationStopCriterion.h"
 
 #include "itkMath.h"
 

@@ -19,7 +19,6 @@
 #define itkVariationalRegistrationLogger_hxx
 
 #include "itkMath.h"
-#include "itkVariationalRegistrationLogger.h"
 
 #include "itkVariationalRegistrationFilter.h"
 #include "itkVariationalRegistrationMultiResolutionFilter.h"

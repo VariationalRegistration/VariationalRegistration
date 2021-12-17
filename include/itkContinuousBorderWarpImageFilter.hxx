@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkContinuousBorderWarpImageFilter_hxx
 #define itkContinuousBorderWarpImageFilter_hxx
-#include "itkContinuousBorderWarpImageFilter.h"
 
 namespace itk
 {

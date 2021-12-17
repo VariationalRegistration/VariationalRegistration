@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVariationalRegistrationFilter_hxx
 #define itkVariationalRegistrationFilter_hxx
-#include "itkVariationalRegistrationFilter.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"

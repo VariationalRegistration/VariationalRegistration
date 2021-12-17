@@ -18,7 +18,6 @@
 #ifndef itkVariationalRegistrationDemonsFunction_hxx
 #define itkVariationalRegistrationDemonsFunction_hxx
 
-#include "itkVariationalRegistrationDemonsFunction.h"
 #include "itkMath.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkVariationalRegistrationFunction_hxx
 #define itkVariationalRegistrationFunction_hxx
 
-#include "itkVariationalRegistrationFunction.h"
 
 namespace itk
 {

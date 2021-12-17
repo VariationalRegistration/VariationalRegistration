@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVariationalSymmetricDiffeomorphicRegistrationFilter_hxx
 #define itkVariationalSymmetricDiffeomorphicRegistrationFilter_hxx
-#include "itkVariationalSymmetricDiffeomorphicRegistrationFilter.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"

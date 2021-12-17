@@ -18,7 +18,6 @@
 #ifndef itkVariationalRegistrationSSDFunction_hxx
 #define itkVariationalRegistrationSSDFunction_hxx
 
-#include "itkVariationalRegistrationSSDFunction.h"
 #include "itkMath.h"
 
 namespace itk

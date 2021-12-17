@@ -18,7 +18,6 @@
 #ifndef itkVariationalRegistrationNCCFunction_hxx
 #define itkVariationalRegistrationNCCFunction_hxx
 
-#include "itkVariationalRegistrationNCCFunction.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 

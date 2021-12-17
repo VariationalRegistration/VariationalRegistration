@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVariationalRegistrationGaussianRegularizer_hxx
 #define itkVariationalRegistrationGaussianRegularizer_hxx
-#include "itkVariationalRegistrationGaussianRegularizer.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"

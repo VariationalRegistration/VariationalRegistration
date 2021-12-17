@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVariationalRegistrationMultiResolutionFilter_hxx
 #define itkVariationalRegistrationMultiResolutionFilter_hxx
-#include "itkVariationalRegistrationMultiResolutionFilter.h"
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

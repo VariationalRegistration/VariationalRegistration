@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVariationalRegistrationDiffusionRegularizer_hxx
 #define itkVariationalRegistrationDiffusionRegularizer_hxx
-#include "itkVariationalRegistrationDiffusionRegularizer.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
